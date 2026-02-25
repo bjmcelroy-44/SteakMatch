@@ -34,7 +34,7 @@ const TRAITS = [
 const BASE_QUESTIONS = [
   {
     type: "Flavor",
-    prompt: "Flavor goal?",
+    prompt: "What flavor do you want?",
     detail: "Pick one.",
     options: [
       {
@@ -65,7 +65,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Richness",
-    prompt: "Richness level?",
+    prompt: "How rich should it be?",
     detail: "Pick one.",
     options: [
       {
@@ -96,7 +96,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Texture",
-    prompt: "Texture target?",
+    prompt: "What texture do you like?",
     detail: "Pick one.",
     options: [
       {
@@ -127,7 +127,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Method",
-    prompt: "Main cook method?",
+    prompt: "How will you cook it?",
     detail: "Pick one.",
     options: [
       {
@@ -164,7 +164,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Exploration",
-    prompt: "Uncommon cuts?",
+    prompt: "Are you open to less-common cuts?",
     detail: "Pick one.",
     options: [
       {
@@ -201,7 +201,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Doneness",
-    prompt: "Doneness?",
+    prompt: "How done do you like your beef?",
     detail: "Pick one.",
     options: [
       {
@@ -232,7 +232,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Seasoning",
-    prompt: "Seasoning style?",
+    prompt: "How do you season it?",
     detail: "Pick one.",
     options: [
       {
@@ -263,7 +263,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Plating",
-    prompt: "How served?",
+    prompt: "How do you want it served?",
     detail: "Pick one.",
     options: [
       {
@@ -300,7 +300,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Budget",
-    prompt: "Budget style?",
+    prompt: "What budget fits this meal best?",
     detail: "Pick one.",
     options: [
       {
@@ -337,7 +337,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Priority",
-    prompt: "Top priority?",
+    prompt: "What matters most to you?",
     detail: "Pick one.",
     options: [
       {
@@ -368,23 +368,23 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Backup Plan",
-    prompt: "If sold out?",
+    prompt: "If your cut is sold out, what do you do?",
     detail: "Pick one.",
     options: [
       {
-        label: "Closest eating match",
+        label: "Pick closest match",
         impact: "Performance",
         effects: { precision: 1, adventure: 1 },
         signal: { substitution: "Moderate (performance-based)" },
       },
       {
-        label: "Best price swap",
+        label: "Pick best value swap",
         impact: "Value",
         effects: { value: 2, adventure: 1 },
         signal: { substitution: "High (cost-based)" },
       },
       {
-        label: "Use a short list",
+        label: "Use my backup list",
         impact: "Limited",
         effects: { precision: 1, adventure: -1 },
         signal: { substitution: "Limited" },
@@ -399,7 +399,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Bone",
-    prompt: "Bone preference?",
+    prompt: "Bone-in, boneless, or either?",
     detail: "Pick one.",
     options: [
       {
@@ -424,7 +424,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Time",
-    prompt: "Cook time window?",
+    prompt: "How much time do you have to cook?",
     detail: "Pick one.",
     options: [
       {
@@ -455,7 +455,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Smoke",
-    prompt: "Smoke / BBQ level?",
+    prompt: "How much smoke flavor do you want?",
     detail: "Pick one.",
     options: [
       {
@@ -486,7 +486,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Fat Cap",
-    prompt: "Fat cap attitude?",
+    prompt: "How do you feel about fat cap?",
     detail: "Pick one.",
     options: [
       {
@@ -517,7 +517,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Chew",
-    prompt: "Chew tolerance?",
+    prompt: "How much chew do you like?",
     detail: "Pick one.",
     options: [
       {
@@ -548,7 +548,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Format",
-    prompt: "Meal format?",
+    prompt: "How will you eat it?",
     detail: "Pick one.",
     options: [
       {
@@ -579,7 +579,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Leftovers",
-    prompt: "Leftover plan?",
+    prompt: "Any leftovers planned?",
     detail: "Pick one.",
     options: [
       {
@@ -610,7 +610,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Occasion",
-    prompt: "Most common use?",
+    prompt: "What is this meal for?",
     detail: "Pick one.",
     options: [
       {
@@ -641,7 +641,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Crust",
-    prompt: "Crust preference?",
+    prompt: "How much crust do you want?",
     detail: "Pick one.",
     options: [
       {
@@ -672,7 +672,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Routine",
-    prompt: "Buying rhythm?",
+    prompt: "How often do you buy beef?",
     detail: "Pick one.",
     options: [
       {
@@ -703,7 +703,7 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Pairing",
-    prompt: "Side dish style?",
+    prompt: "What side style do you like?",
     detail: "Pick one.",
     options: [
       {
@@ -762,112 +762,112 @@ const QUESTION_GROUPS = [
 const ALT_QUESTION_COPY = {
   flavor: {
     type: "Flavor",
-    prompt: "Flavor today?",
+    prompt: "What flavor do you want?",
     detail: "Pick one.",
   },
   richness: {
     type: "Richness",
-    prompt: "Richness today?",
+    prompt: "How rich should it be?",
     detail: "Pick one.",
   },
   texture: {
     type: "Texture",
-    prompt: "Preferred bite?",
+    prompt: "What texture do you like?",
     detail: "Pick one.",
   },
   method: {
     type: "Method",
-    prompt: "Cook method?",
+    prompt: "How will you cook it?",
     detail: "Pick one.",
   },
   comfort: {
     type: "Cut Comfort",
-    prompt: "Comfort with lesser-known cuts?",
+    prompt: "Are you open to lesser-known cuts?",
     detail: "Pick one.",
   },
   doneness: {
     type: "Doneness",
-    prompt: "Finish temp?",
+    prompt: "How done do you like your beef?",
     detail: "Pick one.",
   },
   seasoning: {
     type: "Seasoning",
-    prompt: "How season it?",
+    prompt: "How do you season it?",
     detail: "Pick one.",
   },
   portion: {
     type: "Plating",
-    prompt: "How should it be served?",
+    prompt: "How do you want it served?",
     detail: "Pick one.",
   },
   budget: {
     type: "Budget",
-    prompt: "Spend level?",
+    prompt: "What budget fits this meal best?",
     detail: "Pick one.",
   },
   priority: {
     type: "Priority",
-    prompt: "Top driver?",
+    prompt: "What matters most to you?",
     detail: "Pick one.",
   },
   flexibility: {
     type: "Backup Plan",
-    prompt: "If unavailable?",
+    prompt: "If your cut is sold out, what do you do?",
     detail: "Pick one.",
   },
   bone: {
     type: "Bone",
-    prompt: "Bone-in or boneless?",
+    prompt: "Bone-in, boneless, or either?",
     detail: "Pick one.",
   },
   cook_window: {
     type: "Cook Time",
-    prompt: "Time available?",
+    prompt: "How much time do you have to cook?",
     detail: "Pick one.",
   },
   smoke: {
     type: "Smoke",
-    prompt: "Smoke level?",
+    prompt: "How much smoke flavor do you want?",
     detail: "Pick one.",
   },
   fat_cap: {
     type: "Fat Cap",
-    prompt: "Fat cap preference?",
+    prompt: "How do you feel about fat cap?",
     detail: "Pick one.",
   },
   chew: {
     type: "Chew",
-    prompt: "Chew comfort?",
+    prompt: "How much chew do you like?",
     detail: "Pick one.",
   },
   meal_format: {
     type: "Format",
-    prompt: "Meal format?",
+    prompt: "How will you eat it?",
     detail: "Pick one.",
   },
   leftovers: {
     type: "Leftovers",
-    prompt: "Leftover plan?",
+    prompt: "Any leftovers planned?",
     detail: "Pick one.",
   },
   occasion: {
     type: "Occasion",
-    prompt: "Main occasion?",
+    prompt: "What is this meal for?",
     detail: "Pick one.",
   },
   crust: {
     type: "Crust",
-    prompt: "Crust level?",
+    prompt: "How much crust do you want?",
     detail: "Pick one.",
   },
   routine: {
     type: "Routine",
-    prompt: "Purchase rhythm?",
+    prompt: "How often do you buy beef?",
     detail: "Pick one.",
   },
   pairing: {
     type: "Pairing",
-    prompt: "Side pairing style?",
+    prompt: "What side style do you like?",
     detail: "Pick one.",
   },
 };
@@ -875,112 +875,112 @@ const ALT_QUESTION_COPY = {
 const ALT_QUESTION_COPY_2 = {
   flavor: {
     type: "Flavor Mood",
-    prompt: "Flavor mood?",
+    prompt: "What beef flavor are you after?",
     detail: "Pick one.",
   },
   richness: {
     type: "Richness Mood",
-    prompt: "Richness mood?",
+    prompt: "How much richness do you want?",
     detail: "Pick one.",
   },
   texture: {
     type: "Texture Mood",
-    prompt: "Texture mood?",
+    prompt: "What bite do you want?",
     detail: "Pick one.",
   },
   method: {
     type: "Heat Plan",
-    prompt: "Heat plan?",
+    prompt: "How will you cook it?",
     detail: "Pick one.",
   },
   comfort: {
     type: "Exploration",
-    prompt: "Less-common cuts feel:",
+    prompt: "Are you open to less-common cuts?",
     detail: "Pick one.",
   },
   doneness: {
     type: "Finish",
-    prompt: "Finish point?",
+    prompt: "How done do you like your beef?",
     detail: "Pick one.",
   },
   seasoning: {
     type: "Flavor Build",
-    prompt: "Flavor build?",
+    prompt: "How do you season it?",
     detail: "Pick one.",
   },
   portion: {
     type: "Serve",
-    prompt: "Serve style?",
+    prompt: "How do you want it served?",
     detail: "Pick one.",
   },
   budget: {
     type: "Spend",
-    prompt: "Price lens?",
+    prompt: "What budget fits this meal best?",
     detail: "Pick one.",
   },
   priority: {
     type: "Driver",
-    prompt: "Decision driver?",
+    prompt: "What matters most to you?",
     detail: "Pick one.",
   },
   flexibility: {
     type: "Plan B",
-    prompt: "Plan B?",
+    prompt: "If your cut is sold out, what do you do?",
     detail: "Pick one.",
   },
   bone: {
     type: "Bone",
-    prompt: "Bone style?",
+    prompt: "Bone-in, boneless, or either?",
     detail: "Pick one.",
   },
   cook_window: {
     type: "Time",
-    prompt: "Cook window?",
+    prompt: "How much time do you have to cook?",
     detail: "Pick one.",
   },
   smoke: {
     type: "BBQ",
-    prompt: "BBQ smoke appetite?",
+    prompt: "How much smoke flavor do you want?",
     detail: "Pick one.",
   },
   fat_cap: {
     type: "Fat",
-    prompt: "Fat cap mood?",
+    prompt: "How do you feel about fat cap?",
     detail: "Pick one.",
   },
   chew: {
     type: "Bite",
-    prompt: "Chew preference?",
+    prompt: "How much chew do you like?",
     detail: "Pick one.",
   },
   meal_format: {
     type: "Format",
-    prompt: "Serving format?",
+    prompt: "How will you eat it?",
     detail: "Pick one.",
   },
   leftovers: {
     type: "Leftovers",
-    prompt: "Leftover strategy?",
+    prompt: "Any leftovers planned?",
     detail: "Pick one.",
   },
   occasion: {
     type: "Occasion",
-    prompt: "Most common use case?",
+    prompt: "What is this meal for?",
     detail: "Pick one.",
   },
   crust: {
     type: "Crust",
-    prompt: "Sear style?",
+    prompt: "How much crust do you want?",
     detail: "Pick one.",
   },
   routine: {
     type: "Cadence",
-    prompt: "Beef cadence?",
+    prompt: "How often do you buy beef?",
     detail: "Pick one.",
   },
   pairing: {
     type: "Sides",
-    prompt: "Side profile?",
+    prompt: "What side style do you like?",
     detail: "Pick one.",
   },
 };
@@ -1478,31 +1478,6 @@ const CUTS = [
     },
   },
   {
-    id: "petite_tender",
-    name: "Petite Tender",
-    tagline: "Underutilized cut with tenderloin-like behavior.",
-    rationale:
-      "Petite tender is indicated for users wanting tenderness with better value and novelty.",
-    profile: {
-      richness: 3,
-      tenderness: 8,
-      boldness: 6,
-      adventure: 7,
-      value: 7,
-      precision: 7,
-    },
-    imps: [
-      "114F - Beef Chuck, Shoulder Clod, Shoulder Tender",
-      "1114F - Beef Chuck, Shoulder Clod, Shoulder Tender, Portioned",
-    ],
-    cooking: {
-      method: "Sear and finish gently",
-      doneness: "Rare to medium-rare",
-      temp: "125-133F final internal temperature",
-      note: "Treat similarly to small tenderloin portions.",
-    },
-  },
-  {
     id: "hanger",
     name: "Hanger Steak",
     tagline: "High-mineral, high-character steak for experienced users.",
@@ -1550,28 +1525,6 @@ const CUTS = [
     },
   },
   {
-    id: "inside_skirt",
-    name: "Inside Skirt Steak",
-    tagline: "Strong flavor and high responsiveness to marinade systems.",
-    rationale:
-      "Inside skirt works for bold, exploratory profiles and high-heat cooking workflows.",
-    profile: {
-      richness: 5,
-      tenderness: 4,
-      boldness: 9,
-      adventure: 8,
-      value: 7,
-      precision: 3,
-    },
-    imps: ["1121D - Beef Plate, Inside Skirt Steak, Boneless"],
-    cooking: {
-      method: "Very hot and very fast sear",
-      doneness: "Rare to medium-rare",
-      temp: "123-132F final internal temperature",
-      note: "Rest briefly and slice thin against grain.",
-    },
-  },
-  {
     id: "outside_skirt",
     name: "Outside Skirt Steak",
     tagline: "Premium skirt expression with intense beef flavor.",
@@ -1591,28 +1544,6 @@ const CUTS = [
       doneness: "Rare to medium-rare",
       temp: "123-132F final internal temperature",
       note: "Excellent for short marination and slicing service.",
-    },
-  },
-  {
-    id: "western_griller",
-    name: "Western Griller",
-    tagline: "Lean round cut for value-focused structured cooking.",
-    rationale:
-      "Western griller aligns with strongly value-disciplined users who accept leaner texture.",
-    profile: {
-      richness: 2,
-      tenderness: 3,
-      boldness: 6,
-      adventure: 6,
-      value: 9,
-      precision: 7,
-    },
-    imps: ["1171D - Beef Round, Outside Round Steak, Boneless"],
-    cooking: {
-      method: "Marinate, quick sear, slice thin",
-      doneness: "Medium-rare to medium",
-      temp: "132-140F final internal temperature",
-      note: "Do not cook past medium if tenderness is priority.",
     },
   },
   {
@@ -1659,30 +1590,6 @@ const CUTS = [
       doneness: "Rare to medium-rare",
       temp: "124-132F final internal temperature",
       note: "Rest briefly and slice thin against grain.",
-    },
-  },
-  {
-    id: "mock_tender",
-    name: "Mock Tender Steak",
-    tagline: "Lean chuck option that responds well to prep.",
-    rationale:
-      "Mock tender fits strict value profiles willing to marinate or use careful slicing for improved eating quality.",
-    profile: {
-      richness: 3,
-      tenderness: 4,
-      boldness: 7,
-      adventure: 7,
-      value: 9,
-      precision: 6,
-    },
-    imps: [
-      "IMPS Series 100 - Beef Chuck, Shoulder Clod, Clod Tender (mock tender reference)",
-    ],
-    cooking: {
-      method: "Marinate, then grill or sear",
-      doneness: "Medium-rare to medium",
-      temp: "132-140F final internal temperature",
-      note: "Thin slicing is key for tenderness.",
     },
   },
   {
@@ -1868,10 +1775,6 @@ const COOKING_TIPS_DB = {
     flank: [
       "Use a tight grain-direction slice pattern; thick slices eat chewy.",
       "Finish with acid (lemon/lime/vinegar) right before serving.",
-    ],
-    inside_skirt: [
-      "Cook very quickly over high heat and avoid prolonged resting.",
-      "Slice into short strips for cleaner bite.",
     ],
     outside_skirt: [
       "Outside skirt needs very little time; prioritize color over prolonged cook.",
@@ -2118,7 +2021,7 @@ function showResults() {
   const topCluster = getTopCluster(rankedCuts, primary.score);
   const hasCloseAlternatives = scoreGap <= 5 && topCluster.length > 1;
 
-  primaryCutName.textContent = primary.cut.name;
+  renderPrimaryCutHeading(primary.cut);
   primaryCutTagline.textContent = primary.cut.tagline;
 
   renderExecutiveBrief(primary.cut, summary, signals, profile, topCluster);
@@ -2253,13 +2156,181 @@ function fillTierWithBest(rankedCuts, used, tier, count) {
 function renderTierList(target, tierResults) {
   target.innerHTML = "";
   tierResults.forEach((result) => {
-    addListItem(
-      target,
-      `${result.cut.name} • ${getCutFamily(result.cut)} • ${getCostTier(
-        result.cut
-      )}`
-    );
+    const listItem = document.createElement("li");
+    listItem.className = "tier-cut-item";
+    listItem.innerHTML = `
+      <div class="tier-cut-row">
+        <span class="tier-cut-icon-wrap">${getCutIconMarkup(result.cut, "sm")}</span>
+        <span class="tier-cut-copy">
+          <span class="tier-cut-name">${result.cut.name}</span>
+          <span class="tier-cut-meta">${getCutFamily(result.cut)} • ${getCostTier(
+      result.cut
+    )}</span>
+        </span>
+      </div>
+    `;
+    target.appendChild(listItem);
   });
+}
+
+function renderPrimaryCutHeading(cut) {
+  if (!primaryCutName) {
+    return;
+  }
+
+  primaryCutName.innerHTML = `
+    <span class="primary-cut-row">
+      <span class="primary-cut-icon-wrap">${getCutIconMarkup(cut, "lg")}</span>
+      <span class="primary-cut-text">${cut.name}</span>
+    </span>
+  `;
+}
+
+function getCutIconMarkup(cut, size = "sm") {
+  const iconType = getCutIconType(cut);
+  const sizeClass = size === "lg" ? "cut-icon-lg" : "cut-icon-sm";
+
+  if (iconType === "hotdog") {
+    return `
+      <svg class="cut-icon ${sizeClass}" viewBox="0 0 84 56" aria-hidden="true" focusable="false">
+        <rect class="cut-hotdog-bun" x="8" y="15" rx="11" ry="11" width="68" height="26"></rect>
+        <rect class="cut-hotdog-body" x="12" y="21" rx="9" ry="9" width="60" height="14"></rect>
+        <path class="cut-hotdog-grill" d="M20 22 L24 34 M33 22 L37 34 M46 22 L50 34 M59 22 L63 34"></path>
+      </svg>
+    `;
+  }
+
+  const bodyPath = getCutIconPath(iconType);
+  const marbling = buildMarblingMarkup(cut.id, iconType);
+  const boneMarkup =
+    iconType === "bone_in"
+      ? `
+        <g class="cut-bone">
+          <rect x="52" y="19" rx="4" ry="4" width="16" height="8"></rect>
+          <circle cx="52" cy="23" r="4.2"></circle>
+          <circle cx="68" cy="23" r="4.2"></circle>
+        </g>
+      `
+      : "";
+
+  return `
+    <svg class="cut-icon ${sizeClass}" viewBox="0 0 84 56" aria-hidden="true" focusable="false">
+      <path class="cut-shape" d="${bodyPath}"></path>
+      ${marbling}
+      ${boneMarkup}
+    </svg>
+  `;
+}
+
+function getCutIconType(cut) {
+  if (!cut) {
+    return "specialty";
+  }
+
+  if (cut.id === "all_beef_uncured_hot_dog") {
+    return "hotdog";
+  }
+
+  if (BONE_IN_CUT_IDS.has(cut.id)) {
+    return "bone_in";
+  }
+
+  if (cut.id.includes("skirt") || cut.id.includes("flank") || cut.id.includes("bavette")) {
+    return "flank";
+  }
+
+  if (cut.id.includes("brisket")) {
+    return "brisket";
+  }
+
+  const family = getCutFamily(cut);
+  if (family === "Rib") {
+    return "rib";
+  }
+  if (family === "Loin") {
+    return "loin";
+  }
+  if (family === "Sirloin") {
+    return "sirloin";
+  }
+  if (family === "Chuck") {
+    return "chuck";
+  }
+  if (family === "Plate") {
+    return "plate";
+  }
+  if (family === "Round") {
+    return "round";
+  }
+
+  return "specialty";
+}
+
+function getCutIconPath(type) {
+  const paths = {
+    bone_in:
+      "M11 17 C17 8, 38 6, 56 11 C69 14, 76 23, 74 32 C71 43, 54 49, 33 48 C17 46, 8 39, 8 29 C8 24, 9 20, 11 17 Z",
+    rib: "M10 18 C16 9, 36 6, 56 10 C70 13, 78 23, 74 34 C70 45, 52 50, 31 48 C16 46, 8 39, 7 30 C7 25, 8 21, 10 18 Z",
+    loin: "M14 14 C23 8, 44 7, 60 13 C69 16, 74 24, 73 32 C71 42, 57 48, 38 48 C23 48, 12 43, 10 34 C8 25, 9 18, 14 14 Z",
+    sirloin:
+      "M15 16 C22 10, 39 8, 55 12 C66 15, 72 22, 71 30 C69 40, 57 46, 40 47 C25 47, 14 43, 11 34 C8 25, 10 19, 15 16 Z",
+    chuck:
+      "M9 18 C14 9, 30 7, 49 9 C64 11, 74 18, 76 28 C78 39, 68 47, 50 49 C31 51, 15 48, 9 40 C5 35, 5 24, 9 18 Z",
+    plate:
+      "M8 21 C13 13, 30 11, 50 12 C65 13, 74 18, 76 25 C78 32, 73 39, 60 43 C43 48, 24 47, 13 43 C6 40, 4 28, 8 21 Z",
+    flank:
+      "M6 23 C11 16, 30 14, 54 14 C68 15, 76 19, 78 25 C80 33, 72 39, 58 42 C37 46, 17 45, 8 40 C4 37, 3 28, 6 23 Z",
+    brisket:
+      "M9 19 C14 11, 33 9, 54 10 C67 11, 75 17, 77 24 C79 33, 73 42, 60 46 C44 50, 24 50, 13 45 C6 41, 5 27, 9 19 Z",
+    round:
+      "M22 10 C36 4, 54 6, 65 17 C74 26, 75 38, 66 46 C55 54, 37 54, 24 47 C14 41, 10 28, 14 19 C16 15, 19 12, 22 10 Z",
+    specialty:
+      "M10 19 C15 10, 35 7, 55 10 C69 12, 77 20, 76 30 C74 43, 57 49, 35 49 C20 49, 9 43, 7 34 C6 27, 7 23, 10 19 Z",
+  };
+
+  return paths[type] || paths.specialty;
+}
+
+function buildMarblingMarkup(seedSource, iconType) {
+  if (iconType === "flank" || iconType === "plate") {
+    return `
+      <path class="cut-grain" d="M16 24 C26 21, 42 21, 58 24"></path>
+      <path class="cut-grain" d="M14 29 C28 26, 44 26, 62 30"></path>
+      <path class="cut-grain" d="M18 34 C32 32, 47 33, 60 36"></path>
+    `;
+  }
+
+  const circles = [];
+  let seed = hashText(seedSource);
+  const count = iconType === "round" ? 5 : 4;
+
+  for (let index = 0; index < count; index += 1) {
+    seed = nextSeed(seed);
+    const cx = 19 + (seed % 42);
+    seed = nextSeed(seed);
+    const cy = 17 + (seed % 22);
+    seed = nextSeed(seed);
+    const radius = 2 + (seed % 3);
+    circles.push(
+      `<circle class="cut-marbling" cx="${cx}" cy="${cy}" r="${radius}"></circle>`
+    );
+  }
+
+  return circles.join("");
+}
+
+function hashText(value) {
+  let hash = 2166136261;
+  const source = String(value || "cut");
+  for (let index = 0; index < source.length; index += 1) {
+    hash ^= source.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+function nextSeed(seed) {
+  return (Math.imul(seed, 1664525) + 1013904223) >>> 0;
 }
 
 function renderExecutiveBrief(cut, summary, signals, profile, topCluster) {
@@ -2952,7 +3023,6 @@ const SMOKE_FRIENDLY_CUT_IDS = new Set([
   "picanha",
   "bavette",
   "flank",
-  "inside_skirt",
   "outside_skirt",
   "chuck_eye",
 ]);

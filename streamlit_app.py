@@ -13,7 +13,6 @@ CSS_PATH = APP_DIR / "styles.css"
 JS_PATH = APP_DIR / "app.js"
 
 
-@st.cache_data(show_spinner=False)
 def build_embedded_app() -> str:
     html = INDEX_PATH.read_text(encoding="utf-8")
     css = CSS_PATH.read_text(encoding="utf-8")
