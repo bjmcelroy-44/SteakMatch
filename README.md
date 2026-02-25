@@ -1,6 +1,6 @@
 # Beef Cut Fit Analyzer
 
-A Streamlit app that asks 22 short questions and returns:
+A browser app that asks 22 rapid preference + culinary questions and returns:
 
 - One clear top cut recommendation
 - Fit brief
@@ -9,9 +9,18 @@ A Streamlit app that asks 22 short questions and returns:
 - Level-based alternatives (Levels 1-4)
 - Cooking tips and tricks
 
-All recommendation logic runs server-side in Python.
+## Run locally in browser
 
-## Run locally
+```bash
+cd "/Users/bobbymcelroy/Documents/Steak Personality Test"
+python3 -m http.server 8000
+```
+
+Then visit `http://localhost:8000`.
+
+## Run via Streamlit
+
+`streamlit_app.py` embeds the same browser app (`index.html` + `styles.css` + `app.js`) so visuals and behavior match localhost.
 
 ```bash
 cd "/Users/bobbymcelroy/Documents/Steak Personality Test"
@@ -21,19 +30,9 @@ pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
 
-## Runtime architecture
+## Core files
 
-- `streamlit_app.py`: Native Streamlit UI and question flow.
-- `server_engine.py`: Server-side recommendation engine and scoring logic.
-- `data/engine_data.json`: Question pool, cut inventory, tier settings, and tip data.
-
-`app.js` remains as source material used to export data to `engine_data.json`, but it is not required at runtime for Streamlit.
-
-## How scoring works
-
-1. Start from a neutral 6-trait profile (`5/10` each).
-2. Ask 2 intake questions (comfort + cuisine), then build dynamic follow-up questions.
-3. Expand to a full 22-question set using rotating variants and history-aware selection.
-4. Apply answer effects and operational signals to build the user profile.
-5. Rank cuts by normalized distance plus fit adjustments (method, budget, familiarity, cuisine, portion, bone, smoke, cook window, and more).
-6. Always return a top cut plus level-based alternatives and tips.
+- `index.html` - App structure and output sections
+- `styles.css` - Visual styling
+- `app.js` - Questions, scoring, ranking, and rendering logic
+- `streamlit_app.py` - Streamlit wrapper that inlines the browser app assets
