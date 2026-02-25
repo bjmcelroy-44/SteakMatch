@@ -257,6 +257,77 @@ h4 {
   text-transform: uppercase;
   letter-spacing: 0.09em;
   font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  flex-wrap: wrap;
+}
+
+.question-type-label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.question-info {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.06rem;
+  height: 1.06rem;
+  border-radius: 999px;
+  border: 1px solid rgba(95, 64, 54, 0.42);
+  background: #fbf7f0;
+  color: #5e473d;
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1;
+  cursor: help;
+  text-transform: none;
+  letter-spacing: 0;
+  outline: none;
+}
+
+.question-info:focus,
+.question-info:focus-visible {
+  border-color: rgba(140, 31, 45, 0.7);
+  box-shadow: 0 0 0 2px rgba(140, 31, 45, 0.16);
+}
+
+.question-info-icon {
+  font-family: "Montserrat", "Segoe UI", sans-serif;
+}
+
+.question-info-tip {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 0.55rem);
+  transform: translateX(-50%) translateY(-4px);
+  width: min(320px, calc(100vw - 3.4rem));
+  padding: 0.56rem 0.64rem;
+  border-radius: 10px;
+  border: 1px solid rgba(95, 64, 54, 0.3);
+  background: #fff8ee;
+  color: #503c33;
+  font-size: 0.79rem;
+  font-weight: 700;
+  line-height: 1.36;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  box-shadow: 0 12px 28px rgba(18, 14, 12, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 12;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.question-info:hover .question-info-tip,
+.question-info:focus .question-info-tip,
+.question-info:focus-visible .question-info-tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
 }
 
 .question-shell h2 {
@@ -635,6 +706,15 @@ button {
 .tier-column .clean-list li {
   font-size: 0.9rem;
   line-height: 1.42;
+}
+
+.tier-column .clean-list li .tier-cut-name {
+  display: block;
+}
+
+.tier-column .clean-list li .tier-cut-meta {
+  display: block;
+  margin-top: 0.16rem;
 }
 
 .tier-cut-item {

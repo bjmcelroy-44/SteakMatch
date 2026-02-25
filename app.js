@@ -163,39 +163,212 @@ const BASE_QUESTIONS = [
     ],
   },
   {
-    type: "Exploration",
-    prompt: "Are you open to less-common cuts?",
+    type: "Cut Familiarity",
+    prompt: "How comfortable are you choosing beef cuts?",
     detail: "Pick one.",
     options: [
       {
-        label: "Love them",
-        impact: "High",
-        effects: { adventure: 3, precision: 1 },
-        signal: { comfort: "Very comfortable" },
+        label: "I can buy and cook specialty cuts",
+        impact: "Expert",
+        effects: { adventure: 3, precision: 2, boldness: 1 },
+        signal: {
+          comfort: "Expert cut fluency",
+          expertiseBand: "Expert",
+        },
       },
       {
-        label: "Open to try",
-        impact: "Moderate",
-        effects: { adventure: 1 },
-        signal: { comfort: "Somewhat comfortable" },
+        label: "I know the main steak cuts well",
+        impact: "Comfortable",
+        effects: { adventure: 1, precision: 1 },
+        signal: {
+          comfort: "Comfortable with common cuts",
+          expertiseBand: "Intermediate",
+        },
       },
       {
-        label: "Neutral",
-        impact: "Neutral",
-        effects: {},
-        signal: { comfort: "Neutral" },
+        label: "I know a few common cuts",
+        impact: "Basic",
+        effects: { adventure: -1, precision: 1 },
+        signal: {
+          comfort: "Familiar basics",
+          expertiseBand: "Beginner",
+        },
       },
       {
-        label: "Stay familiar",
-        impact: "Low",
-        effects: { adventure: -2, precision: 1 },
-        signal: { comfort: "Prefer familiar cuts only" },
-      },
-      {
-        label: "Need guidance",
+        label: "I want straightforward, familiar cuts",
         impact: "Guided",
         effects: { adventure: -1, precision: -1, value: 1 },
-        signal: { comfort: "Need guidance / recipes" },
+        signal: {
+          comfort: "Need guidance / recipes",
+          expertiseBand: "Beginner",
+        },
+      },
+    ],
+  },
+  {
+    type: "Cuisine",
+    prompt: "What cuisine are you cooking most?",
+    detail: "Pick one.",
+    options: [
+      {
+        label: "Steakhouse / American grill",
+        impact: "Steakhouse",
+        effects: { richness: 1, tenderness: 1, precision: 1 },
+        signal: { cuisineStyle: "Steakhouse / American grill" },
+      },
+      {
+        label: "Mexican / fajitas",
+        impact: "Mexican",
+        effects: { boldness: 2, adventure: 1, value: 1 },
+        signal: { cuisineStyle: "Mexican / fajitas" },
+      },
+      {
+        label: "Italian / comfort dishes",
+        impact: "Italian",
+        effects: { tenderness: 1, value: 1, boldness: -1 },
+        signal: { cuisineStyle: "Italian / comfort dishes" },
+      },
+      {
+        label: "BBQ / smokehouse",
+        impact: "BBQ",
+        effects: { boldness: 2, adventure: 1, richness: 1 },
+        signal: { cuisineStyle: "BBQ / smokehouse" },
+      },
+      {
+        label: "Asian / quick-cook",
+        impact: "Quick-cook",
+        effects: { precision: 1, value: 1, adventure: 1 },
+        signal: { cuisineStyle: "Asian / quick-cook" },
+      },
+      {
+        label: "No specific cuisine",
+        impact: "Open",
+        effects: {},
+        signal: { cuisineStyle: "No specific cuisine" },
+      },
+    ],
+  },
+  {
+    type: "Specialty Cuts",
+    prompt: "How familiar are you with lesser-known cuts?",
+    detail: "Pick one.",
+    options: [
+      {
+        label: "Very familiar",
+        impact: "High familiarity",
+        effects: { adventure: 2, precision: 1, boldness: 1 },
+        signal: { specialtyComfort: "High" },
+      },
+      {
+        label: "Somewhat familiar",
+        impact: "Working knowledge",
+        effects: { adventure: 1, precision: 1 },
+        signal: { specialtyComfort: "Medium" },
+      },
+      {
+        label: "Mostly classic cuts",
+        impact: "Classic-first",
+        effects: { adventure: -1, precision: 1 },
+        signal: { specialtyComfort: "Low" },
+      },
+      {
+        label: "Not familiar",
+        impact: "Guided",
+        effects: { adventure: -2, value: 1, precision: -1 },
+        signal: { specialtyComfort: "Minimal" },
+      },
+    ],
+  },
+  {
+    type: "Technique Depth",
+    prompt: "Which cooking style fits you best?",
+    detail: "Pick one.",
+    options: [
+      {
+        label: "Temp-driven reverse sear",
+        impact: "Advanced control",
+        effects: { precision: 2, tenderness: 1, adventure: 1 },
+        signal: { advancedTechnique: "Temp-driven reverse sear" },
+      },
+      {
+        label: "Two-zone grill control",
+        impact: "Controlled fire",
+        effects: { precision: 1, boldness: 1 },
+        signal: { advancedTechnique: "Two-zone heat control" },
+      },
+      {
+        label: "Marinade + hot sear",
+        impact: "Flavor-first",
+        effects: { boldness: 1, value: 1, adventure: 1 },
+        signal: { advancedTechnique: "Marinade and high heat" },
+      },
+      {
+        label: "Simple one-step cook",
+        impact: "Simple",
+        effects: { tenderness: 1, precision: -1, adventure: -1 },
+        signal: { advancedTechnique: "Simple single-step" },
+      },
+    ],
+  },
+  {
+    type: "Purchase Precision",
+    prompt: "How specific are you at the meat case?",
+    detail: "Pick one.",
+    options: [
+      {
+        label: "Exact cut and thickness",
+        impact: "Spec-driven",
+        effects: { precision: 2, adventure: 1 },
+        signal: { buyPrecision: "Exact spec" },
+      },
+      {
+        label: "Exact cut, flexible thickness",
+        impact: "Cut-specific",
+        effects: { precision: 1, adventure: 1 },
+        signal: { buyPrecision: "Exact cut flexible thickness" },
+      },
+      {
+        label: "Cut family matters most",
+        impact: "Flexible by family",
+        effects: { value: 1, precision: 1 },
+        signal: { buyPrecision: "Family-level flexibility" },
+      },
+      {
+        label: "I choose what looks best",
+        impact: "Open choice",
+        effects: { value: 1, adventure: -1, precision: -1 },
+        signal: { buyPrecision: "Open with guidance" },
+      },
+    ],
+  },
+  {
+    type: "Guidance Style",
+    prompt: "What kind of recommendation helps most?",
+    detail: "Pick one.",
+    options: [
+      {
+        label: "One best cut and simple steps",
+        impact: "Direct guidance",
+        effects: { precision: 1, adventure: -1 },
+        signal: { guidanceLevel: "Single cut + simple steps" },
+      },
+      {
+        label: "Top 3 options with swaps",
+        impact: "Option set",
+        effects: { value: 1, precision: 1 },
+        signal: { guidanceLevel: "Top 3 + swaps" },
+      },
+      {
+        label: "Teach me one new cut each time",
+        impact: "Grow skills",
+        effects: { adventure: 2, precision: 1 },
+        signal: { guidanceLevel: "Learn progressively" },
+      },
+      {
+        label: "Keep it familiar and safe",
+        impact: "Familiar-first",
+        effects: { adventure: -2, value: 1, precision: 1 },
+        signal: { guidanceLevel: "Familiar only" },
       },
     ],
   },
@@ -236,10 +409,22 @@ const BASE_QUESTIONS = [
     detail: "Pick one.",
     options: [
       {
-        label: "Salt + pepper",
+        label: "Salt + pepper (keep it simple)",
         impact: "Simple",
-        effects: { precision: 1, tenderness: 1 },
-        signal: { seasoningStyle: "Salt + pepper" },
+        effects: { precision: 1, tenderness: 1, adventure: -1 },
+        signal: {
+          seasoningStyle: "Salt + pepper",
+          seasoningIntent: "Simple prep",
+        },
+      },
+      {
+        label: "Salt + pepper (quality-first beef)",
+        impact: "Quality showcase",
+        effects: { precision: 2, tenderness: 1, richness: 1 },
+        signal: {
+          seasoningStyle: "Salt + pepper",
+          seasoningIntent: "Quality showcase",
+        },
       },
       {
         label: "Butter + herbs",
@@ -609,8 +794,8 @@ const BASE_QUESTIONS = [
     ],
   },
   {
-    type: "Occasion",
-    prompt: "What is this meal for?",
+    type: "Meal Context",
+    prompt: "What kind of meal is this?",
     detail: "Pick one.",
     options: [
       {
@@ -702,8 +887,8 @@ const BASE_QUESTIONS = [
     ],
   },
   {
-    type: "Pairing",
-    prompt: "What side style do you like?",
+    type: "Side Plan",
+    prompt: "What sides are you serving with it?",
     detail: "Pick one.",
     options: [
       {
@@ -719,7 +904,7 @@ const BASE_QUESTIONS = [
         signal: { pairingStyle: "Light sides" },
       },
       {
-        label: "Sauce-heavy sides",
+        label: "Saucy sides",
         impact: "Sauce pairing",
         effects: { boldness: 1, value: 1 },
         signal: { pairingStyle: "Sauce-heavy sides" },
@@ -740,6 +925,11 @@ const QUESTION_GROUPS = [
   "texture",
   "method",
   "comfort",
+  "cuisine",
+  "specialty_cuts",
+  "advanced_technique",
+  "butcher_precision",
+  "guidance_level",
   "doneness",
   "seasoning",
   "portion",
@@ -781,8 +971,33 @@ const ALT_QUESTION_COPY = {
     detail: "Pick one.",
   },
   comfort: {
-    type: "Cut Comfort",
-    prompt: "Are you open to lesser-known cuts?",
+    type: "Cut Familiarity",
+    prompt: "How comfortable are you choosing beef cuts?",
+    detail: "Pick one.",
+  },
+  cuisine: {
+    type: "Cuisine",
+    prompt: "What cuisine are you cooking most?",
+    detail: "Pick one.",
+  },
+  specialty_cuts: {
+    type: "Specialty Cuts",
+    prompt: "How familiar are you with lesser-known cuts?",
+    detail: "Pick one.",
+  },
+  advanced_technique: {
+    type: "Technique Depth",
+    prompt: "Which cooking style fits you best?",
+    detail: "Pick one.",
+  },
+  butcher_precision: {
+    type: "Purchase Precision",
+    prompt: "How specific are you at the meat case?",
+    detail: "Pick one.",
+  },
+  guidance_level: {
+    type: "Guidance Style",
+    prompt: "What kind of recommendation helps most?",
     detail: "Pick one.",
   },
   doneness: {
@@ -851,8 +1066,8 @@ const ALT_QUESTION_COPY = {
     detail: "Pick one.",
   },
   occasion: {
-    type: "Occasion",
-    prompt: "What is this meal for?",
+    type: "Meal Context",
+    prompt: "What kind of meal is this?",
     detail: "Pick one.",
   },
   crust: {
@@ -866,25 +1081,25 @@ const ALT_QUESTION_COPY = {
     detail: "Pick one.",
   },
   pairing: {
-    type: "Pairing",
-    prompt: "What side style do you like?",
+    type: "Side Plan",
+    prompt: "What sides are you serving with it?",
     detail: "Pick one.",
   },
 };
 
 const ALT_QUESTION_COPY_2 = {
   flavor: {
-    type: "Flavor Mood",
-    prompt: "What beef flavor are you after?",
+    type: "Flavor Preference",
+    prompt: "What beef flavor do you want?",
     detail: "Pick one.",
   },
   richness: {
-    type: "Richness Mood",
-    prompt: "How much richness do you want?",
+    type: "Richness Level",
+    prompt: "How rich do you want the beef?",
     detail: "Pick one.",
   },
   texture: {
-    type: "Texture Mood",
+    type: "Texture Preference",
     prompt: "What bite do you want?",
     detail: "Pick one.",
   },
@@ -894,8 +1109,33 @@ const ALT_QUESTION_COPY_2 = {
     detail: "Pick one.",
   },
   comfort: {
-    type: "Exploration",
-    prompt: "Are you open to less-common cuts?",
+    type: "Cut Knowledge",
+    prompt: "How comfortable are you choosing beef cuts?",
+    detail: "Pick one.",
+  },
+  cuisine: {
+    type: "Cuisine Style",
+    prompt: "Which cuisine best fits this meal?",
+    detail: "Pick one.",
+  },
+  specialty_cuts: {
+    type: "Specialty",
+    prompt: "How familiar are you with lesser-known cuts?",
+    detail: "Pick one.",
+  },
+  advanced_technique: {
+    type: "Technique",
+    prompt: "Which cooking style fits you best?",
+    detail: "Pick one.",
+  },
+  butcher_precision: {
+    type: "Butcher Ask",
+    prompt: "How specific are you at the meat case?",
+    detail: "Pick one.",
+  },
+  guidance_level: {
+    type: "Guidance",
+    prompt: "What kind of recommendation helps most?",
     detail: "Pick one.",
   },
   doneness: {
@@ -904,7 +1144,7 @@ const ALT_QUESTION_COPY_2 = {
     detail: "Pick one.",
   },
   seasoning: {
-    type: "Flavor Build",
+    type: "Seasoning Style",
     prompt: "How do you season it?",
     detail: "Pick one.",
   },
@@ -964,8 +1204,8 @@ const ALT_QUESTION_COPY_2 = {
     detail: "Pick one.",
   },
   occasion: {
-    type: "Occasion",
-    prompt: "What is this meal for?",
+    type: "Meal Context",
+    prompt: "What kind of meal is this?",
     detail: "Pick one.",
   },
   crust: {
@@ -979,8 +1219,8 @@ const ALT_QUESTION_COPY_2 = {
     detail: "Pick one.",
   },
   pairing: {
-    type: "Sides",
-    prompt: "What side style do you like?",
+    type: "Side Plan",
+    prompt: "What sides are you serving with it?",
     detail: "Pick one.",
   },
 };
@@ -1011,9 +1251,148 @@ const QUESTION_POOL = BASE_QUESTIONS.flatMap((question, index) => {
   ];
 });
 
-const QUESTION_HISTORY_KEY = "beef_cut_fit_question_history_v1";
-const QUESTION_LAST_SET_KEY = "beef_cut_fit_last_set_v1";
-const ASSESSMENT_QUESTION_COUNT = QUESTION_GROUPS.length;
+const QUESTION_HISTORY_KEY = "beef_cut_fit_question_history_v2";
+const QUESTION_LAST_SET_KEY = "beef_cut_fit_last_set_v2";
+const ASSESSMENT_QUESTION_COUNT = 22;
+const INTAKE_GROUPS = ["comfort", "cuisine"];
+const COMMON_DYNAMIC_GROUPS = [
+  "flavor",
+  "richness",
+  "texture",
+  "method",
+  "doneness",
+  "seasoning",
+  "portion",
+  "budget",
+  "priority",
+  "flexibility",
+  "bone",
+  "cook_window",
+  "meal_format",
+];
+const EXPERT_DYNAMIC_GROUPS = [
+  "specialty_cuts",
+  "advanced_technique",
+  "butcher_precision",
+  "smoke",
+  "fat_cap",
+  "crust",
+];
+const INTERMEDIATE_DYNAMIC_GROUPS = [
+  "specialty_cuts",
+  "smoke",
+  "fat_cap",
+  "crust",
+  "pairing",
+  "occasion",
+];
+const BEGINNER_DYNAMIC_GROUPS = [
+  "guidance_level",
+  "occasion",
+  "leftovers",
+  "routine",
+  "pairing",
+  "chew",
+];
+const CUISINE_PRIORITY_GROUPS = {
+  "Steakhouse / American grill": [
+    "bone",
+    "doneness",
+    "richness",
+    "advanced_technique",
+    "butcher_precision",
+    "crust",
+    "priority",
+  ],
+  "Mexican / fajitas": [
+    "meal_format",
+    "seasoning",
+    "specialty_cuts",
+    "portion",
+    "method",
+    "crust",
+  ],
+  "Italian / comfort dishes": [
+    "seasoning",
+    "leftovers",
+    "pairing",
+    "guidance_level",
+    "budget",
+    "occasion",
+  ],
+  "BBQ / smokehouse": [
+    "smoke",
+    "cook_window",
+    "advanced_technique",
+    "method",
+    "fat_cap",
+    "crust",
+  ],
+  "Asian / quick-cook": [
+    "cook_window",
+    "meal_format",
+    "seasoning",
+    "specialty_cuts",
+    "texture",
+    "portion",
+  ],
+};
+const QUESTION_RELEVANCE_NOTES = {
+  flavor:
+    "Flavor preference sets whether we prioritize clean, balanced, or bold beef-forward cuts.",
+  richness:
+    "Richness level sets marbling tolerance, narrowing cuts from lean to highly marbled.",
+  texture:
+    "Texture preference separates soft-bite cuts from firmer, more beef-forward cuts.",
+  method:
+    "Cooking method filters to cuts that perform best with your heat style.",
+  comfort:
+    "Your cut comfort level sets how far to push into specialty vs familiar options.",
+  cuisine:
+    "Cuisine style prioritizes cuts that naturally fit those dishes and formats.",
+  specialty_cuts:
+    "This confirms whether lesser-known cuts should be featured or minimized.",
+  advanced_technique:
+    "Technique depth helps match cuts to your current cooking skill and control level.",
+  butcher_precision:
+    "Purchase precision tells us if you want exact specs or flexible substitutions.",
+  guidance_level:
+    "Guidance style sets whether recommendations should be simple, optional, or exploratory.",
+  doneness:
+    "Doneness preference screens out cuts that lose quality at your target finish.",
+  seasoning:
+    "Seasoning style determines if we optimize for simple prep, quality showcase, rub-friendly, or sauce-forward cuts.",
+  portion:
+    "Serving format shifts recommendations between plated steaks, sliced cuts, and handhelds.",
+  budget:
+    "Budget keeps the recommendation realistic for what you want to spend now.",
+  priority:
+    "Your top priority weights quality, value, consistency, or method fit.",
+  flexibility:
+    "Substitution behavior determines how broad the backup cut options should be.",
+  bone:
+    "Bone preference narrows the list to bone-in, boneless, or both.",
+  cook_window:
+    "Available cook time filters quick-sear cuts vs longer cooking projects.",
+  smoke:
+    "Smoke preference ranks cuts that absorb smoke and hold flavor under fire.",
+  fat_cap:
+    "Fat-cap preference tunes recommendations toward lean-trimmed or fat-forward cuts.",
+  chew:
+    "Chew tolerance separates very tender cuts from firmer, flavorful muscle cuts.",
+  meal_format:
+    "Meal format aligns the cut to plated steak, sliced board, tacos, or sandwiches.",
+  leftovers:
+    "Leftover plans favor cuts that reheat and repurpose cleanly.",
+  occasion:
+    "Meal context shifts scoring between weeknight practicality, premium presentation, and crowd-friendly formats.",
+  crust:
+    "Crust preference selects cuts that handle aggressive searing without drying out.",
+  routine:
+    "Purchase cadence balances everyday consistency with occasional premium picks.",
+  pairing:
+    "Side plan balances plate richness so the cut matches your full meal, not just the protein.",
+};
 
 const CUTS = [
   {
@@ -1039,6 +1418,31 @@ const CUTS = [
       doneness: "Medium-rare",
       temp: "130-135F final internal temperature",
       note: "Rest 5-8 minutes before slicing.",
+    },
+  },
+  {
+    id: "tomahawk_ribeye",
+    name: "Tomahawk Ribeye",
+    tagline: "Bone-in ribeye presentation with premium visual impact.",
+    rationale:
+      "Tomahawk ribeye fits premium steakhouse intent when the user wants rich flavor, showpiece plating, and controlled high-heat execution.",
+    profile: {
+      richness: 9,
+      tenderness: 7,
+      boldness: 9,
+      adventure: 5,
+      value: 1,
+      precision: 6,
+    },
+    imps: [
+      "1103 - Beef Rib, Rib Steak, Bone-In (Tomahawk/Frenched style reference)",
+      "11103A - Beef Rib Steak, Bone-In, Frenched (market reference)",
+    ],
+    cooking: {
+      method: "Two-zone grill or reverse sear with indirect finish",
+      doneness: "Medium-rare",
+      temp: "130-136F final internal temperature",
+      note: "Use indirect heat to finish evenly due to thickness and bone mass.",
     },
   },
   {
@@ -1093,7 +1497,7 @@ const CUTS = [
   },
   {
     id: "bone_in_strip",
-    name: "Bone-In Strip",
+    name: "Bone-In New York Strip",
     tagline: "Classic strip character with bone-in presentation.",
     rationale:
       "Bone-in strip aligns with traditionalist profiles wanting a defined steakhouse format and stronger plate identity.",
@@ -1163,6 +1567,30 @@ const CUTS = [
       doneness: "Rare to medium-rare",
       temp: "125-132F final internal temperature",
       note: "Low intramuscular fat demands strict temperature discipline.",
+    },
+  },
+  {
+    id: "filet_medallions",
+    name: "Filet Medallions",
+    tagline: "Tenderloin medallion format for fast, refined portioned service.",
+    rationale:
+      "Filet medallions are selected when tenderness, quick cook time, and portion control are prioritized over intense beef flavor.",
+    profile: {
+      richness: 3,
+      tenderness: 9,
+      boldness: 4,
+      adventure: 3,
+      value: 2,
+      precision: 8,
+    },
+    imps: [
+      "1190M - Beef Loin, Tenderloin Medallions, Boneless (market reference)",
+    ],
+    cooking: {
+      method: "Fast pan sear with careful carryover control",
+      doneness: "Rare to medium-rare",
+      temp: "124-132F final internal temperature",
+      note: "Because medallions are small, pull early and rest briefly.",
     },
   },
   {
@@ -1429,31 +1857,6 @@ const CUTS = [
     },
   },
   {
-    id: "delmonico",
-    name: "Delmonico",
-    tagline: "Specialty chuck format with strong butcher-counter identity.",
-    rationale:
-      "This cut aligns with adventurous traditionalists seeking boutique alternatives to mainstream rib steaks.",
-    profile: {
-      richness: 7,
-      tenderness: 6,
-      boldness: 8,
-      adventure: 7,
-      value: 5,
-      precision: 5,
-    },
-    imps: [
-      "116D - Beef Chuck, Chuck Eye Roll (Option 1 commonly sold as Delmonico)",
-      "1116D - Beef Chuck, Chuck Eye Roll Steak, Boneless",
-    ],
-    cooking: {
-      method: "Sear hard then rest adequately",
-      doneness: "Medium-rare",
-      temp: "130-136F final internal temperature",
-      note: "Butcher trim quality strongly influences final texture.",
-    },
-  },
-  {
     id: "hanger",
     name: "Hanger Steak",
     tagline: "High-mineral, high-character steak for experienced users.",
@@ -1520,76 +1923,6 @@ const CUTS = [
       doneness: "Rare to medium-rare",
       temp: "123-132F final internal temperature",
       note: "Excellent for short marination and slicing service.",
-    },
-  },
-  {
-    id: "rump_steak",
-    name: "Rump Steak",
-    tagline: "Lean, beef-forward round steak with practical value.",
-    rationale:
-      "Rump steak is suitable for everyday value users prioritizing beef flavor over softness.",
-    profile: {
-      richness: 3,
-      tenderness: 4,
-      boldness: 7,
-      adventure: 6,
-      value: 8,
-      precision: 6,
-    },
-    imps: ["1171G - Beef Round, Outside Round, Rump Steak, Boneless"],
-    cooking: {
-      method: "High-heat sear with brief carryover",
-      doneness: "Medium-rare to medium",
-      temp: "132-140F final internal temperature",
-      note: "Best served sliced across grain in strips.",
-    },
-  },
-  {
-    id: "sierra_steak",
-    name: "Sierra Steak",
-    tagline: "Underused chuck cut with bold beef flavor.",
-    rationale:
-      "Sierra steak is a fit for value-conscious users who want big flavor and are comfortable slicing technique.",
-    profile: {
-      richness: 5,
-      tenderness: 5,
-      boldness: 9,
-      adventure: 8,
-      value: 8,
-      precision: 4,
-    },
-    imps: [
-      "IMPS Series 100 - Beef Chuck, Under Blade (Sierra-style market cut reference)",
-    ],
-    cooking: {
-      method: "Very hot sear, short cook",
-      doneness: "Rare to medium-rare",
-      temp: "124-132F final internal temperature",
-      note: "Rest briefly and slice thin against grain.",
-    },
-  },
-  {
-    id: "eye_round_steak",
-    name: "Eye of Round Steak",
-    tagline: "Very lean round cut for disciplined value plans.",
-    rationale:
-      "Eye of round aligns with efficiency-focused users prioritizing lean profile and budget control.",
-    profile: {
-      richness: 2,
-      tenderness: 3,
-      boldness: 6,
-      adventure: 6,
-      value: 9,
-      precision: 7,
-    },
-    imps: [
-      "IMPS Series 100 - Beef Round, Eye of Round (steak reference)",
-    ],
-    cooking: {
-      method: "Quick sear or thin-slice applications",
-      doneness: "Medium-rare to medium",
-      temp: "132-140F final internal temperature",
-      note: "Best served sliced thin across grain.",
     },
   },
   {
@@ -1720,6 +2053,10 @@ const COOKING_TIPS_DB = {
       "Render the fat cap first for 30-60 seconds before laying flat to sear.",
       "Baste with butter in the final minute for deeper crust aroma.",
     ],
+    tomahawk_ribeye: [
+      "Start with indirect heat, then finish with a hard sear to prevent surface burn.",
+      "Rotate away from direct flame when bone side starts shielding one edge.",
+    ],
     strip: [
       "Score the fat edge lightly to limit curling during sear.",
       "Sear fat-edge side first to improve rendered bite.",
@@ -1727,6 +2064,10 @@ const COOKING_TIPS_DB = {
     filet_mignon: [
       "Wrap with butcher twine for more even shape and doneness.",
       "High-heat sear first, then finish gently to avoid gray bands.",
+    ],
+    filet_medallions: [
+      "Use a very hot pan and short cook windows on each side.",
+      "Rest briefly (2-4 minutes) so juices redistribute without carryover overshoot.",
     ],
     picanha: [
       "Slice with the grain into steaks before cooking, then slice across grain to serve.",
@@ -1773,6 +2114,8 @@ const state = {
   currentQuestion: 0,
   questionSet: [],
   answers: [],
+  dynamicSetBuilt: false,
+  questionSelection: null,
 };
 
 const introPanel = document.getElementById("introPanel");
@@ -1799,6 +2142,10 @@ const tier1List = document.getElementById("tier1List");
 const tier2List = document.getElementById("tier2List");
 const tier3List = document.getElementById("tier3List");
 const tier4List = document.getElementById("tier4List");
+const tier1Title = document.getElementById("tier1Title");
+const tier2Title = document.getElementById("tier2Title");
+const tier3Title = document.getElementById("tier3Title");
+const tier4Title = document.getElementById("tier4Title");
 const tipsCutLabel = document.getElementById("tipsCutLabel");
 const tipsList = document.getElementById("tipsList");
 
@@ -1814,45 +2161,137 @@ restartBtn.addEventListener("click", resetAssessment);
 
 function initializeAssessmentRun() {
   state.currentQuestion = 0;
-  state.questionSet = buildQuestionSet();
+  state.dynamicSetBuilt = false;
+  state.questionSelection = createQuestionSelectionState();
+  state.questionSet = selectQuestionsForGroups(INTAKE_GROUPS, state.questionSelection);
   state.answers = Array.from({ length: state.questionSet.length }, () => null);
 }
 
-function buildQuestionSet() {
-  const history = new Set(readStoredArray(QUESTION_HISTORY_KEY));
-  const lastSet = new Set(readStoredArray(QUESTION_LAST_SET_KEY));
+function createQuestionSelectionState() {
+  return {
+    history: new Set(readStoredArray(QUESTION_HISTORY_KEY)),
+    lastSet: new Set(readStoredArray(QUESTION_LAST_SET_KEY)),
+    selectedIds: [],
+  };
+}
+
+function selectQuestionsForGroups(groups, selectionState) {
   const selected = [];
 
-  QUESTION_GROUPS.forEach((group) => {
-    const candidates = QUESTION_POOL.filter((question) => question.group === group);
-    const notInLastSet = candidates.filter((question) => !lastSet.has(question.id));
-    const unseen = notInLastSet.filter((question) => !history.has(question.id));
-    const fallbackUnseen = candidates.filter((question) => !history.has(question.id));
+  groups.forEach((group) => {
+    const pickedQuestion = pickQuestionForGroup(group, selectionState);
+    if (!pickedQuestion) {
+      return;
+    }
 
-    const pool =
-      unseen.length > 0
-        ? unseen
-        : notInLastSet.length > 0
-        ? notInLastSet
-        : fallbackUnseen.length > 0
-        ? fallbackUnseen
-        : candidates;
+    selected.push(pickedQuestion);
+    selectionState.selectedIds.push(pickedQuestion.id);
+  });
 
-    const pick = pickRandom(pool) || candidates[0];
-    if (pick) {
-      selected.push(pick);
+  return selected;
+}
+
+function pickQuestionForGroup(group, selectionState) {
+  const candidates = QUESTION_POOL.filter((question) => question.group === group);
+  if (candidates.length === 0) {
+    return null;
+  }
+
+  const selectedIdSet = new Set(selectionState.selectedIds);
+  const available = candidates.filter((question) => !selectedIdSet.has(question.id));
+  const source = available.length > 0 ? available : candidates;
+  const notInLastSet = source.filter((question) => !selectionState.lastSet.has(question.id));
+  const unseen = notInLastSet.filter((question) => !selectionState.history.has(question.id));
+  const fallbackUnseen = source.filter((question) => !selectionState.history.has(question.id));
+  const pool =
+    unseen.length > 0
+      ? unseen
+      : notInLastSet.length > 0
+      ? notInLastSet
+      : fallbackUnseen.length > 0
+      ? fallbackUnseen
+      : source;
+
+  return pickRandom(pool) || source[0];
+}
+
+function buildDynamicQuestionGroups(signals) {
+  const expertiseBand = getExpertiseBand(signals);
+  const expertiseGroups =
+    expertiseBand === "Expert"
+      ? EXPERT_DYNAMIC_GROUPS
+      : expertiseBand === "Intermediate"
+      ? INTERMEDIATE_DYNAMIC_GROUPS
+      : BEGINNER_DYNAMIC_GROUPS;
+
+  const dynamicGroups = [...COMMON_DYNAMIC_GROUPS, ...expertiseGroups];
+  const cuisinePriority = CUISINE_PRIORITY_GROUPS[signals.cuisineStyle] || [];
+
+  return prioritizeGroups(dynamicGroups, cuisinePriority);
+}
+
+function prioritizeGroups(groups, priorityGroups) {
+  const ordered = [];
+
+  priorityGroups.forEach((group) => {
+    if (groups.includes(group) && !ordered.includes(group)) {
+      ordered.push(group);
     }
   });
 
-  shuffleInPlace(selected);
+  groups.forEach((group) => {
+    if (!ordered.includes(group)) {
+      ordered.push(group);
+    }
+  });
 
-  const selectedIds = selected.map((question) => question.id);
-  const nextHistory = [...history, ...selectedIds];
+  return ordered;
+}
 
-  writeStoredArray(QUESTION_HISTORY_KEY, [...nextHistory].slice(-QUESTION_POOL.length));
-  writeStoredArray(QUESTION_LAST_SET_KEY, selectedIds);
+function getExpertiseBand(signals) {
+  if (signals.expertiseBand) {
+    return signals.expertiseBand;
+  }
+  if (signals.comfort === "Expert cut fluency") {
+    return "Expert";
+  }
+  if (signals.comfort === "Comfortable with common cuts") {
+    return "Intermediate";
+  }
+  return "Beginner";
+}
 
-  return selected;
+function maybeBuildDynamicQuestionSet() {
+  if (state.dynamicSetBuilt) {
+    return;
+  }
+
+  const intakeAnswers = state.answers.slice(0, INTAKE_GROUPS.length);
+  if (intakeAnswers.some((answer) => answer === null)) {
+    return;
+  }
+
+  const intakeSignals = buildAssessmentSignalsForRange(0, INTAKE_GROUPS.length);
+  const dynamicGroups = buildDynamicQuestionGroups(intakeSignals);
+  const dynamicQuestions = selectQuestionsForGroups(dynamicGroups, state.questionSelection);
+
+  state.questionSet = [...state.questionSet, ...dynamicQuestions];
+  state.answers = [
+    ...state.answers,
+    ...Array.from({ length: dynamicQuestions.length }, () => null),
+  ];
+  state.dynamicSetBuilt = true;
+
+  persistQuestionSelectionHistory(state.questionSelection);
+}
+
+function persistQuestionSelectionHistory(selectionState) {
+  const nextHistory = [...selectionState.history, ...selectionState.selectedIds];
+  writeStoredArray(
+    QUESTION_HISTORY_KEY,
+    [...nextHistory].slice(-QUESTION_POOL.length)
+  );
+  writeStoredArray(QUESTION_LAST_SET_KEY, selectionState.selectedIds);
 }
 
 function pickRandom(items) {
@@ -1860,13 +2299,6 @@ function pickRandom(items) {
     return null;
   }
   return items[Math.floor(Math.random() * items.length)];
-}
-
-function shuffleInPlace(items) {
-  for (let i = items.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [items[i], items[j]] = [items[j], items[i]];
-  }
 }
 
 function readStoredArray(key) {
@@ -1918,6 +2350,7 @@ function goNext() {
   }
 
   warningText.classList.add("hidden");
+  maybeBuildDynamicQuestionSet();
   if (state.currentQuestion === state.questionSet.length - 1) {
     showResults();
     return;
@@ -1934,14 +2367,16 @@ function renderQuestion() {
     return;
   }
   const answered = state.answers.filter((answer) => answer !== null).length;
-  const totalQuestions = state.questionSet.length || ASSESSMENT_QUESTION_COUNT;
+  const totalQuestions = state.dynamicSetBuilt
+    ? state.questionSet.length
+    : ASSESSMENT_QUESTION_COUNT;
   const progressPct = ((index + 1) / totalQuestions) * 100;
 
   progressLabel.textContent = `Question ${index + 1} of ${totalQuestions}`;
   answeredLabel.textContent = `${answered} answered`;
   progressFill.style.width = `${progressPct}%`;
 
-  questionType.textContent = question.type;
+  questionType.innerHTML = buildQuestionTypeMarkup(question);
   questionPrompt.textContent = question.prompt;
   if (!question.detail || question.detail.toLowerCase() === "pick one.") {
     questionDetail.textContent = "";
@@ -1972,7 +2407,10 @@ function renderQuestion() {
       state.answers[index] = optionIndex;
       warningText.classList.add("hidden");
 
-      if (index === totalQuestions - 1) {
+      maybeBuildDynamicQuestionSet();
+      const totalQuestionsNow = state.questionSet.length;
+
+      if (index === totalQuestionsNow - 1) {
         showResults();
         return;
       }
@@ -1985,6 +2423,29 @@ function renderQuestion() {
   });
 }
 
+function buildQuestionTypeMarkup(question) {
+  const typeLabel = escapeHtml(question.type || "Question");
+  const relevanceNote = escapeHtml(getQuestionRelevanceNote(question));
+
+  return `
+    <span class="question-type-label">${typeLabel}</span>
+    <span class="question-info" tabindex="0" role="note" aria-label="Why this question matters">
+      <span class="question-info-icon" aria-hidden="true">i</span>
+      <span class="question-info-tip">${relevanceNote}</span>
+    </span>
+  `;
+}
+
+function getQuestionRelevanceNote(question) {
+  if (!question?.group) {
+    return "This question helps improve your cut match based on how you cook and eat beef.";
+  }
+  return (
+    QUESTION_RELEVANCE_NOTES[question.group] ||
+    "This answer helps refine your cut recommendation and improve fit."
+  );
+}
+
 function showResults() {
   const profile = buildProfileVector();
   const signals = buildAssessmentSignals();
@@ -1993,7 +2454,7 @@ function showResults() {
   const second = rankedCuts[1];
   const scoreGap = primary.score - (second?.score ?? primary.score);
   const summary = buildProfileSummary(profile, rankedCuts, signals);
-  const tiers = buildTierRecommendations(rankedCuts);
+  const tiers = buildTierRecommendations(rankedCuts, signals);
   const topCluster = getTopCluster(rankedCuts, primary.score);
   const hasCloseAlternatives = scoreGap <= 5 && topCluster.length > 1;
 
@@ -2026,6 +2487,7 @@ function showResults() {
   }
   addKeyValueItem(cookingList, "Tip", primary.cut.cooking.note);
 
+  renderTierTitles(tiers.titles);
   renderTierList(tier1List, tiers.tier1);
   renderTierList(tier2List, tiers.tier2);
   renderTierList(tier3List, tiers.tier3);
@@ -2037,18 +2499,25 @@ function showResults() {
 }
 
 function buildAssessmentSignals() {
-  const signals = {};
+  return buildAssessmentSignalsForRange(0, state.questionSet.length);
+}
 
-  state.answers.forEach((selectedOptionIndex, questionIndex) => {
+function buildAssessmentSignalsForRange(startIndex, endExclusive) {
+  const signals = {};
+  const safeStart = Math.max(0, startIndex);
+  const safeEnd = Math.min(state.questionSet.length, endExclusive);
+
+  for (let questionIndex = safeStart; questionIndex < safeEnd; questionIndex += 1) {
+    const selectedOptionIndex = state.answers[questionIndex];
     const option = state.questionSet[questionIndex]?.options[selectedOptionIndex];
     if (!option?.signal) {
-      return;
+      continue;
     }
 
     Object.entries(option.signal).forEach(([key, value]) => {
       signals[key] = value;
     });
-  });
+  }
 
   return signals;
 }
@@ -2068,86 +2537,330 @@ function buildProfileSummary(profile, rankedCuts, signals) {
   };
 }
 
-function buildTierRecommendations(rankedCuts) {
+function buildTierRecommendations(rankedCuts, signals = {}) {
   const used = new Set();
-  const topScore = rankedCuts[0]?.score ?? 0;
+  const scaleModel = buildTierScaleModel(signals);
 
-  const tier1 = selectTierCuts(
+  const tier1 = selectTierCutsByScale(
     rankedCuts,
     used,
-    (result) => result.score >= topScore - 4,
-    3
+    scaleModel.targets[0],
+    3,
+    signals
   );
-  fillTierWithBest(rankedCuts, used, tier1, 3);
-
-  const tier2 = selectTierCuts(
+  const tier2 = selectTierCutsByScale(
     rankedCuts,
     used,
-    (result) => result.score >= topScore - 12,
-    4
+    scaleModel.targets[1],
+    4,
+    signals
   );
-  fillTierWithBest(rankedCuts, used, tier2, 4);
-
-  const tier3 = selectTierCuts(
+  const tier3 = selectTierCutsByScale(
     rankedCuts,
     used,
-    (result) => getCostTier(result.cut) === "Value",
-    4
+    scaleModel.targets[2],
+    4,
+    signals
   );
-  fillTierWithBest(rankedCuts, used, tier3, 4);
-
-  const tier4 = selectTierCuts(
+  const tier4 = selectTierCutsByScale(
     rankedCuts,
     used,
-    (result) => result.cut.profile.adventure >= 7 || result.cut.profile.boldness >= 9,
-    4
+    scaleModel.targets[3],
+    4,
+    signals
   );
-  fillTierWithBest(rankedCuts, used, tier4, 4);
 
-  return { tier1, tier2, tier3, tier4 };
+  return {
+    tier1,
+    tier2,
+    tier3,
+    tier4,
+    titles: scaleModel.titles,
+  };
 }
 
-function selectTierCuts(rankedCuts, used, predicate, count) {
-  const picks = [];
+function buildTierScaleModel(signals) {
+  const expertiseAnchor = getExpertiseScaleAnchor(signals);
+  const cuisineBias = getCuisineScaleBias(signals.cuisineStyle);
+  const levelOffsets = [-1.1, -0.3, 0.55, 1.35];
+
+  const targets = levelOffsets.map((offset) => ({
+    difficulty: clamp(expertiseAnchor + cuisineBias.difficulty + offset, 1, 4),
+    familiarity: clamp(expertiseAnchor + cuisineBias.familiarity + offset, 1, 4),
+    equipment: clamp(expertiseAnchor + cuisineBias.equipment + offset, 1, 4),
+  }));
+
+  return {
+    targets,
+    titles: {
+      tier1: buildScaleTierTitle(1, targets[0]),
+      tier2: buildScaleTierTitle(2, targets[1]),
+      tier3: buildScaleTierTitle(3, targets[2]),
+      tier4: buildScaleTierTitle(4, targets[3]),
+    },
+  };
+}
+
+function getExpertiseScaleAnchor(signals) {
+  const expertiseBand = getExpertiseBand(signals);
+  if (expertiseBand === "Expert") {
+    return 3.2;
+  }
+  if (expertiseBand === "Intermediate") {
+    return 2.4;
+  }
+  return 1.6;
+}
+
+function getCuisineScaleBias(cuisineStyle) {
+  if (cuisineStyle === "BBQ / smokehouse") {
+    return { difficulty: 0.65, familiarity: 0.25, equipment: 1.05 };
+  }
+  if (cuisineStyle === "Steakhouse / American grill") {
+    return { difficulty: 0.45, familiarity: 0.2, equipment: 0.65 };
+  }
+  if (cuisineStyle === "Mexican / fajitas") {
+    return { difficulty: 0.2, familiarity: 0.45, equipment: 0.25 };
+  }
+  if (cuisineStyle === "Asian / quick-cook") {
+    return { difficulty: 0.1, familiarity: 0.35, equipment: 0.1 };
+  }
+  if (cuisineStyle === "Italian / comfort dishes") {
+    return { difficulty: -0.2, familiarity: -0.1, equipment: -0.2 };
+  }
+  return { difficulty: 0, familiarity: 0, equipment: 0 };
+}
+
+function buildScaleTierTitle(level, targetScale) {
+  const difficulty = getDifficultyScaleLabel(targetScale.difficulty);
+  const familiarity = getFamiliarityScaleLabel(targetScale.familiarity);
+  const equipment = getEquipmentScaleLabel(targetScale.equipment);
+  return `Level ${level}: ${difficulty} • ${familiarity} • ${equipment}`;
+}
+
+function selectTierCutsByScale(rankedCuts, used, targetScale, count, signals) {
+  const ordered = rankedCuts
+    .filter((result) => !used.has(result.cut.id))
+    .map((result) => ({
+      result,
+      tierFitScore: getTierScaleFitScore(result, targetScale, signals),
+    }))
+    .sort((a, b) => {
+      if (b.tierFitScore !== a.tierFitScore) {
+        return b.tierFitScore - a.tierFitScore;
+      }
+      return b.result.score - a.result.score;
+    });
+
+  const picks = ordered.slice(0, count).map((entry) => entry.result);
+  picks.forEach((entry) => used.add(entry.cut.id));
+
+  if (picks.length >= count) {
+    return picks;
+  }
+
   rankedCuts.forEach((result) => {
-    if (picks.length >= count || used.has(result.cut.id) || !predicate(result)) {
+    if (picks.length >= count || used.has(result.cut.id)) {
       return;
     }
     picks.push(result);
     used.add(result.cut.id);
   });
+
   return picks;
 }
 
-function fillTierWithBest(rankedCuts, used, tier, count) {
-  rankedCuts.forEach((result) => {
-    if (tier.length >= count || used.has(result.cut.id)) {
-      return;
-    }
-    tier.push(result);
-    used.add(result.cut.id);
-  });
+function getTierScaleFitScore(result, targetScale, signals) {
+  const cutScale = deriveCutExecutionScale(result.cut);
+  const targetDistance = getTierTargetDistance(cutScale, targetScale);
+  const distanceScore = clamp(16 - targetDistance * 4.25, -10, 16);
+  const cuisineBonus =
+    getCuisineFitAdjustment(result.cut, signals.cuisineStyle, signals.mealFormat, null) * 0.45;
+
+  return result.score * 0.55 + distanceScore + cuisineBonus;
+}
+
+function getTierTargetDistance(cutScale, targetScale) {
+  return (
+    Math.abs(cutScale.difficulty - targetScale.difficulty) +
+    Math.abs(cutScale.familiarity - targetScale.familiarity) +
+    Math.abs(cutScale.equipment - targetScale.equipment)
+  );
+}
+
+function deriveCutExecutionScale(cut) {
+  const methodText = cut.cooking.method.toLowerCase();
+
+  let difficulty = 1;
+  if (cut.profile.precision >= 7) {
+    difficulty += 1;
+  } else if (cut.profile.precision >= 5) {
+    difficulty += 0.5;
+  }
+  if (cut.profile.adventure >= 8) {
+    difficulty += 1;
+  } else if (cut.profile.adventure >= 6) {
+    difficulty += 0.5;
+  }
+  difficulty += getMethodComplexityBoost(methodText);
+
+  let familiarity = 1;
+  if (cut.profile.adventure <= 4) {
+    familiarity = 1;
+  } else if (cut.profile.adventure <= 6) {
+    familiarity = 2;
+  } else if (cut.profile.adventure <= 8) {
+    familiarity = 3;
+  } else {
+    familiarity = 4;
+  }
+
+  let equipment = 1;
+  if (
+    methodText.includes("grill") ||
+    methodText.includes("pan") ||
+    methodText.includes("cast-iron")
+  ) {
+    equipment = 2;
+  }
+  if (methodText.includes("oven") || methodText.includes("reverse")) {
+    equipment = Math.max(equipment, 3);
+  }
+  if (
+    methodText.includes("smoke") ||
+    methodText.includes("sous vide") ||
+    methodText.includes("live fire") ||
+    methodText.includes("low-and-slow")
+  ) {
+    equipment = Math.max(equipment, 4);
+  }
+
+  if (cut.id === "all_beef_uncured_hot_dog") {
+    difficulty = 1;
+    familiarity = 1;
+    equipment = 1;
+  }
+
+  return {
+    difficulty: clamp(difficulty, 1, 4),
+    familiarity: clamp(familiarity, 1, 4),
+    equipment: clamp(equipment, 1, 4),
+  };
+}
+
+function getMethodComplexityBoost(methodText) {
+  if (
+    methodText.includes("sous vide") ||
+    methodText.includes("reverse") ||
+    methodText.includes("smoke")
+  ) {
+    return 1;
+  }
+  if (methodText.includes("low") || methodText.includes("marinate")) {
+    return 0.5;
+  }
+  return 0;
+}
+
+function toScaleBand(value) {
+  if (value < 1.75) {
+    return 1;
+  }
+  if (value < 2.5) {
+    return 2;
+  }
+  if (value < 3.25) {
+    return 3;
+  }
+  return 4;
+}
+
+function getDifficultyScaleLabel(value) {
+  const band = toScaleBand(value);
+  if (band === 1) {
+    return "Easy";
+  }
+  if (band === 2) {
+    return "Moderate";
+  }
+  if (band === 3) {
+    return "Skilled";
+  }
+  return "Advanced";
+}
+
+function getFamiliarityScaleLabel(value) {
+  const band = toScaleBand(value);
+  if (band === 1) {
+    return "Familiar";
+  }
+  if (band === 2) {
+    return "Familiar-Plus";
+  }
+  if (band === 3) {
+    return "Specialty";
+  }
+  return "Deep Specialty";
+}
+
+function getEquipmentScaleLabel(value) {
+  const band = toScaleBand(value);
+  if (band === 1) {
+    return "Low Equipment";
+  }
+  if (band === 2) {
+    return "Standard Equipment";
+  }
+  if (band === 3) {
+    return "More Equipment";
+  }
+  return "Full Equipment";
+}
+
+function renderTierTitles(titles) {
+  if (tier1Title) {
+    tier1Title.textContent = titles?.tier1 || "Level 1: Easy • Familiar • Low Equipment";
+  }
+  if (tier2Title) {
+    tier2Title.textContent =
+      titles?.tier2 || "Level 2: Moderate • Familiar-Plus • Standard Equipment";
+  }
+  if (tier3Title) {
+    tier3Title.textContent = titles?.tier3 || "Level 3: Skilled • Specialty • More Equipment";
+  }
+  if (tier4Title) {
+    tier4Title.textContent = titles?.tier4 || "Level 4: Advanced • Specialty • Full Equipment";
+  }
 }
 
 function renderTierList(target, tierResults) {
   target.innerHTML = "";
   tierResults.forEach((result) => {
-    addListItem(
-      target,
-      `${result.cut.name} • ${getCutFamily(result.cut)} • ${getCostTier(
-        result.cut
-      )}`
-    );
+    const cutScale = deriveCutExecutionScale(result.cut);
+    const listItem = document.createElement("li");
+    listItem.innerHTML = `
+      <span class="tier-cut-name">${escapeHtml(result.cut.name)}</span>
+      <span class="tier-cut-meta">
+        ${escapeHtml(getCutFamily(result.cut))} • ${escapeHtml(getCostTier(result.cut))} • ${escapeHtml(
+      getDifficultyScaleLabel(cutScale.difficulty)
+    )} • ${escapeHtml(getFamiliarityScaleLabel(cutScale.familiarity))} • ${escapeHtml(
+      getEquipmentScaleLabel(cutScale.equipment)
+    )}
+      </span>
+    `;
+    target.appendChild(listItem);
   });
 }
 
 const CUT_ICON_BY_ID = {
   ribeye: "ribeye",
+  tomahawk_ribeye: "ribeye",
   ribeye_cap: "ribeye_cap",
   strip: "strip",
   bone_in_strip: "strip_bone",
   strip_filet_split: "strip_split",
   filet_mignon: "filet",
+  filet_medallions: "filet",
   porterhouse: "porterhouse",
   t_bone: "t_bone",
   top_sirloin: "sirloin",
@@ -2159,13 +2872,9 @@ const CUT_ICON_BY_ID = {
   flat_iron: "flat_iron",
   denver: "denver",
   chuck_eye: "chuck_eye",
-  delmonico: "chuck_eye",
   hanger: "hanger",
   flank: "flank",
   outside_skirt: "outside_skirt",
-  rump_steak: "round",
-  sierra_steak: "chuck_lean",
-  eye_round_steak: "eye_round",
   london_broil_top_round: "london_broil",
   plate_short_rib_boneless: "short_rib",
   all_beef_uncured_hot_dog: "hotdog",
@@ -2531,6 +3240,7 @@ function renderExecutiveBrief(cut, summary, signals, profile, topCluster) {
   const textureTarget = signals.textureTarget || deriveTextureTarget(profile);
   const cookWindow = signals.cookWindow || deriveCookWindow(profile);
   const mealFormat = signals.mealFormat || deriveMealFormat(profile);
+  const skillFitText = getSkillFitText(signals);
 
   executiveSynopsis.textContent = `${cut.name} is your top match for this round. It aligns with your ${flavorTarget.toLowerCase()} flavor target, ${richnessTarget.toLowerCase()} richness preference, and ${textureTarget.toLowerCase()} texture style while staying practical for your cooking lane.`;
 
@@ -2545,12 +3255,36 @@ function renderExecutiveBrief(cut, summary, signals, profile, topCluster) {
   const highlights = [
     `Fit Class: ${summary.primaryFit}.`,
     `Cook Plan: ${summary.bestCookingMatch} (${cookWindow.toLowerCase()}).`,
+    signals.cuisineStyle && signals.cuisineStyle !== "No specific cuisine"
+      ? `Cuisine Fit: ${signals.cuisineStyle}.`
+      : "Cuisine Fit: Cross-cuisine flexibility.",
+    skillFitText,
     `Service Style: ${mealFormat}.`,
     `Bench Strength: ${alternativeText}.`,
   ];
 
   executiveHighlights.innerHTML = "";
   highlights.forEach((item) => addListItem(executiveHighlights, item));
+}
+
+function getSkillFitText(signals) {
+  if (signals.advancedTechnique) {
+    return `Technique Fit: ${signals.advancedTechnique}.`;
+  }
+
+  if (signals.buyPrecision) {
+    return `Purchase Style: ${signals.buyPrecision}.`;
+  }
+
+  if (signals.specialtyComfort) {
+    return `Specialty Comfort: ${signals.specialtyComfort}.`;
+  }
+
+  if (signals.guidanceLevel) {
+    return `Guidance Fit: ${signals.guidanceLevel}.`;
+  }
+
+  return "Skill Fit: Balanced to your comfort level.";
 }
 
 function renderCookingTips(cut) {
@@ -2861,6 +3595,10 @@ function rankCuts(profile, signals = {}) {
         getMethodFitAdjustment(cut, signals.method) +
         getBudgetFitAdjustment(cut, signals.budget) +
         getComfortAdjustment(cut, signals.comfort) +
+        getSpecialtyFitAdjustment(cut, signals.specialtyComfort) +
+        getTechniqueFitAdjustment(cut, signals.advancedTechnique) +
+        getBuyPrecisionFitAdjustment(cut, signals.buyPrecision) +
+        getGuidanceFitAdjustment(cut, signals.guidanceLevel) +
         getPriorityFitAdjustment(cut, signals.priority) +
         getSubstitutionFitAdjustment(cut, signals.substitution) +
         getPortionFitAdjustment(cut, signals.portionStyle) +
@@ -2868,7 +3606,15 @@ function rankCuts(profile, signals = {}) {
         getCookWindowFitAdjustment(cut, signals.cookWindow) +
         getSmokeFitAdjustment(cut, signals.smokeLevel) +
         getFatCapFitAdjustment(cut, signals.fatCapPreference) +
+        getSeasoningIntentAdjustment(cut, signals.seasoningIntent) +
+        getPairingFitAdjustment(cut, signals.pairingStyle) +
         getMealFormatFitAdjustment(cut, signals.mealFormat) +
+        getCuisineFitAdjustment(
+          cut,
+          signals.cuisineStyle,
+          signals.mealFormat,
+          signals.seasoningStyle
+        ) +
         getOccasionFitAdjustment(cut, signals.occasionType),
       0,
       100
@@ -3015,24 +3761,39 @@ function getComfortAdjustment(cut, comfortLevel) {
     return 0;
   }
 
-  if (comfortLevel === "Very comfortable") {
-    return cut.profile.adventure >= 7 ? 3 : 0;
-  }
-
-  if (comfortLevel === "Somewhat comfortable") {
-    return cut.profile.adventure >= 7 ? 1 : 0;
-  }
-
-  if (comfortLevel === "Neutral") {
+  if (comfortLevel === "Expert cut fluency" || comfortLevel === "Very comfortable") {
+    if (cut.profile.adventure >= 7) {
+      return 5;
+    }
+    if (cut.profile.adventure >= 5) {
+      return 2;
+    }
     return 0;
   }
 
-  if (comfortLevel === "Prefer familiar cuts only") {
+  if (
+    comfortLevel === "Comfortable with common cuts" ||
+    comfortLevel === "Somewhat comfortable" ||
+    comfortLevel === "Neutral"
+  ) {
+    if (cut.profile.adventure >= 7) {
+      return -1;
+    }
+    if (cut.profile.adventure >= 5) {
+      return 1;
+    }
+    return 0;
+  }
+
+  if (
+    comfortLevel === "Familiar basics" ||
+    comfortLevel === "Prefer familiar cuts only"
+  ) {
     if (cut.profile.adventure >= 7) {
       return -4;
     }
-    if (cut.profile.adventure <= 3) {
-      return 1;
+    if (cut.profile.adventure <= 4) {
+      return 2;
     }
     return -1;
   }
@@ -3045,6 +3806,173 @@ function getComfortAdjustment(cut, comfortLevel) {
       return 2;
     }
     return -1;
+  }
+
+  return 0;
+}
+
+function getSpecialtyFitAdjustment(cut, specialtyComfort) {
+  if (!specialtyComfort) {
+    return 0;
+  }
+
+  const isSpecialtyCut = SPECIALTY_CUT_IDS.has(cut.id) || cut.profile.adventure >= 7;
+
+  if (specialtyComfort === "High") {
+    return isSpecialtyCut ? 4 : -1;
+  }
+
+  if (specialtyComfort === "Medium") {
+    if (isSpecialtyCut) {
+      return 2;
+    }
+    return CLASSIC_CUT_IDS.has(cut.id) ? 1 : 0;
+  }
+
+  if (specialtyComfort === "Low") {
+    if (isSpecialtyCut) {
+      return -2;
+    }
+    return cut.profile.adventure <= 5 ? 2 : 0;
+  }
+
+  if (specialtyComfort === "Minimal") {
+    if (isSpecialtyCut) {
+      return -4;
+    }
+    return CLASSIC_CUT_IDS.has(cut.id) ? 3 : 1;
+  }
+
+  return 0;
+}
+
+function getTechniqueFitAdjustment(cut, advancedTechnique) {
+  if (!advancedTechnique) {
+    return 0;
+  }
+
+  const methodText = cut.cooking.method.toLowerCase();
+
+  if (advancedTechnique === "Temp-driven reverse sear") {
+    if (HIGH_PRECISION_CUT_IDS.has(cut.id) || cut.profile.precision >= 7) {
+      return 5;
+    }
+    if (cut.profile.precision >= 5) {
+      return 2;
+    }
+    return -2;
+  }
+
+  if (advancedTechnique === "Two-zone heat control") {
+    if (
+      methodText.includes("grill") ||
+      methodText.includes("live fire") ||
+      methodText.includes("sear")
+    ) {
+      return 3;
+    }
+    return cut.profile.precision >= 6 ? 1 : -1;
+  }
+
+  if (advancedTechnique === "Marinade and high heat") {
+    if (methodText.includes("marinate") || methodText.includes("slice")) {
+      return 3;
+    }
+    if (cut.profile.value >= 6 && cut.profile.boldness >= 6) {
+      return 2;
+    }
+    return 0;
+  }
+
+  if (advancedTechnique === "Simple single-step") {
+    if (cut.profile.precision <= 5) {
+      return 3;
+    }
+    if (cut.profile.precision >= 8) {
+      return -2;
+    }
+    return 1;
+  }
+
+  return 0;
+}
+
+function getBuyPrecisionFitAdjustment(cut, buyPrecision) {
+  if (!buyPrecision) {
+    return 0;
+  }
+
+  if (buyPrecision === "Exact spec") {
+    if (HIGH_PRECISION_CUT_IDS.has(cut.id) || cut.profile.precision >= 7) {
+      return 4;
+    }
+    return cut.profile.precision >= 5 ? 1 : -2;
+  }
+
+  if (buyPrecision === "Exact cut flexible thickness") {
+    if (cut.profile.precision >= 6) {
+      return 3;
+    }
+    return 1;
+  }
+
+  if (buyPrecision === "Family-level flexibility") {
+    if (cut.profile.value >= 6) {
+      return 2;
+    }
+    if (cut.profile.precision >= 8) {
+      return -1;
+    }
+    return 1;
+  }
+
+  if (buyPrecision === "Open with guidance") {
+    if (CLASSIC_CUT_IDS.has(cut.id) || cut.profile.adventure <= 5) {
+      return 2;
+    }
+    return -1;
+  }
+
+  return 0;
+}
+
+function getGuidanceFitAdjustment(cut, guidanceLevel) {
+  if (!guidanceLevel) {
+    return 0;
+  }
+
+  if (guidanceLevel === "Single cut + simple steps") {
+    if (CLASSIC_CUT_IDS.has(cut.id) || cut.profile.adventure <= 4) {
+      return 3;
+    }
+    return -2;
+  }
+
+  if (guidanceLevel === "Top 3 + swaps") {
+    if (cut.profile.value >= 5) {
+      return 2;
+    }
+    if (cut.profile.adventure >= 8) {
+      return -1;
+    }
+    return 1;
+  }
+
+  if (guidanceLevel === "Learn progressively") {
+    if (cut.profile.adventure >= 5 && cut.profile.adventure <= 8) {
+      return 3;
+    }
+    if (cut.profile.adventure >= 9) {
+      return 1;
+    }
+    return 0;
+  }
+
+  if (guidanceLevel === "Familiar only") {
+    if (cut.profile.adventure <= 4) {
+      return 3;
+    }
+    return cut.profile.adventure >= 7 ? -3 : 0;
   }
 
   return 0;
@@ -3169,8 +4097,8 @@ function getPortionFitAdjustment(cut, portionStyle) {
     if (
       methodText.includes("slice") ||
       cut.id === "tri_tip" ||
-      cut.id === "picanha" ||
-      cut.id === "bavette" ||
+      cut.id === "coulotte" ||
+      cut.id === "sirloin_flap" ||
       cut.id === "london_broil_top_round"
     ) {
       return 4;
@@ -3204,39 +4132,124 @@ function getPortionFitAdjustment(cut, portionStyle) {
   return 0;
 }
 
-const BONE_IN_CUT_IDS = new Set(["bone_in_strip", "porterhouse", "tbone"]);
+const SPECIALTY_CUT_IDS = new Set([
+  "coulotte",
+  "sirloin_flap",
+  "hanger",
+  "outside_skirt",
+  "denver",
+  "ball_tip",
+  "flank",
+]);
+const CLASSIC_CUT_IDS = new Set([
+  "ribeye",
+  "tomahawk_ribeye",
+  "strip",
+  "bone_in_strip",
+  "filet_mignon",
+  "filet_medallions",
+  "top_sirloin",
+  "porterhouse",
+  "t_bone",
+  "all_beef_uncured_hot_dog",
+]);
+const HIGH_PRECISION_CUT_IDS = new Set([
+  "filet_mignon",
+  "filet_medallions",
+  "ribeye_cap",
+  "tomahawk_ribeye",
+  "strip_filet_split",
+  "porterhouse",
+  "t_bone",
+  "bone_in_strip",
+  "ribeye",
+]);
+const BONE_IN_CUT_IDS = new Set([
+  "bone_in_strip",
+  "porterhouse",
+  "t_bone",
+  "tomahawk_ribeye",
+]);
 const SMOKE_FRIENDLY_CUT_IDS = new Set([
   "tri_tip",
   "plate_short_rib_boneless",
-  "picanha",
-  "bavette",
+  "coulotte",
+  "sirloin_flap",
   "flank",
   "outside_skirt",
   "chuck_eye",
 ]);
-const FAT_CAP_FORWARD_CUT_IDS = new Set(["picanha", "ribeye", "ribeye_cap", "bone_in_strip"]);
+const FAT_CAP_FORWARD_CUT_IDS = new Set([
+  "coulotte",
+  "ribeye",
+  "tomahawk_ribeye",
+  "ribeye_cap",
+  "bone_in_strip",
+]);
 const SLICED_BOARD_CUT_IDS = new Set([
   "tri_tip",
-  "picanha",
-  "bavette",
+  "coulotte",
+  "sirloin_flap",
   "flank",
   "london_broil_top_round",
   "plate_short_rib_boneless",
 ]);
 const PREMIUM_OCCASION_IDS = new Set([
   "filet_mignon",
+  "filet_medallions",
   "ribeye",
+  "tomahawk_ribeye",
   "ribeye_cap",
   "strip",
   "porterhouse",
-  "tbone",
+  "t_bone",
 ]);
 const CASUAL_CROWD_IDS = new Set([
   "all_beef_uncured_hot_dog",
   "tri_tip",
   "plate_short_rib_boneless",
-  "bavette",
+  "sirloin_flap",
   "top_sirloin",
+]);
+const MEXICAN_FOCUS_IDS = new Set([
+  "outside_skirt",
+  "sirloin_flap",
+  "flank",
+  "flat_iron",
+  "tri_tip",
+]);
+const ITALIAN_FOCUS_IDS = new Set([
+  "filet_mignon",
+  "top_sirloin",
+  "strip",
+  "london_broil_top_round",
+  "plate_short_rib_boneless",
+]);
+const STEAKHOUSE_FOCUS_IDS = new Set([
+  "ribeye",
+  "tomahawk_ribeye",
+  "ribeye_cap",
+  "strip",
+  "bone_in_strip",
+  "porterhouse",
+  "t_bone",
+  "filet_mignon",
+  "filet_medallions",
+]);
+const BBQ_FOCUS_IDS = new Set([
+  "plate_short_rib_boneless",
+  "tri_tip",
+  "chuck_eye",
+  "denver",
+  "coulotte",
+  "outside_skirt",
+]);
+const ASIAN_QUICK_COOK_IDS = new Set([
+  "outside_skirt",
+  "sirloin_flap",
+  "flank",
+  "flat_iron",
+  "london_broil_top_round",
 ]);
 
 function getBoneFitAdjustment(cut, bonePreference) {
@@ -3351,6 +4364,85 @@ function getFatCapFitAdjustment(cut, fatCapPreference) {
   return 0;
 }
 
+function getSeasoningIntentAdjustment(cut, seasoningIntent) {
+  if (!seasoningIntent) {
+    return 0;
+  }
+
+  if (seasoningIntent === "Simple prep") {
+    if (cut.profile.precision <= 5 && cut.profile.adventure <= 5) {
+      return 4;
+    }
+    if (cut.profile.value >= 7 && cut.profile.adventure <= 6) {
+      return 2;
+    }
+    if (cut.profile.precision >= 8 && cut.profile.adventure >= 7) {
+      return -2;
+    }
+    return 1;
+  }
+
+  if (seasoningIntent === "Quality showcase") {
+    if (getCostTier(cut) === "Premium" || cut.profile.tenderness >= 8) {
+      return 5;
+    }
+    if (getCostTier(cut) === "Mid-Premium") {
+      return 2;
+    }
+    if (cut.profile.value >= 8 && cut.profile.tenderness <= 6) {
+      return -2;
+    }
+    return 0;
+  }
+
+  return 0;
+}
+
+function getPairingFitAdjustment(cut, pairingStyle) {
+  if (!pairingStyle) {
+    return 0;
+  }
+
+  if (pairingStyle === "Rich sides") {
+    if (cut.profile.richness <= 6) {
+      return 3;
+    }
+    if (cut.profile.richness >= 9) {
+      return -3;
+    }
+    return 0;
+  }
+
+  if (pairingStyle === "Light sides") {
+    if (cut.profile.richness >= 7 || cut.profile.boldness >= 8) {
+      return 3;
+    }
+    return 0;
+  }
+
+  if (pairingStyle === "Sauce-heavy sides") {
+    if (cut.profile.boldness >= 7 || cut.profile.value >= 6) {
+      return 2;
+    }
+    if (cut.profile.richness >= 9) {
+      return -1;
+    }
+    return 0;
+  }
+
+  if (pairingStyle === "Minimal sides") {
+    if (cut.profile.richness >= 7 || cut.profile.boldness >= 8) {
+      return 3;
+    }
+    if (cut.profile.boldness <= 5 && cut.profile.richness <= 5) {
+      return -1;
+    }
+    return 1;
+  }
+
+  return 0;
+}
+
 function getMealFormatFitAdjustment(cut, mealFormat) {
   if (!mealFormat) {
     return 0;
@@ -3393,6 +4485,85 @@ function getMealFormatFitAdjustment(cut, mealFormat) {
   }
 
   return 0;
+}
+
+function getCuisineFitAdjustment(cut, cuisineStyle, mealFormat, seasoningStyle) {
+  if (!cuisineStyle || cuisineStyle === "No specific cuisine") {
+    return 0;
+  }
+
+  let score = 0;
+
+  if (cuisineStyle === "Mexican / fajitas") {
+    if (MEXICAN_FOCUS_IDS.has(cut.id)) {
+      score += 6;
+    } else if (cut.profile.value >= 7) {
+      score += 1;
+    } else {
+      score -= 2;
+    }
+
+    if (mealFormat === "Tacos / bowls") {
+      score += 2;
+    }
+    if (seasoningStyle === "Rub / marinade") {
+      score += 1;
+    }
+  }
+
+  if (cuisineStyle === "Italian / comfort dishes") {
+    if (ITALIAN_FOCUS_IDS.has(cut.id)) {
+      score += 4;
+    } else if (cut.profile.tenderness >= 8) {
+      score += 2;
+    } else if (cut.profile.adventure >= 8) {
+      score -= 2;
+    }
+
+    if (seasoningStyle === "Sauce-forward") {
+      score += 2;
+    }
+  }
+
+  if (cuisineStyle === "Steakhouse / American grill") {
+    if (STEAKHOUSE_FOCUS_IDS.has(cut.id)) {
+      score += 5;
+    } else if (cut.profile.tenderness >= 7) {
+      score += 1;
+    } else {
+      score -= 1;
+    }
+
+    if (mealFormat === "Plated steak") {
+      score += 2;
+    }
+  }
+
+  if (cuisineStyle === "BBQ / smokehouse") {
+    if (BBQ_FOCUS_IDS.has(cut.id) || SMOKE_FRIENDLY_CUT_IDS.has(cut.id)) {
+      score += 6;
+    } else if (cut.profile.boldness >= 7) {
+      score += 1;
+    } else {
+      score -= 2;
+    }
+  }
+
+  if (cuisineStyle === "Asian / quick-cook") {
+    if (ASIAN_QUICK_COOK_IDS.has(cut.id)) {
+      score += 5;
+    } else if (cut.profile.value >= 7) {
+      score += 1;
+    } else {
+      score -= 2;
+    }
+
+    if (mealFormat === "Tacos / bowls" || mealFormat === "Sliced board") {
+      score += 1;
+    }
+  }
+
+  return clamp(score, -8, 10);
 }
 
 function getOccasionFitAdjustment(cut, occasionType) {
@@ -3502,7 +4673,7 @@ function getTopAlignmentReasons(profile, cut, count = 3) {
     richness: "richness level",
     tenderness: "tenderness target",
     boldness: "beef flavor intensity",
-    adventure: "cut familiarity comfort",
+    adventure: "cut comfort level",
     value: "value expectations",
     precision: "cooking-control style",
   };
@@ -3532,6 +4703,18 @@ function addKeyValueItem(target, label, value) {
   const listItem = document.createElement("li");
   listItem.innerHTML = `<span class="kv-key">${label}</span><span class="kv-value">${value}</span>`;
   target.appendChild(listItem);
+}
+
+function escapeHtml(value) {
+  if (value === null || value === undefined) {
+    return "";
+  }
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function clamp(value, min, max) {
