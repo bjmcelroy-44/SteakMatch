@@ -27,7 +27,9 @@
             <h2>Let&rsquo;s pick your next steak.</h2>
             <p class="intro-lede">
               Answer a few simple questions about flavor, texture, cooking
-              style, and budget. We&rsquo;ll match you to the cut that fits best.
+              style, and budget. You&rsquo;ll get a top recommendation, fit brief,
+              key fit drivers, cooking profile, level options, and cut-specific
+              tips.
             </p>
           </div>
         </div>
@@ -38,16 +40,18 @@
             <ol class="intro-steps">
               <li>Pick the answer that feels most like you.</li>
               <li>We map your preferences to cut traits.</li>
-              <li>You get one top match plus ranked backups.</li>
+              <li>Get a quick read, full fit brief, levels, and cooking tips.</li>
             </ol>
           </article>
           <article class="intro-card">
             <h3>What you get</h3>
             <ul class="intro-list">
-              <li>Best-fit steak recommendation</li>
-              <li>Tier 1 to Tier 4 alternatives</li>
-              <li>Cook method and doneness targets</li>
-              <li>Simple cut references for shopping</li>
+              <li>Top cut recommendation</li>
+              <li>Fit brief</li>
+              <li>Key fit drivers</li>
+              <li>Cooking profile</li>
+              <li>Level 1 to Level 4 alternatives</li>
+              <li>Cooking tips and tricks</li>
             </ul>
           </article>
         </div>
@@ -90,11 +94,15 @@
           <p class="kicker">Top Recommendation</p>
           <h2 id="primaryCutName"></h2>
           <p id="primaryCutTagline" class="result-tagline"></p>
+          <div class="quick-read">
+            <h3>Quick Read</h3>
+            <ul id="quickReadList" class="clean-list quick-read-list"></ul>
+          </div>
           <div class="executive-brief">
             <h3>Fit Brief</h3>
             <p id="executiveSynopsis" class="executive-synopsis"></p>
             <ul id="executiveHighlights" class="clean-list executive-highlights"></ul>
-            <h4 class="brief-subhead">Why This Works</h4>
+            <h4 class="brief-subhead">Key Fit Drivers</h4>
             <ul id="fitNotesList" class="clean-list fit-notes"></ul>
           </div>
         </div>
@@ -105,7 +113,7 @@
             <ul id="cookingList" class="clean-list"></ul>
           </article>
           <article class="result-card full-width">
-            <h3>Recommended Cut Tiers</h3>
+            <h3>Recommendation Levels</h3>
             <div class="tier-grid">
               <section class="tier-column">
                 <h4 id="tier1Title">Level 1: Easy • Familiar • Low Equipment</h4>

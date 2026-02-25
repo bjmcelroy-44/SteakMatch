@@ -2134,6 +2134,7 @@ const warningText = document.getElementById("warningText");
 
 const primaryCutName = document.getElementById("primaryCutName");
 const primaryCutTagline = document.getElementById("primaryCutTagline");
+const quickReadList = document.getElementById("quickReadList");
 const executiveSynopsis = document.getElementById("executiveSynopsis");
 const executiveHighlights = document.getElementById("executiveHighlights");
 const fitNotesList = document.getElementById("fitNotesList");
@@ -2461,6 +2462,7 @@ function showResults() {
   primaryCutName.textContent = primary.cut.name;
   primaryCutTagline.textContent = primary.cut.tagline;
 
+  renderQuickRead(primary.cut, summary, signals, topCluster);
   renderExecutiveBrief(primary.cut, summary, signals, profile, topCluster);
 
   renderFitNotes(
@@ -2535,6 +2537,46 @@ function buildProfileSummary(profile, rankedCuts, signals) {
       signals.substitution || deriveSubstitutionFlexibility(profile),
     recommendedFamilies: getTopFamilies(rankedCuts, 3).join(", "),
   };
+}
+
+function renderQuickRead(cut, summary, signals, topCluster) {
+  if (!quickReadList) {
+    return;
+  }
+
+  const cutScale = deriveCutExecutionScale(cut);
+  const cuisineFit =
+    signals.cuisineStyle && signals.cuisineStyle !== "No specific cuisine"
+      ? signals.cuisineStyle
+      : "Cross-cuisine";
+  const mealContext = signals.occasionType || "Flexible meal context";
+  const backups =
+    topCluster.length > 1
+      ? topCluster
+          .slice(1, 3)
+          .map((result) => result.cut.name)
+          .join(", ")
+      : "See Levels 2-4";
+
+  const quickItems = [
+    { label: "Top Cut", value: cut.name },
+    { label: "Cook Method", value: summary.bestCookingMatch },
+    { label: "Doneness", value: cut.cooking.doneness },
+    { label: "Complexity", value: getDifficultyScaleLabel(cutScale.difficulty) },
+    { label: "Cuisine Fit", value: cuisineFit },
+    { label: "Best For", value: mealContext },
+    { label: "Backups", value: backups },
+  ];
+
+  quickReadList.innerHTML = "";
+  quickItems.forEach((item) => {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = `
+      <span class="quick-read-key">${escapeHtml(item.label)}</span>
+      <span class="quick-read-value">${escapeHtml(item.value)}</span>
+    `;
+    quickReadList.appendChild(listItem);
+  });
 }
 
 function buildTierRecommendations(rankedCuts, signals = {}) {
