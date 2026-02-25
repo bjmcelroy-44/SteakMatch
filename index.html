@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beef Cut Fit Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <header class="hero">
+      <p class="kicker">Fire Up The Grill</p>
+      <h1>Find Your Perfect Steak Cut</h1>
+    </header>
+
+    <main class="layout">
+      <section class="panel intro" id="introPanel">
+        <div class="intro-top">
+          <div>
+            <p class="intro-eyebrow">Fast, clear, and actually useful</p>
+            <h2>Let&rsquo;s pick your next steak.</h2>
+            <p class="intro-lede">
+              Answer a few simple questions about flavor, texture, cooking
+              style, and budget. We&rsquo;ll match you to the cut that fits best.
+            </p>
+          </div>
+        </div>
+
+        <div class="intro-columns">
+          <article class="intro-card">
+            <h3>How it works</h3>
+            <ol class="intro-steps">
+              <li>Pick the answer that feels most like you.</li>
+              <li>We map your preferences to cut traits.</li>
+              <li>You get one top match plus ranked backups.</li>
+            </ol>
+          </article>
+          <article class="intro-card">
+            <h3>What you get</h3>
+            <ul class="intro-list">
+              <li>Best-fit steak recommendation</li>
+              <li>Tier 1 to Tier 4 alternatives</li>
+              <li>Cook method and doneness targets</li>
+              <li>Simple cut references for shopping</li>
+            </ul>
+          </article>
+        </div>
+
+        <button id="startBtn" class="btn-primary btn-intro">Get My Steak Recommendation</button>
+        <p class="intro-footnote">
+          No signup needed. Retake anytime for a fresh question mix.
+        </p>
+      </section>
+
+      <section class="panel quiz hidden" id="quizPanel">
+        <div class="progress-wrap">
+          <div class="progress-meta">
+            <span id="progressLabel">Question 1 of 22</span>
+            <span id="answeredLabel">0 answered</span>
+          </div>
+          <div class="progress-bar">
+            <span id="progressFill"></span>
+          </div>
+        </div>
+
+        <article class="question-shell">
+          <p id="questionType" class="question-type"></p>
+          <h2 id="questionPrompt"></h2>
+          <p id="questionDetail" class="question-detail"></p>
+          <div id="optionsWrap" class="options-wrap"></div>
+          <p id="warningText" class="warning-text hidden" role="alert">
+            Select an option to continue.
+          </p>
+        </article>
+
+        <div class="controls">
+          <button id="backBtn" class="btn-muted">Back</button>
+          <button id="nextBtn" class="btn-primary">Next</button>
+        </div>
+      </section>
+
+      <section class="panel result hidden" id="resultPanel">
+        <div class="result-header">
+          <p class="kicker">Top Recommendation</p>
+          <h2 id="primaryCutName"></h2>
+          <p id="primaryCutTagline" class="result-tagline"></p>
+          <div class="executive-brief">
+            <h3>Executive Fit Brief</h3>
+            <p id="executiveSynopsis" class="executive-synopsis"></p>
+            <ul id="executiveHighlights" class="clean-list executive-highlights"></ul>
+          </div>
+        </div>
+
+        <div class="result-grid">
+          <article class="result-card">
+            <h3>Fit Notes</h3>
+            <ul id="fitNotesList" class="clean-list"></ul>
+          </article>
+          <article class="result-card">
+            <h3>Quick Summary</h3>
+            <ul id="summaryList" class="clean-list"></ul>
+          </article>
+          <article class="result-card">
+            <h3>Cooking Profile</h3>
+            <ul id="cookingList" class="clean-list"></ul>
+          </article>
+          <article class="result-card full-width">
+            <h3>Recommended Cut Tiers</h3>
+            <div class="tier-grid">
+              <section class="tier-column">
+                <h4>Tier 1: Best Fit Now</h4>
+                <ul id="tier1List" class="clean-list"></ul>
+              </section>
+              <section class="tier-column">
+                <h4>Tier 2: Strong Alternatives</h4>
+                <ul id="tier2List" class="clean-list"></ul>
+              </section>
+              <section class="tier-column">
+                <h4>Tier 3: Value / Operational</h4>
+                <ul id="tier3List" class="clean-list"></ul>
+              </section>
+              <section class="tier-column">
+                <h4>Tier 4: Explore with Guidance</h4>
+                <ul id="tier4List" class="clean-list"></ul>
+              </section>
+            </div>
+          </article>
+          <article class="result-card full-width">
+            <h3>Cooking Tips &amp; Tricks</h3>
+            <p id="tipsCutLabel" class="tips-cut-label"></p>
+            <ul id="tipsList" class="clean-list tips-list"></ul>
+          </article>
+          <article class="result-card full-width">
+            <h3>Preference Map</h3>
+            <div id="traitMap" class="trait-map"></div>
+          </article>
+        </div>
+
+        <button id="restartBtn" class="btn-primary">Retake Assessment</button>
+      </section>
+    </main>
+
+    <footer class="footer">Educational tool for cut discovery and meal planning.</footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
