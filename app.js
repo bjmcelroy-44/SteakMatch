@@ -1454,30 +1454,6 @@ const CUTS = [
     },
   },
   {
-    id: "ranch_steak",
-    name: "Ranch Steak",
-    tagline: "Lean and affordable with strong marination compatibility.",
-    rationale:
-      "Ranch steak fits disciplined value profiles comfortable with prep-enhanced tenderness.",
-    profile: {
-      richness: 4,
-      tenderness: 5,
-      boldness: 7,
-      adventure: 7,
-      value: 8,
-      precision: 6,
-    },
-    imps: [
-      "1114E - Beef Chuck, Shoulder, Arm Steak, Boneless (Option 1 Ranch Steak)",
-    ],
-    cooking: {
-      method: "Marinate then fast grill/sear",
-      doneness: "Medium-rare to medium",
-      temp: "132-140F final internal temperature",
-      note: "Slice across grain to reduce perceived chew.",
-    },
-  },
-  {
     id: "hanger",
     name: "Hanger Steak",
     tagline: "High-mineral, high-character steak for experienced users.",
@@ -2021,7 +1997,7 @@ function showResults() {
   const topCluster = getTopCluster(rankedCuts, primary.score);
   const hasCloseAlternatives = scoreGap <= 5 && topCluster.length > 1;
 
-  renderPrimaryCutHeading(primary.cut);
+  primaryCutName.textContent = primary.cut.name;
   primaryCutTagline.textContent = primary.cut.tagline;
 
   renderExecutiveBrief(primary.cut, summary, signals, profile, topCluster);
@@ -2156,181 +2132,393 @@ function fillTierWithBest(rankedCuts, used, tier, count) {
 function renderTierList(target, tierResults) {
   target.innerHTML = "";
   tierResults.forEach((result) => {
-    const listItem = document.createElement("li");
-    listItem.className = "tier-cut-item";
-    listItem.innerHTML = `
-      <div class="tier-cut-row">
-        <span class="tier-cut-icon-wrap">${getCutIconMarkup(result.cut, "sm")}</span>
-        <span class="tier-cut-copy">
-          <span class="tier-cut-name">${result.cut.name}</span>
-          <span class="tier-cut-meta">${getCutFamily(result.cut)} • ${getCostTier(
-      result.cut
-    )}</span>
-        </span>
-      </div>
-    `;
-    target.appendChild(listItem);
+    addListItem(
+      target,
+      `${result.cut.name} • ${getCutFamily(result.cut)} • ${getCostTier(
+        result.cut
+      )}`
+    );
   });
 }
 
-function renderPrimaryCutHeading(cut) {
-  if (!primaryCutName) {
-    return;
-  }
+const CUT_ICON_BY_ID = {
+  ribeye: "ribeye",
+  ribeye_cap: "ribeye_cap",
+  strip: "strip",
+  bone_in_strip: "strip_bone",
+  strip_filet_split: "strip_split",
+  filet_mignon: "filet",
+  porterhouse: "porterhouse",
+  t_bone: "t_bone",
+  top_sirloin: "sirloin",
+  baseball_cut: "sirloin_round",
+  coulotte: "picanha",
+  tri_tip: "tri_tip",
+  sirloin_flap: "bavette",
+  ball_tip: "sirloin_round",
+  flat_iron: "flat_iron",
+  denver: "denver",
+  chuck_eye: "chuck_eye",
+  delmonico: "chuck_eye",
+  hanger: "hanger",
+  flank: "flank",
+  outside_skirt: "outside_skirt",
+  rump_steak: "round",
+  sierra_steak: "chuck_lean",
+  eye_round_steak: "eye_round",
+  london_broil_top_round: "london_broil",
+  plate_short_rib_boneless: "short_rib",
+  all_beef_uncured_hot_dog: "hotdog",
+};
 
-  primaryCutName.innerHTML = `
-    <span class="primary-cut-row">
-      <span class="primary-cut-icon-wrap">${getCutIconMarkup(cut, "lg")}</span>
-      <span class="primary-cut-text">${cut.name}</span>
-    </span>
-  `;
-}
+const CUT_ICON_BY_FAMILY = {
+  Rib: "ribeye",
+  Loin: "strip",
+  Sirloin: "sirloin",
+  Chuck: "chuck_lean",
+  Plate: "short_rib",
+  Flank: "flank",
+  Round: "round",
+  Specialty: "strip",
+};
+
+const CUT_ICON_PRESETS = {
+  ribeye: {
+    body: "M14 13 C25 6, 44 5, 60 9 C73 12, 83 21, 85 33 C87 44, 80 54, 66 58 C51 62, 32 61, 19 55 C10 50, 7 40, 9 30 C9 23, 11 17, 14 13 Z",
+    fat: [
+      "M21 18 C31 13, 45 12, 58 15 C68 18, 74 24, 75 32 C76 40, 71 47, 61 50 C49 54, 35 54, 25 50 C17 46, 13 39, 14 31 C15 25, 17 21, 21 18 Z",
+    ],
+    seams: ["M27 22 C36 19, 48 20, 58 24", "M25 35 C36 33, 48 34, 59 39"],
+    marbling: [
+      [31, 28, 2.3],
+      [41, 26, 2.1],
+      [51, 32, 2.2],
+      [35, 38, 1.9],
+      [57, 27, 1.8],
+    ],
+  },
+  ribeye_cap: {
+    body: "M12 21 C20 10, 39 7, 57 10 C71 13, 81 22, 82 34 C83 45, 75 54, 62 58 C48 62, 30 57, 18 48 C31 47, 40 40, 44 31 C48 22, 42 16, 31 16 C23 16, 17 18, 12 21 Z",
+    fat: [
+      "M22 21 C32 16, 46 16, 58 19 C66 22, 71 27, 72 34 C72 40, 68 45, 61 49 C52 52, 39 52, 29 48 C36 46, 42 41, 45 34 C48 27, 43 22, 35 21 C30 21, 26 21, 22 21 Z",
+    ],
+    seams: ["M31 27 C39 24, 48 25, 56 30"],
+    marbling: [
+      [36, 29, 2.1],
+      [46, 31, 1.9],
+      [52, 36, 1.8],
+    ],
+  },
+  strip: {
+    body: "M14 14 C24 8, 42 8, 60 10 C74 12, 84 18, 88 27 C91 36, 88 47, 79 54 C68 61, 50 61, 32 58 C20 55, 11 49, 8 40 C5 31, 7 21, 14 14 Z",
+    fat: [
+      "M18 15 C31 11, 46 11, 62 13 C73 15, 80 19, 83 25 C73 22, 60 21, 46 22 C33 23, 22 25, 13 29 C12 24, 14 19, 18 15 Z",
+    ],
+    seams: ["M24 41 C36 37, 50 37, 65 42"],
+    marbling: [
+      [29, 29, 1.9],
+      [39, 30, 2],
+      [52, 33, 2.1],
+      [61, 28, 1.7],
+    ],
+  },
+  strip_bone: {
+    body: "M11 15 C20 10, 37 9, 55 11 C67 13, 75 18, 78 26 C81 34, 78 45, 70 51 C60 57, 44 58, 28 55 C18 53, 10 48, 7 40 C5 32, 6 22, 11 15 Z",
+    fat: [
+      "M16 17 C28 13, 42 13, 56 15 C66 17, 72 21, 75 26 C67 24, 56 24, 44 25 C32 26, 22 28, 14 32 C12 26, 12 21, 16 17 Z",
+    ],
+    seams: ["M21 39 C33 36, 46 36, 60 40"],
+    marbling: [
+      [27, 28, 1.8],
+      [38, 31, 1.9],
+      [50, 31, 2],
+    ],
+    bone:
+      '<g class="steak-bone"><rect class="steak-bone-fill" x="70" y="22" rx="4" ry="4" width="18" height="10"></rect><circle class="steak-bone-fill" cx="70" cy="27" r="4.5"></circle><circle class="steak-bone-fill" cx="88" cy="27" r="4.5"></circle></g>',
+  },
+  strip_split: {
+    body: "M18 16 C27 10, 42 9, 57 11 C69 13, 77 18, 80 26 C83 34, 80 44, 72 50 C63 56, 49 58, 35 56 C24 54, 15 49, 12 40 C10 32, 12 22, 18 16 Z",
+    fat: [
+      "M22 17 C33 13, 46 13, 58 15 C66 17, 72 21, 74 25 C65 23, 54 22, 43 23 C32 24, 24 27, 18 31 C17 25, 18 20, 22 17 Z",
+    ],
+    seams: ["M23 38 C33 34, 46 34, 59 38"],
+    marbling: [
+      [31, 29, 1.9],
+      [41, 30, 1.8],
+      [50, 34, 1.9],
+    ],
+  },
+  filet: {
+    body: "M28 8 C40 5, 55 7, 65 15 C74 22, 77 34, 72 45 C67 55, 55 60, 42 59 C29 58, 18 51, 14 40 C10 29, 13 18, 21 12 C24 10, 26 9, 28 8 Z",
+    fat: [
+      "M24 17 C34 11, 49 11, 58 18 C65 24, 68 34, 64 43 C60 50, 51 54, 41 54 C31 53, 23 47, 20 39 C17 30, 19 22, 24 17 Z",
+    ],
+    seams: ["M31 30 C37 26, 46 26, 53 30"],
+    marbling: [
+      [34, 33, 1.7],
+      [45, 35, 1.7],
+    ],
+  },
+  porterhouse: {
+    body: "M10 15 C18 9, 35 7, 55 8 C72 9, 85 16, 89 28 C92 39, 88 51, 77 57 C64 63, 45 63, 26 58 C14 54, 6 46, 5 35 C4 26, 6 19, 10 15 Z",
+    fat: [
+      "M15 16 C29 12, 46 11, 63 12 C75 14, 83 18, 87 24 C74 20, 58 19, 42 20 C29 21, 19 23, 11 27 C11 22, 12 19, 15 16 Z",
+    ],
+    seams: ["M49 13 L49 56", "M50 30 C58 27, 67 26, 75 30"],
+    marbling: [
+      [24, 30, 1.8],
+      [32, 34, 1.9],
+      [62, 36, 1.7],
+      [70, 40, 1.6],
+    ],
+    bone:
+      '<g class="steak-bone"><rect class="steak-bone-fill" x="45" y="12" rx="3" ry="3" width="8" height="43"></rect><rect class="steak-bone-fill" x="39" y="27" rx="3" ry="3" width="20" height="8"></rect></g>',
+  },
+  t_bone: {
+    body: "M11 16 C20 10, 36 8, 54 9 C70 10, 82 17, 86 28 C89 38, 85 49, 75 56 C63 62, 46 62, 28 58 C16 55, 8 47, 6 37 C5 28, 7 20, 11 16 Z",
+    fat: [
+      "M16 17 C29 13, 45 13, 60 14 C71 16, 79 20, 83 25 C71 22, 56 22, 41 23 C29 24, 18 26, 11 30 C12 24, 13 20, 16 17 Z",
+    ],
+    seams: ["M46 14 L46 56", "M47 31 C54 29, 62 30, 70 34"],
+    marbling: [
+      [24, 31, 1.8],
+      [33, 35, 1.8],
+      [60, 39, 1.6],
+    ],
+    bone:
+      '<g class="steak-bone"><rect class="steak-bone-fill" x="42.5" y="13" rx="3" ry="3" width="7" height="42"></rect><rect class="steak-bone-fill" x="37.5" y="28" rx="3" ry="3" width="17" height="7"></rect></g>',
+  },
+  sirloin: {
+    body: "M14 18 C22 10, 39 8, 56 11 C69 14, 77 23, 78 34 C79 44, 72 52, 60 56 C45 61, 27 59, 16 51 C8 45, 6 35, 9 26 C10 23, 12 20, 14 18 Z",
+    fat: [
+      "M20 17 C31 13, 44 13, 56 16 C63 18, 68 22, 70 26 C60 24, 49 24, 37 25 C28 26, 20 28, 14 31 C14 25, 16 20, 20 17 Z",
+    ],
+    seams: ["M23 39 C35 35, 48 36, 60 41"],
+    marbling: [
+      [30, 30, 1.8],
+      [40, 32, 1.8],
+      [50, 35, 1.7],
+    ],
+  },
+  sirloin_round: {
+    body: "M24 9 C36 5, 52 7, 63 15 C73 22, 77 34, 73 45 C69 55, 57 61, 44 61 C31 61, 19 55, 14 44 C10 33, 12 20, 21 12 C22 11, 23 10, 24 9 Z",
+    fat: [
+      "M24 18 C33 13, 46 13, 56 18 C63 22, 66 30, 64 38 C61 46, 53 51, 44 52 C34 53, 25 49, 20 42 C16 35, 17 25, 24 18 Z",
+    ],
+    seams: ["M28 32 C35 28, 46 28, 54 33"],
+    marbling: [
+      [33, 36, 1.7],
+      [44, 37, 1.8],
+    ],
+  },
+  picanha: {
+    body: "M12 42 C11 31, 18 21, 31 15 C45 9, 62 9, 75 14 C84 18, 88 25, 88 33 C88 42, 82 50, 72 56 C58 63, 39 64, 24 59 C16 56, 13 50, 12 42 Z",
+    fat: [
+      "M23 19 C39 13, 57 13, 71 18 C77 20, 81 24, 82 28 C68 24, 51 24, 36 28 C27 30, 20 33, 15 36 C15 29, 18 23, 23 19 Z",
+    ],
+    seams: ["M33 40 C43 36, 56 37, 67 43"],
+    marbling: [
+      [39, 34, 1.8],
+      [50, 36, 1.9],
+      [60, 40, 1.7],
+    ],
+  },
+  tri_tip: {
+    body: "M12 44 C10 33, 16 23, 28 17 C44 10, 63 11, 77 19 C85 24, 89 33, 87 43 C85 52, 77 58, 65 61 C47 65, 27 63, 16 56 C13 52, 12 48, 12 44 Z",
+    fat: [
+      "M20 24 C34 18, 53 18, 69 24 C74 26, 78 29, 80 33 C67 30, 52 30, 37 33 C28 35, 21 39, 15 43 C14 35, 16 29, 20 24 Z",
+    ],
+    grain: ["M27 27 C39 25, 54 26, 69 30", "M24 33 C38 31, 53 32, 68 37", "M22 39 C37 37, 52 38, 66 43"],
+  },
+  bavette: {
+    body: "M6 31 C8 22, 17 16, 31 14 C49 11, 70 13, 83 18 C90 21, 93 28, 92 35 C91 43, 85 49, 74 52 C57 57, 33 57, 17 53 C10 50, 6 42, 6 31 Z",
+    fat: [
+      "M11 23 C24 18, 43 17, 63 19 C74 20, 82 24, 88 28 C76 26, 59 26, 42 28 C29 30, 18 33, 10 37 C9 31, 9 27, 11 23 Z",
+    ],
+    grain: ["M17 27 C31 24, 48 24, 65 27", "M14 33 C31 30, 48 30, 67 34", "M18 39 C35 36, 52 36, 69 40"],
+  },
+  flat_iron: {
+    body: "M10 28 C12 19, 22 14, 36 12 C50 10, 65 12, 77 17 C84 21, 87 28, 86 36 C85 44, 79 50, 69 53 C55 58, 36 58, 22 54 C14 51, 9 44, 10 28 Z",
+    fat: [
+      "M17 19 C29 15, 46 15, 63 18 C72 20, 78 24, 81 28 C69 25, 54 25, 38 27 C28 29, 19 32, 12 36 C11 29, 13 23, 17 19 Z",
+    ],
+    seams: ["M17 33 C31 30, 46 30, 61 34 C68 36, 74 39, 79 44"],
+    marbling: [
+      [28, 35, 1.7],
+      [39, 35, 1.8],
+      [51, 37, 1.8],
+      [62, 40, 1.6],
+    ],
+  },
+  denver: {
+    body: "M14 18 C24 12, 40 10, 57 12 C71 14, 81 21, 84 31 C86 39, 83 48, 75 54 C66 60, 52 61, 37 59 C24 57, 14 52, 10 43 C7 36, 8 25, 14 18 Z",
+    fat: [
+      "M18 19 C31 14, 47 14, 62 16 C72 18, 79 22, 82 27 C72 24, 59 23, 45 24 C33 25, 22 28, 13 32 C12 26, 14 22, 18 19 Z",
+    ],
+    seams: ["M22 40 C35 36, 49 36, 63 41"],
+    marbling: [
+      [29, 31, 2],
+      [40, 30, 1.8],
+      [51, 34, 2.1],
+      [61, 37, 1.9],
+    ],
+  },
+  chuck_eye: {
+    body: "M16 16 C25 10, 39 8, 53 10 C66 12, 76 20, 79 31 C82 42, 76 52, 65 58 C51 64, 33 63, 21 56 C11 50, 7 39, 10 28 C11 23, 13 19, 16 16 Z",
+    fat: [
+      "M22 20 C31 15, 44 14, 55 18 C63 21, 68 27, 69 34 C70 41, 66 47, 58 51 C49 55, 37 55, 28 51 C21 47, 18 41, 18 34 C18 28, 19 24, 22 20 Z",
+    ],
+    seams: ["M27 26 C35 22, 46 22, 55 26", "M28 40 C38 37, 48 37, 57 42"],
+    marbling: [
+      [32, 31, 1.8],
+      [42, 30, 1.7],
+      [51, 35, 1.8],
+      [37, 40, 1.6],
+    ],
+  },
+  chuck_lean: {
+    body: "M12 18 C20 11, 35 9, 50 10 C64 11, 76 17, 82 27 C87 36, 85 47, 76 54 C66 61, 50 62, 33 59 C21 57, 11 51, 7 42 C4 34, 6 24, 12 18 Z",
+    fat: [
+      "M17 20 C29 16, 44 16, 58 18 C68 20, 75 24, 79 30 C69 27, 56 26, 42 28 C30 29, 20 32, 12 36 C11 30, 13 24, 17 20 Z",
+    ],
+    grain: ["M20 35 C33 32, 48 32, 63 36", "M23 41 C37 39, 50 40, 63 44"],
+    marbling: [
+      [30, 29, 1.6],
+      [41, 31, 1.7],
+      [52, 35, 1.7],
+    ],
+  },
+  hanger: {
+    body: "M18 14 C27 10, 41 10, 54 13 C66 16, 75 24, 77 34 C79 44, 73 53, 62 58 C50 62, 35 61, 24 56 C14 51, 9 43, 9 34 C9 25, 12 18, 18 14 Z",
+    fat: [
+      "M23 19 C33 16, 45 16, 56 19 C64 22, 69 27, 70 33 C61 30, 50 29, 39 30 C30 31, 22 33, 16 37 C15 30, 17 24, 23 19 Z",
+    ],
+    seams: ["M24 27 C33 24, 44 24, 54 27", "M24 40 C35 37, 46 37, 56 41"],
+    marbling: [
+      [31, 31, 1.7],
+      [41, 33, 1.7],
+      [50, 37, 1.6],
+    ],
+  },
+  flank: {
+    body: "M6 31 C8 22, 18 16, 33 14 C52 12, 71 14, 84 19 C90 22, 93 28, 92 34 C91 42, 85 48, 73 52 C56 56, 34 57, 17 53 C9 50, 6 42, 6 31 Z",
+    fat: [
+      "M10 24 C24 19, 43 18, 62 20 C74 21, 82 25, 88 29 C75 27, 58 27, 41 29 C28 31, 17 35, 9 39 C8 33, 8 28, 10 24 Z",
+    ],
+    grain: ["M16 27 C31 24, 48 24, 67 27", "M13 33 C30 30, 49 30, 69 34", "M17 39 C35 36, 53 36, 72 40"],
+  },
+  outside_skirt: {
+    body: "M5 34 C6 25, 14 18, 29 15 C47 12, 68 13, 82 17 C90 19, 95 24, 95 31 C95 38, 90 43, 80 47 C63 53, 41 54, 22 51 C10 49, 5 43, 5 34 Z",
+    fat: [
+      "M9 26 C23 21, 42 20, 62 21 C74 22, 83 25, 90 29 C77 27, 59 27, 42 29 C28 31, 16 35, 8 40 C7 34, 7 30, 9 26 Z",
+    ],
+    grain: ["M16 28 C32 25, 50 25, 70 28", "M13 34 C31 31, 51 31, 72 35", "M18 40 C36 37, 54 37, 74 41"],
+  },
+  round: {
+    body: "M23 10 C36 5, 53 6, 65 15 C75 23, 79 35, 75 46 C71 56, 58 62, 44 62 C30 62, 18 55, 13 44 C8 33, 11 20, 20 13 C21 12, 22 11, 23 10 Z",
+    fat: [
+      "M24 19 C33 14, 46 14, 56 19 C63 23, 66 31, 64 39 C61 47, 53 52, 44 53 C34 54, 25 50, 20 43 C16 36, 17 26, 24 19 Z",
+    ],
+    seams: ["M28 34 C35 30, 46 30, 54 35"],
+    marbling: [
+      [33, 37, 1.4],
+      [44, 39, 1.4],
+    ],
+  },
+  eye_round: {
+    body: "M26 11 C37 7, 51 8, 61 16 C69 23, 73 33, 70 43 C67 53, 56 59, 44 59 C33 59, 22 54, 17 45 C12 36, 13 24, 21 16 C23 14, 24 12, 26 11 Z",
+    fat: [
+      "M27 20 C35 16, 45 16, 53 21 C59 25, 61 32, 60 39 C57 46, 50 50, 43 50 C35 50, 28 46, 24 39 C20 31, 22 25, 27 20 Z",
+    ],
+    seams: ["M29 33 C34 30, 42 30, 48 33"],
+    marbling: [[38, 37, 1.2]],
+  },
+  london_broil: {
+    body: "M8 30 C10 21, 19 15, 34 13 C54 11, 74 13, 86 19 C92 22, 95 28, 94 35 C93 43, 87 49, 74 53 C56 57, 33 58, 16 54 C9 51, 6 42, 8 30 Z",
+    fat: [
+      "M12 23 C26 18, 46 18, 66 20 C78 21, 86 25, 91 30 C78 28, 60 28, 42 30 C28 32, 17 36, 10 41 C9 34, 9 28, 12 23 Z",
+    ],
+    grain: ["M17 27 C34 24, 53 24, 73 27", "M14 33 C32 30, 52 30, 73 34", "M18 39 C37 36, 56 36, 75 40"],
+  },
+  short_rib: {
+    body: "M10 20 C17 13, 32 10, 50 11 C67 12, 81 18, 87 28 C92 37, 90 48, 81 55 C70 63, 52 64, 33 61 C19 58, 9 51, 5 41 C3 34, 5 26, 10 20 Z",
+    fat: [
+      "M14 24 C27 19, 43 18, 60 20 C72 22, 80 26, 85 31 C73 28, 58 28, 42 30 C29 31, 18 35, 10 40 C10 34, 11 28, 14 24 Z",
+      "M17 39 C29 36, 42 36, 55 38 C65 40, 73 43, 79 47 C69 45, 56 45, 43 46 C32 47, 22 49, 14 52 C14 47, 15 43, 17 39 Z",
+    ],
+    seams: ["M24 24 L24 55", "M40 22 L40 59", "M56 21 L56 60"],
+    marbling: [
+      [31, 33, 1.8],
+      [48, 35, 1.8],
+      [66, 37, 1.7],
+    ],
+  },
+  hotdog: { hotdog: true },
+};
 
 function getCutIconMarkup(cut, size = "sm") {
-  const iconType = getCutIconType(cut);
   const sizeClass = size === "lg" ? "cut-icon-lg" : "cut-icon-sm";
+  const presetKey = getCutIconPresetKey(cut);
+  const preset = CUT_ICON_PRESETS[presetKey] || CUT_ICON_PRESETS.strip;
 
-  if (iconType === "hotdog") {
+  if (preset.hotdog) {
     return `
-      <svg class="cut-icon ${sizeClass}" viewBox="0 0 84 56" aria-hidden="true" focusable="false">
-        <rect class="cut-hotdog-bun" x="8" y="15" rx="11" ry="11" width="68" height="26"></rect>
-        <rect class="cut-hotdog-body" x="12" y="21" rx="9" ry="9" width="60" height="14"></rect>
-        <path class="cut-hotdog-grill" d="M20 22 L24 34 M33 22 L37 34 M46 22 L50 34 M59 22 L63 34"></path>
+      <svg class="cut-icon ${sizeClass}" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
+        <rect class="cut-hotdog-bun" x="10" y="18" rx="12" ry="12" width="76" height="28"></rect>
+        <rect class="cut-hotdog-body" x="15" y="24" rx="9" ry="9" width="66" height="16"></rect>
+        <path class="cut-hotdog-grill" d="M24 24 L28 40 M38 24 L42 40 M52 24 L56 40 M66 24 L70 40"></path>
       </svg>
     `;
   }
 
-  const bodyPath = getCutIconPath(iconType);
-  const marbling = buildMarblingMarkup(cut.id, iconType);
-  const boneMarkup =
-    iconType === "bone_in"
-      ? `
-        <g class="cut-bone">
-          <rect x="52" y="19" rx="4" ry="4" width="16" height="8"></rect>
-          <circle cx="52" cy="23" r="4.2"></circle>
-          <circle cx="68" cy="23" r="4.2"></circle>
-        </g>
-      `
-      : "";
+  const fatMarkup = renderIconPaths(preset.fat, "steak-fat");
+  const seamMarkup = renderIconPaths(preset.seams, "steak-seam");
+  const grainMarkup = renderIconPaths(preset.grain, "steak-grain");
+  const marblingMarkup = renderIconCircles(preset.marbling, "steak-marbling");
+  const boneMarkup = preset.bone || "";
 
   return `
-    <svg class="cut-icon ${sizeClass}" viewBox="0 0 84 56" aria-hidden="true" focusable="false">
-      <path class="cut-shape" d="${bodyPath}"></path>
-      ${marbling}
+    <svg class="cut-icon cut-illustrated ${sizeClass}" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
+      <path class="steak-shadow" d="${preset.body}" transform="translate(1.2 1.2)"></path>
+      <path class="steak-body" d="${preset.body}"></path>
+      ${fatMarkup}
+      ${grainMarkup}
+      ${seamMarkup}
+      ${marblingMarkup}
       ${boneMarkup}
+      <path class="steak-outline-secondary" d="${preset.body}" transform="translate(0.7 0.45)"></path>
+      <path class="steak-outline" d="${preset.body}"></path>
     </svg>
   `;
 }
 
-function getCutIconType(cut) {
+function getCutIconPresetKey(cut) {
   if (!cut) {
-    return "specialty";
+    return "strip";
   }
 
-  if (cut.id === "all_beef_uncured_hot_dog") {
-    return "hotdog";
+  const byId = CUT_ICON_BY_ID[cut.id];
+  if (byId) {
+    return byId;
   }
 
-  if (BONE_IN_CUT_IDS.has(cut.id)) {
-    return "bone_in";
-  }
-
-  if (cut.id.includes("skirt") || cut.id.includes("flank") || cut.id.includes("bavette")) {
-    return "flank";
-  }
-
-  if (cut.id.includes("brisket")) {
-    return "brisket";
-  }
-
-  const family = getCutFamily(cut);
-  if (family === "Rib") {
-    return "rib";
-  }
-  if (family === "Loin") {
-    return "loin";
-  }
-  if (family === "Sirloin") {
-    return "sirloin";
-  }
-  if (family === "Chuck") {
-    return "chuck";
-  }
-  if (family === "Plate") {
-    return "plate";
-  }
-  if (family === "Round") {
-    return "round";
-  }
-
-  return "specialty";
+  const familyPreset = CUT_ICON_BY_FAMILY[getCutFamily(cut)];
+  return familyPreset || "strip";
 }
 
-function getCutIconPath(type) {
-  const paths = {
-    bone_in:
-      "M11 17 C17 8, 38 6, 56 11 C69 14, 76 23, 74 32 C71 43, 54 49, 33 48 C17 46, 8 39, 8 29 C8 24, 9 20, 11 17 Z",
-    rib: "M10 18 C16 9, 36 6, 56 10 C70 13, 78 23, 74 34 C70 45, 52 50, 31 48 C16 46, 8 39, 7 30 C7 25, 8 21, 10 18 Z",
-    loin: "M14 14 C23 8, 44 7, 60 13 C69 16, 74 24, 73 32 C71 42, 57 48, 38 48 C23 48, 12 43, 10 34 C8 25, 9 18, 14 14 Z",
-    sirloin:
-      "M15 16 C22 10, 39 8, 55 12 C66 15, 72 22, 71 30 C69 40, 57 46, 40 47 C25 47, 14 43, 11 34 C8 25, 10 19, 15 16 Z",
-    chuck:
-      "M9 18 C14 9, 30 7, 49 9 C64 11, 74 18, 76 28 C78 39, 68 47, 50 49 C31 51, 15 48, 9 40 C5 35, 5 24, 9 18 Z",
-    plate:
-      "M8 21 C13 13, 30 11, 50 12 C65 13, 74 18, 76 25 C78 32, 73 39, 60 43 C43 48, 24 47, 13 43 C6 40, 4 28, 8 21 Z",
-    flank:
-      "M6 23 C11 16, 30 14, 54 14 C68 15, 76 19, 78 25 C80 33, 72 39, 58 42 C37 46, 17 45, 8 40 C4 37, 3 28, 6 23 Z",
-    brisket:
-      "M9 19 C14 11, 33 9, 54 10 C67 11, 75 17, 77 24 C79 33, 73 42, 60 46 C44 50, 24 50, 13 45 C6 41, 5 27, 9 19 Z",
-    round:
-      "M22 10 C36 4, 54 6, 65 17 C74 26, 75 38, 66 46 C55 54, 37 54, 24 47 C14 41, 10 28, 14 19 C16 15, 19 12, 22 10 Z",
-    specialty:
-      "M10 19 C15 10, 35 7, 55 10 C69 12, 77 20, 76 30 C74 43, 57 49, 35 49 C20 49, 9 43, 7 34 C6 27, 7 23, 10 19 Z",
-  };
-
-  return paths[type] || paths.specialty;
+function renderIconPaths(paths = [], className) {
+  return paths
+    .map((pathData) => `<path class="${className}" d="${pathData}"></path>`)
+    .join("");
 }
 
-function buildMarblingMarkup(seedSource, iconType) {
-  if (iconType === "flank" || iconType === "plate") {
-    return `
-      <path class="cut-grain" d="M16 24 C26 21, 42 21, 58 24"></path>
-      <path class="cut-grain" d="M14 29 C28 26, 44 26, 62 30"></path>
-      <path class="cut-grain" d="M18 34 C32 32, 47 33, 60 36"></path>
-    `;
-  }
-
-  const circles = [];
-  let seed = hashText(seedSource);
-  const count = iconType === "round" ? 5 : 4;
-
-  for (let index = 0; index < count; index += 1) {
-    seed = nextSeed(seed);
-    const cx = 19 + (seed % 42);
-    seed = nextSeed(seed);
-    const cy = 17 + (seed % 22);
-    seed = nextSeed(seed);
-    const radius = 2 + (seed % 3);
-    circles.push(
-      `<circle class="cut-marbling" cx="${cx}" cy="${cy}" r="${radius}"></circle>`
-    );
-  }
-
-  return circles.join("");
-}
-
-function hashText(value) {
-  let hash = 2166136261;
-  const source = String(value || "cut");
-  for (let index = 0; index < source.length; index += 1) {
-    hash ^= source.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
-  return hash >>> 0;
-}
-
-function nextSeed(seed) {
-  return (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+function renderIconCircles(circles = [], className) {
+  return circles
+    .map(
+      ([cx, cy, r]) =>
+        `<circle class="${className}" cx="${cx}" cy="${cy}" r="${r}"></circle>`
+    )
+    .join("");
 }
 
 function renderExecutiveBrief(cut, summary, signals, profile, topCluster) {

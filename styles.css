@@ -392,6 +392,20 @@ button {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border-radius: 10px;
+  border: 1px solid rgba(95, 64, 54, 0.25);
+  background: #f9f3ea;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.58),
+    0 1px 2px rgba(70, 39, 30, 0.08);
+}
+
+.primary-cut-icon-wrap {
+  padding: 0.16rem 0.22rem;
+}
+
+.tier-cut-icon-wrap {
+  padding: 0.1rem 0.14rem;
 }
 
 .primary-cut-text {
@@ -400,39 +414,76 @@ button {
 
 .cut-icon {
   display: block;
+  filter: drop-shadow(0 1px 2px rgba(40, 17, 14, 0.22));
 }
 
 .cut-icon-lg {
-  width: 56px;
-  height: 38px;
+  width: 74px;
+  height: 50px;
 }
 
 .cut-icon-sm {
-  width: 38px;
-  height: 26px;
+  width: 52px;
+  height: 34px;
 }
 
-.cut-shape {
-  fill: #a64a3a;
-  stroke: #5c2620;
-  stroke-width: 2;
+.cut-illustrated {
+  overflow: visible;
 }
 
-.cut-marbling {
-  fill: rgba(245, 223, 199, 0.7);
+.steak-shadow {
+  fill: rgba(65, 20, 16, 0.28);
 }
 
-.cut-grain {
+.steak-body {
+  fill: #ad3f2f;
+}
+
+.steak-fat {
+  fill: rgba(244, 213, 184, 0.82);
+}
+
+.steak-seam {
   fill: none;
-  stroke: rgba(244, 219, 190, 0.72);
-  stroke-width: 1.8;
+  stroke: rgba(250, 230, 208, 0.72);
+  stroke-width: 1.55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.steak-grain {
+  fill: none;
+  stroke: rgba(247, 221, 197, 0.66);
+  stroke-width: 1.35;
   stroke-linecap: round;
 }
 
-.cut-bone {
-  fill: #f2ebdf;
-  stroke: #86705f;
-  stroke-width: 1.3;
+.steak-marbling {
+  fill: rgba(250, 232, 211, 0.84);
+}
+
+.steak-outline {
+  fill: none;
+  stroke: #6a2118;
+  stroke-width: 1.65;
+  stroke-linejoin: round;
+}
+
+.steak-outline-secondary {
+  fill: none;
+  stroke: rgba(255, 237, 221, 0.45);
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+}
+
+.steak-bone {
+  opacity: 0.96;
+}
+
+.steak-bone-fill {
+  fill: #f3ebdf;
+  stroke: #8e7662;
+  stroke-width: 1.2;
 }
 
 .cut-hotdog-bun {
