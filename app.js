@@ -2476,9 +2476,14 @@ function showResults() {
 
   cookingList.innerHTML = "";
   cookingList.className = "clean-list kv-list";
+  const selectedDoneness =
+    signals.doneness && signals.doneness !== "Varies by cut"
+      ? signals.doneness
+      : "Varies by cut";
   addKeyValueItem(cookingList, "Lead Option", primary.cut.name);
   addKeyValueItem(cookingList, "Method", primary.cut.cooking.method);
-  addKeyValueItem(cookingList, "Target Doneness", primary.cut.cooking.doneness);
+  addKeyValueItem(cookingList, "Your Doneness Target", selectedDoneness);
+  addKeyValueItem(cookingList, "Cut Sweet Spot", primary.cut.cooking.doneness);
   addKeyValueItem(cookingList, "Internal Temp", primary.cut.cooking.temp);
   if (hasCloseAlternatives) {
     addKeyValueItem(
@@ -2557,11 +2562,15 @@ function renderQuickRead(cut, summary, signals, topCluster) {
           .map((result) => result.cut.name)
           .join(", ")
       : "See Levels 2-4";
+  const donenessValue =
+    signals.doneness && signals.doneness !== "Varies by cut"
+      ? signals.doneness
+      : cut.cooking.doneness;
 
   const quickItems = [
     { label: "Top Cut", value: cut.name },
     { label: "Cook Method", value: summary.bestCookingMatch },
-    { label: "Doneness", value: cut.cooking.doneness },
+    { label: "Doneness", value: donenessValue },
     { label: "Complexity", value: getDifficultyScaleLabel(cutScale.difficulty) },
     { label: "Cuisine Fit", value: cuisineFit },
     { label: "Best For", value: mealContext },

@@ -75,7 +75,7 @@ def inject_styles() -> None:
             font-weight: 900;
             letter-spacing: 0.03em;
             text-transform: uppercase;
-            color: #f9f4ec;
+            color: #f9f4ec !important;
             margin: 0;
         }
 
@@ -147,8 +147,35 @@ def inject_styles() -> None:
             text-transform: uppercase;
             letter-spacing: 0.03em;
             font-weight: 900;
-            color: #fbf6ee;
+            color: #fbf6ee !important;
             margin: 0.15rem 0 0;
+        }
+
+        .question-progress {
+            margin: 0.55rem 0 0.2rem;
+            color: #ddd0bd !important;
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        .question-prompt {
+            margin: 0.7rem 0 0.25rem;
+            color: #f4ece0 !important;
+            font-size: clamp(1.65rem, 2.9vw, 2.2rem);
+            line-height: 1.13;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+        }
+
+        .question-detail {
+            margin: 0.1rem 0 0.6rem;
+            color: #e3d5c4 !important;
+            font-size: 0.96rem;
+            font-weight: 500;
+        }
+
+        div[data-testid="stCaptionContainer"] p {
+            color: #ddd0bd !important;
         }
 
         div[data-testid="stButton"] > button {
@@ -277,7 +304,7 @@ def render_intro() -> None:
         """
         <div class="hero-card">
           <div class="hero-eyebrow">Beef Cut Analyzer</div>
-          <h1 class="hero-title">Find Your Best Beef Cut</h1>
+          <div class="hero-title">Find Your Best Beef Cut</div>
           <p class="hero-copy">
             Answer quick questions and get a clear recommendation with a fit brief,
             why it matches, cooking profile, level-based alternatives, and tips.
@@ -323,13 +350,16 @@ def render_question() -> None:
         """
         <div class="hero-card">
           <div class="hero-eyebrow">Assessment In Progress</div>
-          <h1 class="hero-title">Beef Cut Match</h1>
+          <div class="hero-title">Beef Cut Match</div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    st.caption(f"Question {question_index + 1} of {total_questions}")
+    st.markdown(
+        f"<div class='question-progress'>Question {question_index + 1} of {total_questions}</div>",
+        unsafe_allow_html=True,
+    )
     st.progress(progress)
 
     relevance_note = engine.get_question_relevance(question.get("group", ""))
@@ -343,10 +373,16 @@ def render_question() -> None:
         unsafe_allow_html=True,
     )
 
-    st.markdown(f"### {question.get('prompt', 'Choose one option.')}")
+    st.markdown(
+        f"<div class='question-prompt'>{escape(question.get('prompt', 'Choose one option.'))}</div>",
+        unsafe_allow_html=True,
+    )
     detail = (question.get("detail") or "").strip()
     if detail and detail.lower() != "pick one.":
-        st.caption(detail)
+        st.markdown(
+            f"<div class='question-detail'>{escape(detail)}</div>",
+            unsafe_allow_html=True,
+        )
 
     option_count = len(question.get("options", []))
     column_count = 2 if option_count > 2 else 1
