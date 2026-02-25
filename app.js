@@ -1638,30 +1638,6 @@ const CUTS = [
     },
   },
   {
-    id: "vegas_strip",
-    name: "Vegas Strip",
-    tagline: "Lesser-known chuck steak with strong flavor and good tenderness.",
-    rationale:
-      "Vegas strip suits adventurous cooks who want strong flavor and steakhouse-style performance at lower cost.",
-    profile: {
-      richness: 5,
-      tenderness: 7,
-      boldness: 8,
-      adventure: 8,
-      value: 7,
-      precision: 5,
-    },
-    imps: [
-      "IMPS Series 100 - Beef Chuck, Shoulder Clod (Vegas Strip market cut reference)",
-    ],
-    cooking: {
-      method: "High-heat sear or grill",
-      doneness: "Medium-rare",
-      temp: "128-136F final internal temperature",
-      note: "Slice against grain for best tenderness.",
-    },
-  },
-  {
     id: "sierra_steak",
     name: "Sierra Steak",
     tagline: "Underused chuck cut with bold beef flavor.",
@@ -1783,10 +1759,10 @@ const CUTS = [
   },
   {
     id: "all_beef_uncured_hot_dog",
-    name: "All-Beef Uncured Hot Dog",
-    tagline: "Cookout-ready beef option for fast, casual service.",
+    name: "All-Beef Uncured Angus Hot Dog",
+    tagline: "Angus beef cookout option for fast, casual service.",
     rationale:
-      "All-beef uncured hot dog fits profiles prioritizing speed, familiarity, and value-forward cookout meals.",
+      "All-beef uncured Angus hot dog fits profiles prioritizing speed, familiarity, and value-forward cookout meals.",
     profile: {
       richness: 5,
       tenderness: 7,
@@ -1908,6 +1884,7 @@ const COOKING_TIPS_DB = {
     all_beef_uncured_hot_dog: [
       "Warm gently first, then blister over direct heat for snap without splitting.",
       "Roll frequently to brown evenly on all sides.",
+      "Choose 100% Angus beef franks for fuller beef flavor and better bite.",
       "Toast the bun and apply condiments after the dog is off heat.",
     ],
   },
@@ -1938,7 +1915,6 @@ const primaryCutTagline = document.getElementById("primaryCutTagline");
 const executiveSynopsis = document.getElementById("executiveSynopsis");
 const executiveHighlights = document.getElementById("executiveHighlights");
 const fitNotesList = document.getElementById("fitNotesList");
-const summaryList = document.getElementById("summaryList");
 const cookingList = document.getElementById("cookingList");
 const tier1List = document.getElementById("tier1List");
 const tier2List = document.getElementById("tier2List");
@@ -1946,7 +1922,6 @@ const tier3List = document.getElementById("tier3List");
 const tier4List = document.getElementById("tier4List");
 const tipsCutLabel = document.getElementById("tipsCutLabel");
 const tipsList = document.getElementById("tipsList");
-const traitMap = document.getElementById("traitMap");
 
 const startBtn = document.getElementById("startBtn");
 const backBtn = document.getElementById("backBtn");
@@ -2154,49 +2129,8 @@ function showResults() {
     summary,
     signals,
     hasCloseAlternatives,
-    topCluster,
-    scoreGap
+    topCluster
   );
-
-  const flavorTarget = signals.flavorTarget || deriveFlavorTarget(profile);
-  const richnessTarget = signals.richnessTarget || deriveRichnessTarget(profile);
-  const textureTarget = signals.textureTarget || deriveTextureTarget(profile);
-  const seasoningStyle =
-    signals.seasoningStyle || deriveSeasoningStyle(profile);
-  const portionStyle = signals.portionStyle || derivePortionStyle(profile);
-  const decisionPriority = signals.priority || derivePriority(profile);
-  const cookWindow = signals.cookWindow || deriveCookWindow(profile);
-  const mealFormat = signals.mealFormat || deriveMealFormat(profile);
-  const occasionType = signals.occasionType || deriveOccasionType(profile);
-
-  summaryList.innerHTML = "";
-  summaryList.className = "clean-list kv-list";
-  addKeyValueItem(
-    summaryList,
-    "Recommendation Spread",
-    hasCloseAlternatives
-      ? "Close alternatives in Tier 1"
-      : "Clear top fit"
-  );
-  addKeyValueItem(summaryList, "Flavor Target", flavorTarget);
-  addKeyValueItem(summaryList, "Richness Target", richnessTarget);
-  addKeyValueItem(summaryList, "Texture Target", textureTarget);
-  addKeyValueItem(summaryList, "Seasoning Style", seasoningStyle);
-  addKeyValueItem(summaryList, "Portion Style", portionStyle);
-  addKeyValueItem(summaryList, "Cook Window", cookWindow);
-  addKeyValueItem(summaryList, "Meal Format", mealFormat);
-  addKeyValueItem(summaryList, "Occasion", occasionType);
-  addKeyValueItem(summaryList, "Decision Priority", decisionPriority);
-  addKeyValueItem(summaryList, "Primary Fit", summary.primaryFit);
-  addKeyValueItem(summaryList, "Secondary Fit", summary.secondaryFit);
-  addKeyValueItem(summaryList, "Best Cooking Match", summary.bestCookingMatch);
-  addKeyValueItem(summaryList, "Budget Orientation", summary.budgetOrientation);
-  addKeyValueItem(
-    summaryList,
-    "Substitution Flexibility",
-    summary.substitutionFlexibility
-  );
-  addKeyValueItem(summaryList, "Recommended Families", summary.recommendedFamilies);
 
   cookingList.innerHTML = "";
   cookingList.className = "clean-list kv-list";
@@ -2218,13 +2152,6 @@ function showResults() {
   renderTierList(tier3List, tiers.tier3);
   renderTierList(tier4List, tiers.tier4);
   renderCookingTips(primary.cut);
-
-  traitMap.innerHTML = "";
-  TRAITS.forEach((trait) => {
-    const userValue = profile[trait.key];
-    const cutValue = primary.cut.profile[trait.key];
-    traitMap.appendChild(createTraitRow(trait, userValue, cutValue));
-  });
 
   quizPanel.classList.add("hidden");
   resultPanel.classList.remove("hidden");
@@ -2343,8 +2270,10 @@ function renderExecutiveBrief(cut, summary, signals, profile, topCluster) {
   const flavorTarget = signals.flavorTarget || deriveFlavorTarget(profile);
   const richnessTarget = signals.richnessTarget || deriveRichnessTarget(profile);
   const textureTarget = signals.textureTarget || deriveTextureTarget(profile);
+  const cookWindow = signals.cookWindow || deriveCookWindow(profile);
+  const mealFormat = signals.mealFormat || deriveMealFormat(profile);
 
-  executiveSynopsis.textContent = `${cut.name} is your lead recommendation because it best aligns with your ${flavorTarget.toLowerCase()} flavor preference, ${richnessTarget.toLowerCase()} richness target, and ${textureTarget.toLowerCase()} texture style.`;
+  executiveSynopsis.textContent = `${cut.name} is your top match for this round. It aligns with your ${flavorTarget.toLowerCase()} flavor target, ${richnessTarget.toLowerCase()} richness preference, and ${textureTarget.toLowerCase()} texture style while staying practical for your cooking lane.`;
 
   const alternativeText =
     topCluster.length > 1
@@ -2355,8 +2284,9 @@ function renderExecutiveBrief(cut, summary, signals, profile, topCluster) {
       : "No close alternatives this round";
 
   const highlights = [
-    `Best Use: ${summary.primaryFit}.`,
-    `Execution: ${summary.bestCookingMatch}; target ${cut.cooking.doneness.toLowerCase()}.`,
+    `Fit Class: ${summary.primaryFit}.`,
+    `Cook Plan: ${summary.bestCookingMatch} (${cookWindow.toLowerCase()}).`,
+    `Service Style: ${mealFormat}.`,
     `Bench Strength: ${alternativeText}.`,
   ];
 
@@ -3256,8 +3186,7 @@ function renderFitNotes(
   summary,
   signals,
   hasCloseAlternatives,
-  topCluster,
-  scoreGap
+  topCluster
 ) {
   fitNotesList.innerHTML = "";
   fitNotesList.className = "clean-list fit-notes";
@@ -3268,8 +3197,7 @@ function renderFitNotes(
     summary,
     signals,
     hasCloseAlternatives,
-    topCluster,
-    scoreGap
+    topCluster
   );
   notes.forEach((note) => addListItem(fitNotesList, note));
 }
@@ -3280,33 +3208,27 @@ function buildFitNotes(
   summary,
   signals,
   hasCloseAlternatives,
-  topCluster,
-  scoreGap
+  topCluster
 ) {
   const preferenceSnapshot = buildPreferenceSnapshot(signals, profile);
   const alignmentDrivers = getTopAlignmentReasons(profile, cut, 3);
+  const notes = [
+    `Preference Match: ${preferenceSnapshot}.`,
+    `Core Alignment: ${alignmentDrivers.join(", ")}.`,
+    `Best Cooking Lane: ${summary.bestCookingMatch} with ${cut.cooking.doneness.toLowerCase()} finish.`,
+    `Business Lens: ${summary.budgetOrientation}; substitutions ${summary.substitutionFlexibility.toLowerCase()}.`,
+  ];
 
   if (hasCloseAlternatives) {
-    return [
-      `You asked for ${preferenceSnapshot}.`,
-      `Why ${cut.name}: strongest alignment on ${alignmentDrivers.join(", ")}.`,
-      `Top recommendation: ${cut.name}. ${cut.rationale}`,
-      `Close alternatives: ${topCluster
-        .slice(1)
-        .map((result) => result.cut.name)
-        .join(", ")}.`,
-      `Primary fit class: ${summary.primaryFit}. Secondary fit class: ${summary.secondaryFit}.`,
-      `Method fit: ${summary.bestCookingMatch}. Budget fit: ${summary.budgetOrientation}.`,
-    ];
+    const alternatives = topCluster
+      .slice(1)
+      .map((result) => result.cut.name)
+      .join(", ");
+    notes.push(`Close Alternatives: ${alternatives}.`);
   }
 
-  return [
-    `You asked for ${preferenceSnapshot}.`,
-    `Why ${cut.name}: strongest alignment on ${alignmentDrivers.join(", ")}.`,
-    `Selected cut: ${cut.name}. ${cut.rationale}`,
-    `Primary fit class: ${summary.primaryFit}. Secondary fit class: ${summary.secondaryFit}.`,
-    `Method fit: ${summary.bestCookingMatch}. Budget fit: ${summary.budgetOrientation}.`,
-  ];
+  notes.push(`Recommendation Logic: ${cut.rationale}`);
+  return notes;
 }
 
 function buildPreferenceSnapshot(signals, profile) {
@@ -3340,25 +3262,6 @@ function getTopAlignmentReasons(profile, cut, count = 3) {
     .sort((a, b) => b.score - a.score)
     .slice(0, count)
     .map((item) => reasonLabels[item.key]);
-}
-
-function createTraitRow(trait, userValue, cutValue) {
-  const row = document.createElement("article");
-  row.className = "trait-row";
-
-  row.innerHTML = `
-    <div class="trait-head">
-      <span>${trait.label}</span>
-      <span>You: ${userValue}/10 • Cut target: ${cutValue}/10</span>
-    </div>
-    <div class="bar-track">
-      <span class="bar-fill" style="width: ${userValue * 10}%"></span>
-      <span class="cut-marker" style="left: calc(${cutValue * 10}% - 1px)"></span>
-    </div>
-    <p class="trait-note">${trait.detail}</p>
-  `;
-
-  return row;
 }
 
 function addListItem(target, value) {
