@@ -1755,23 +1755,23 @@ const CUTS = [
   {
     id: "sirloin_flap",
     name: "Bavette",
-    tagline: "Underutilized cut with high flavor density.",
+    tagline: "Steak-forward sirloin flap with high flavor and versatile service.",
     rationale:
-      "Sirloin flap is ideal for adventurous users prioritizing flavor intensity and value.",
+      "Bavette is ideal for adventurous users who want strong steak-like flavor with broader plated-steak versatility than outside skirt.",
     profile: {
-      richness: 5,
-      tenderness: 5,
+      richness: 6,
+      tenderness: 6,
       boldness: 9,
       adventure: 8,
-      value: 7,
-      precision: 4,
+      value: 6,
+      precision: 5,
     },
     imps: ["1185A - Beef Loin, Bottom Sirloin Butt, Flap Steak, Boneless"],
     cooking: {
-      method: "Very hot, fast sear with immediate slicing",
-      doneness: "Rare to medium-rare",
-      temp: "124-132F final internal temperature",
-      note: "Mandatory grain-aware slicing for tenderness optimization.",
+      method: "Very hot sear, grill, or reverse-sear then slice",
+      doneness: "Medium-rare to medium",
+      temp: "130-140F final internal temperature",
+      note: "Slice across grain for tenderness and use as either plated steak or sliced service.",
     },
   },
   {
@@ -1799,26 +1799,26 @@ const CUTS = [
   {
     id: "flat_iron",
     name: "Flat Iron",
-    tagline: "High tenderness-to-price ratio with strong flavor.",
+    tagline: "Filet-like tenderness in a thinner, value-forward specialty format.",
     rationale:
-      "Flat iron is a high-performing recommendation for users balancing tenderness, flavor, and value.",
+      "Flat iron fits users wanting filet-like tenderness with stronger value, thinner geometry, and comfort with specialty cuts.",
     profile: {
-      richness: 6,
-      tenderness: 8,
-      boldness: 8,
-      adventure: 6,
-      value: 7,
-      precision: 5,
+      richness: 4,
+      tenderness: 9,
+      boldness: 6,
+      adventure: 7,
+      value: 8,
+      precision: 6,
     },
     imps: [
       "114D - Beef Chuck, Shoulder Clod, Top Blade",
       "1114D - Beef Chuck, Shoulder Clod, Top Blade Steak",
     ],
     cooking: {
-      method: "Fast high-heat sear",
-      doneness: "Medium-rare",
-      temp: "128-135F final internal temperature",
-      note: "Slice across the grain after brief resting.",
+      method: "Fast high-heat sear (thin-profile handling)",
+      doneness: "Medium-rare to medium",
+      temp: "128-138F final internal temperature",
+      note: "Thinner geometry cooks quickly; pull early and slice across grain.",
     },
   },
   {
@@ -1899,13 +1899,13 @@ const CUTS = [
   {
     id: "flank",
     name: "Flank Steak",
-    tagline: "Lean cut with excellent slicing-service versatility.",
+    tagline: "Lean utility cut best suited to sliced applications.",
     rationale:
-      "Flank matches high-value, technique-competent users comfortable with post-cook slicing control.",
+      "Flank is the lowest eating-quality option in the bavette/skirt/flank trio, but remains useful for value-focused slicing service.",
     profile: {
-      richness: 3,
-      tenderness: 4,
-      boldness: 8,
+      richness: 2,
+      tenderness: 3,
+      boldness: 7,
       adventure: 6,
       value: 8,
       precision: 6,
@@ -1921,13 +1921,13 @@ const CUTS = [
   {
     id: "outside_skirt",
     name: "Outside Skirt Steak",
-    tagline: "Premium skirt expression with intense beef flavor.",
+    tagline: "High-flavor skirt cut for quick sear and slicing.",
     rationale:
-      "Outside skirt suits users who prioritize maximal flavor character and are comfortable with aggressive heat.",
+      "Outside skirt suits users prioritizing high flavor and aggressive heat execution, with less plated-steak versatility than bavette.",
     profile: {
       richness: 6,
-      tenderness: 5,
-      boldness: 9,
+      tenderness: 6,
+      boldness: 8,
       adventure: 8,
       value: 6,
       precision: 3,
@@ -1935,9 +1935,9 @@ const CUTS = [
     imps: ["1121E - Beef Plate, Outside Skirt Steak, Skinned"],
     cooking: {
       method: "Hard sear over high radiant heat",
-      doneness: "Rare to medium-rare",
-      temp: "123-132F final internal temperature",
-      note: "Excellent for short marination and slicing service.",
+      doneness: "Medium",
+      temp: "136-145F final internal temperature",
+      note: "Best for short marination and slicing across grain, not thick plated steak formats.",
     },
   },
   {
@@ -5331,6 +5331,7 @@ const SPECIALTY_CUT_IDS = new Set([
   "sirloin_flap",
   "hanger",
   "outside_skirt",
+  "flat_iron",
   "denver",
   "ball_tip",
   "flank",
@@ -5395,6 +5396,7 @@ const SLICED_BOARD_CUT_IDS = new Set([
   "coulotte",
   "sirloin_flap",
   "flank",
+  "outside_skirt",
   "plate_short_rib_boneless",
 ]);
 const PREMIUM_OCCASION_IDS = new Set([
@@ -5443,6 +5445,7 @@ const AMERICAN_GRILL_FOCUS_IDS = new Set([
   "top_sirloin",
   "baseball_cut",
   "tri_tip",
+  "sirloin_flap",
   "flat_iron",
   "denver",
   "ball_tip",
@@ -5557,6 +5560,13 @@ function getFatCapFitAdjustment(cut, fatCapPreference) {
     return 0;
   }
 
+  if (
+    cut.id === "outside_skirt" &&
+    (fatCapPreference === "Trimmed lean" || fatCapPreference === "Some fat edge")
+  ) {
+    return 2;
+  }
+
   const fatForward = FAT_CAP_FORWARD_CUT_IDS.has(cut.id) || cut.profile.richness >= 8;
 
   if (fatCapPreference === "Trimmed lean") {
@@ -5664,6 +5674,15 @@ function getMealFormatFitAdjustment(cut, mealFormat) {
   if (mealFormat === "Plated steak") {
     if (getCutFamily(cut) === "Rib" || getCutFamily(cut) === "Loin") {
       return 4;
+    }
+    if (cut.id === "sirloin_flap") {
+      return 1;
+    }
+    if (cut.id === "outside_skirt") {
+      return 0;
+    }
+    if (cut.id === "flank") {
+      return -2;
     }
     if (cut.profile.tenderness >= 8) {
       return 2;
@@ -5809,6 +5828,8 @@ function getCuisineFitAdjustment(cut, cuisineStyle, mealFormat, seasoningStyle) 
       ) {
         score += 2;
       }
+    } else if (cut.id === "sirloin_flap") {
+      score += 1;
     } else if (cut.profile.tenderness >= 7) {
       score += 1;
     } else {
