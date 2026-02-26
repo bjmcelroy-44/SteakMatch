@@ -800,11 +800,58 @@ button {
   color: #61493e;
 }
 
-.tips-list li {
+.tips-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.62rem;
+}
+
+.tips-method-card {
+  border: 1px solid rgba(95, 64, 54, 0.22);
+  border-radius: 10px;
+  background: #f6eee2;
+  padding: 0.62rem;
+}
+
+.tips-method-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin-bottom: 0.42rem;
+}
+
+.tips-method-title {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #3a2a24;
+}
+
+.tips-method-fit {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #8c1f2d;
+}
+
+.tips-method-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tips-method-list li {
   border-left: 2px solid rgba(140, 31, 45, 0.62);
-  padding-left: 0.58rem;
-  margin-bottom: 0.5rem;
-  line-height: 1.46;
+  padding-left: 0.52rem;
+  margin-bottom: 0.45rem;
+  line-height: 1.42;
+  color: #5d483d;
+  font-size: 0.84rem;
+}
+
+.tips-method-list li:last-child {
+  margin-bottom: 0;
 }
 
 .trait-map {

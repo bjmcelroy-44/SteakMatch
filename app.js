@@ -384,10 +384,10 @@ const BASE_QUESTIONS = [
     detail: "Pick one.",
     options: [
       {
-        label: "Rare / Med-rare",
+        label: "Medium rare",
         impact: "Lower endpoint",
-        effects: { boldness: 1, richness: 1, precision: 1 },
-        signal: { doneness: "Rare / Medium-rare" },
+        effects: { boldness: 2, richness: 2, precision: 2, tenderness: 1 },
+        signal: { doneness: "Medium rare" },
       },
       {
         label: "Medium",
@@ -396,16 +396,16 @@ const BASE_QUESTIONS = [
         signal: { doneness: "Medium" },
       },
       {
-        label: "Med-well / Well",
+        label: "Medium well",
         impact: "Higher endpoint",
         effects: { value: 1, boldness: -1, richness: -1 },
-        signal: { doneness: "Medium-well / Well done" },
+        signal: { doneness: "Medium well" },
       },
       {
-        label: "Depends on cut",
-        impact: "Varies",
-        effects: { precision: 2, adventure: 1 },
-        signal: { doneness: "Varies by cut" },
+        label: "Well done",
+        impact: "Highest endpoint",
+        effects: { value: 1, tenderness: -1, boldness: -2, richness: -2 },
+        signal: { doneness: "Well done" },
       },
     ],
   },
@@ -756,25 +756,25 @@ const BASE_QUESTIONS = [
     detail: "Pick one.",
     options: [
       {
-        label: "Very tender (filet style)",
+        label: "Very tender",
         impact: "Tender-first",
         effects: { tenderness: 2, richness: 1, value: -1, precision: 1 },
         signal: { coreLane: "Tender-first", mealFormat: "Plated steak" },
       },
       {
-        label: "Rich and juicy (ribeye style)",
+        label: "Rich and juicy",
         impact: "Rich-first",
         effects: { richness: 2, boldness: 1, value: -1 },
         signal: { coreLane: "Rich-first", mealFormat: "Plated steak" },
       },
       {
-        label: "Balanced tender + flavor (strip style)",
+        label: "Balanced tender + flavor",
         impact: "Balanced",
         effects: { tenderness: 1, boldness: 1, richness: 1, precision: 1 },
         signal: { coreLane: "Balanced", mealFormat: "Sliced board" },
       },
       {
-        label: "Beefy flavor + value (sirloin style)",
+        label: "Beefy flavor + value",
         impact: "Beefy-value",
         effects: { boldness: 2, value: 2, tenderness: -1 },
         signal: { coreLane: "Beefy-value", mealFormat: "Tacos / bowls" },
@@ -900,7 +900,7 @@ const BASE_QUESTIONS = [
       {
         label: "Special treat only",
         impact: "Occasional premium",
-        effects: { richness: 1, tenderness: 1, value: -1 },
+        effects: { richness: 1 },
         signal: { routineStyle: "Special treat" },
       },
     ],
@@ -2097,6 +2097,36 @@ const COOKING_TIPS_DB = {
   },
 };
 
+const METHOD_COLUMN_CONFIG = [
+  { key: "grill", title: "Grill / Open Fire" },
+  { key: "pan", title: "Pan Sear" },
+  { key: "oven", title: "Oven / Reverse" },
+  { key: "slow", title: "Low-and-Slow / Smoke" },
+];
+
+const METHOD_TIP_LIBRARY = {
+  grill: [
+    "Preheat hard, oil lightly, and sear over clean grates for strong crust.",
+    "Use direct heat for color and move off-flame to finish temperature.",
+    "Flip frequently for more even doneness on thicker cuts.",
+  ],
+  pan: [
+    "Use a heavy pan and let it fully preheat before protein hits the surface.",
+    "Keep surface dry and avoid crowding to prevent steaming.",
+    "Baste in the final minute when fat content supports it.",
+  ],
+  oven: [
+    "Start low for even internal rise, then sear hard at the end.",
+    "Use a probe thermometer for tighter endpoint control.",
+    "Rest on a rack to keep the crust from softening.",
+  ],
+  slow: [
+    "Favor steady pit temperature and avoid frequent lid-open checks.",
+    "Hold wrapped/rested before slicing so juices reabsorb.",
+    "Season in layers for long cooks: base salt first, then finishing accent.",
+  ],
+};
+
 const state = {
   currentQuestion: 0,
   questionSet: [],
@@ -2135,7 +2165,7 @@ const tier2Title = document.getElementById("tier2Title");
 const tier3Title = document.getElementById("tier3Title");
 const tier4Title = document.getElementById("tier4Title");
 const tipsCutLabel = document.getElementById("tipsCutLabel");
-const tipsList = document.getElementById("tipsList");
+const tipsColumns = document.getElementById("tipsColumns");
 
 const startBtn = document.getElementById("startBtn");
 const backBtn = document.getElementById("backBtn");
@@ -2464,10 +2494,7 @@ function showResults() {
 
   cookingList.innerHTML = "";
   cookingList.className = "clean-list kv-list";
-  const selectedDoneness =
-    signals.doneness && signals.doneness !== "Varies by cut"
-      ? signals.doneness
-      : "Varies by cut";
+  const selectedDoneness = signals.doneness || primary.cut.cooking.doneness;
   addKeyValueItem(cookingList, "Lead Option", primary.cut.name);
   addKeyValueItem(cookingList, "Method", primary.cut.cooking.method);
   addKeyValueItem(cookingList, "Your Doneness Target", selectedDoneness);
@@ -2477,7 +2504,7 @@ function showResults() {
     addKeyValueItem(
       cookingList,
       "Comparison Note",
-      "Use Tier 1 to choose availability/price, then follow that cut's cooking profile."
+      "Use Level 1 to choose availability/price, then follow that cut's cooking profile."
     );
   }
   addKeyValueItem(cookingList, "Tip", primary.cut.cooking.note);
@@ -2592,10 +2619,7 @@ function renderQuickRead(cut, summary, signals, topCluster) {
           .map((result) => result.cut.name)
           .join(", ")
       : "See Levels 2-4";
-  const donenessValue =
-    signals.doneness && signals.doneness !== "Varies by cut"
-      ? signals.doneness
-      : cut.cooking.doneness;
+  const donenessValue = signals.doneness || cut.cooking.doneness;
 
   const quickItems = [
     { label: "Top Cut", value: cut.name },
@@ -3951,29 +3975,148 @@ function getSkillFitText(signals) {
 }
 
 function renderCookingTips(cut) {
-  if (!tipsList || !tipsCutLabel) {
+  if (!tipsColumns || !tipsCutLabel) {
     return;
   }
 
-  tipsCutLabel.textContent = `Best practices for ${cut.name}`;
-  tipsList.innerHTML = "";
+  tipsCutLabel.textContent = `Method-specific tips for ${cut.name}`;
+  tipsColumns.innerHTML = "";
 
-  getTipsForCut(cut).forEach((tip) => addListItem(tipsList, tip));
+  buildMethodTipCards(cut).forEach((card) => {
+    const cardElement = document.createElement("article");
+    cardElement.className = "tips-method-card";
+    const listMarkup = card.tips
+      .map((tip) => `<li>${escapeHtml(tip)}</li>`)
+      .join("");
+
+    cardElement.innerHTML = `
+      <div class="tips-method-head">
+        <h4 class="tips-method-title">${escapeHtml(card.title)}</h4>
+        <span class="tips-method-fit">${escapeHtml(card.fitLabel)}</span>
+      </div>
+      <ul class="tips-method-list">
+        ${listMarkup}
+      </ul>
+    `;
+
+    tipsColumns.appendChild(cardElement);
+  });
 }
 
-function getTipsForCut(cut) {
+function buildMethodTipCards(cut) {
+  return METHOD_COLUMN_CONFIG.map((column) => {
+    const fitScore = getMethodColumnFitScore(cut, column.key);
+    return {
+      title: column.title,
+      fitLabel: getMethodFitLabel(fitScore),
+      tips: getMethodColumnTips(cut, column.key, fitScore),
+    };
+  });
+}
+
+function getMethodColumnFitScore(cut, methodKey) {
+  const methodText = (cut.cooking.method || "").toLowerCase();
+  let score = 0;
+
+  if (methodKey === "grill") {
+    if (
+      methodText.includes("grill") ||
+      methodText.includes("live fire") ||
+      methodText.includes("direct")
+    ) {
+      score += 2;
+    }
+    if (methodText.includes("sear")) {
+      score += 1;
+    }
+    if (cut.id === "all_beef_uncured_hot_dog") {
+      score += 1;
+    }
+  } else if (methodKey === "pan") {
+    if (
+      methodText.includes("pan") ||
+      methodText.includes("cast-iron") ||
+      methodText.includes("griddle")
+    ) {
+      score += 2;
+    }
+    if (methodText.includes("sear")) {
+      score += 1;
+    }
+  } else if (methodKey === "oven") {
+    if (
+      methodText.includes("oven") ||
+      methodText.includes("reverse") ||
+      methodText.includes("broil") ||
+      methodText.includes("roast")
+    ) {
+      score += 2;
+    }
+    if (methodText.includes("finish")) {
+      score += 1;
+    }
+  } else if (methodKey === "slow") {
+    if (
+      methodText.includes("slow") ||
+      methodText.includes("smoke") ||
+      methodText.includes("braise") ||
+      methodText.includes("low-and-slow")
+    ) {
+      score += 2;
+    }
+    if (methodText.includes("controlled")) {
+      score += 1;
+    }
+    if (cut.id === "all_beef_uncured_hot_dog") {
+      score = 0;
+    }
+  }
+
+  return clamp(score, 0, 3);
+}
+
+function getMethodFitLabel(score) {
+  if (score >= 2) {
+    return "Best fit";
+  }
+  if (score === 1) {
+    return "Strong alternative";
+  }
+  return "Situational";
+}
+
+function getMethodColumnTips(cut, methodKey, fitScore) {
   const family = getCutFamily(cut);
   const cutTips = COOKING_TIPS_DB.byCut[cut.id] || [];
   const familyTips =
     COOKING_TIPS_DB.byFamily[family] || COOKING_TIPS_DB.byFamily.Specialty;
+  const methodTips = METHOD_TIP_LIBRARY[methodKey] || [];
+  const methodIndex = METHOD_COLUMN_CONFIG.findIndex((column) => column.key === methodKey);
+  const normalizedIndex = methodIndex >= 0 ? methodIndex : 0;
+  const cutTip = cutTips.length > 0 ? cutTips[normalizedIndex % cutTips.length] : null;
+  const familyTip =
+    familyTips.length > 0 ? familyTips[(normalizedIndex + 1) % familyTips.length] : null;
 
-  const prioritizedTips = [
-    `Method match: ${cut.cooking.method}.`,
-    `Target doneness: ${cut.cooking.doneness} (${cut.cooking.temp}).`,
-    cut.cooking.note,
-    ...cutTips,
-    ...familyTips,
-  ];
+  const prioritizedTips = [];
+  if (fitScore >= 2) {
+    prioritizedTips.push(`Target endpoint: ${cut.cooking.doneness} (${cut.cooking.temp}).`);
+  } else if (fitScore === 1) {
+    prioritizedTips.push(
+      `Works well for ${cut.name} with tighter carryover control and clean slicing.`
+    );
+  } else {
+    prioritizedTips.push("Use this as an alternate method and verify internal temperature.");
+  }
+  prioritizedTips.push(...methodTips.slice(0, 2));
+  if (cutTip) {
+    prioritizedTips.push(cutTip);
+  }
+  if (familyTip) {
+    prioritizedTips.push(familyTip);
+  }
+  if (fitScore >= 2) {
+    prioritizedTips.push(cut.cooking.note);
+  }
 
   const uniqueTips = [];
   const seen = new Set();
@@ -3986,7 +4129,7 @@ function getTipsForCut(cut) {
     uniqueTips.push(tip);
   });
 
-  return uniqueTips.slice(0, 8);
+  return uniqueTips.slice(0, 4);
 }
 
 function classifyProgram(cut) {
@@ -4070,9 +4213,11 @@ function deriveBudgetSignal(signals, profile) {
     valueScore += 1;
   }
 
-  if (signals.doneness === "Rare / Medium-rare") {
+  if (signals.doneness === "Medium rare") {
     premiumScore += 1;
-  } else if (signals.doneness === "Medium-well / Well done") {
+  } else if (signals.doneness === "Medium well") {
+    valueScore += 1;
+  } else if (signals.doneness === "Well done") {
     valueScore += 2;
   }
 
@@ -4585,6 +4730,7 @@ function rankCuts(profile, signals = {}) {
         getSeasoningIntentAdjustment(cut, signals.seasoningIntent) +
         getPairingFitAdjustment(cut, signals.pairingStyle) +
         getMealFormatFitAdjustment(cut, signals.mealFormat) +
+        getDonenessFitAdjustment(cut, signals.doneness) +
         getCuisineFitAdjustment(
           cut,
           signals.cuisineStyle,
@@ -5570,6 +5716,69 @@ function getMealFormatFitAdjustment(cut, mealFormat) {
   return 0;
 }
 
+function getDonenessFitAdjustment(cut, selectedDoneness) {
+  if (!selectedDoneness) {
+    return 0;
+  }
+
+  const donenessText = (cut.cooking.doneness || "").toLowerCase();
+  const hasMediumRare =
+    donenessText.includes("medium-rare") || donenessText.includes("medium rare");
+  const hasMedium = /\bmedium\b/.test(donenessText);
+  const hasRare = /\brare\b/.test(donenessText);
+  const hasWell = /\bwell\b/.test(donenessText);
+  const heatThrough = donenessText.includes("heat through");
+  const varies = donenessText.includes("varies");
+
+  if (selectedDoneness === "Medium rare") {
+    if (hasMediumRare) {
+      return 8;
+    }
+    if (hasRare) {
+      return 4;
+    }
+    if (hasMedium || varies) {
+      return 1;
+    }
+    return -3;
+  }
+
+  if (selectedDoneness === "Medium") {
+    if (hasMedium && hasMediumRare) {
+      return 4;
+    }
+    if (hasMedium) {
+      return 3;
+    }
+    if (varies) {
+      return 1;
+    }
+    return -1;
+  }
+
+  if (selectedDoneness === "Medium well") {
+    if (hasWell || heatThrough) {
+      return 4;
+    }
+    if (hasMedium || varies) {
+      return 1;
+    }
+    return -2;
+  }
+
+  if (selectedDoneness === "Well done") {
+    if (hasWell || heatThrough) {
+      return 5;
+    }
+    if (varies) {
+      return 1;
+    }
+    return -3;
+  }
+
+  return 0;
+}
+
 function getCuisineFitAdjustment(cut, cuisineStyle, mealFormat, seasoningStyle) {
   if (!cuisineStyle || cuisineStyle === "No specific cuisine") {
     return 0;
@@ -5611,6 +5820,13 @@ function getCuisineFitAdjustment(cut, cuisineStyle, mealFormat, seasoningStyle) 
   if (cuisineStyle === "Steakhouse") {
     if (STEAKHOUSE_FOCUS_IDS.has(cut.id)) {
       score += 6;
+      if (
+        cut.id === "ribeye" ||
+        cut.id === "tomahawk_ribeye" ||
+        cut.id === "ribeye_cap"
+      ) {
+        score += 2;
+      }
     } else if (cut.profile.tenderness >= 7) {
       score += 1;
     } else {
@@ -5651,6 +5867,14 @@ function getCuisineFitAdjustment(cut, cuisineStyle, mealFormat, seasoningStyle) 
       score += 1;
     } else {
       score -= 2;
+    }
+
+    if (
+      cut.id === "ribeye" ||
+      cut.id === "tomahawk_ribeye" ||
+      cut.id === "ribeye_cap"
+    ) {
+      score -= 3;
     }
   }
 
