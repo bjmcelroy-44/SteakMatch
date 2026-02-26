@@ -1562,11 +1562,11 @@ const CUTS = [
   {
     id: "filet_mignon",
     name: "Filet Mignon",
-    tagline: "Maximum tenderness with lower fat intensity.",
+    tagline: "Maximum tenderness with a low-marbling profile.",
     rationale:
-      "Tenderloin is indicated when tenderness and precision outrank maximal beef intensity.",
+      "Tenderloin is indicated when tenderness and precision outrank marbling richness and maximal beef intensity.",
     profile: {
-      richness: 3,
+      richness: 2,
       tenderness: 10,
       boldness: 4,
       adventure: 2,
@@ -1591,7 +1591,7 @@ const CUTS = [
     rationale:
       "Filet medallions are selected when tenderness, quick cook time, and portion control are prioritized over intense beef flavor.",
     profile: {
-      richness: 3,
+      richness: 2,
       tenderness: 9,
       boldness: 4,
       adventure: 3,
@@ -2151,7 +2151,7 @@ const warningText = document.getElementById("warningText");
 
 const primaryCutName = document.getElementById("primaryCutName");
 const primaryCutTagline = document.getElementById("primaryCutTagline");
-const quickReadList = document.getElementById("quickReadList");
+const quickReadNarrative = document.getElementById("quickReadNarrative");
 const executiveSynopsis = document.getElementById("executiveSynopsis");
 const executiveHighlights = document.getElementById("executiveHighlights");
 const fitNotesList = document.getElementById("fitNotesList");
@@ -2602,7 +2602,7 @@ function buildProfileSummary(profile, rankedCuts, signals) {
 }
 
 function renderQuickRead(cut, summary, signals, topCluster) {
-  if (!quickReadList) {
+  if (!quickReadNarrative) {
     return;
   }
 
@@ -2612,34 +2612,17 @@ function renderQuickRead(cut, summary, signals, topCluster) {
       ? signals.cuisineStyle
       : "Cross-cuisine";
   const mealContext = signals.occasionType || "Flexible meal context";
+  const donenessValue = signals.doneness || cut.cooking.doneness;
+  const complexity = getDifficultyScaleLabel(cutScale.difficulty);
   const backups =
     topCluster.length > 1
       ? topCluster
           .slice(1, 3)
           .map((result) => result.cut.name)
-          .join(", ")
-      : "See Levels 2-4";
-  const donenessValue = signals.doneness || cut.cooking.doneness;
+          .join(" or ")
+      : "your Level recommendations";
 
-  const quickItems = [
-    { label: "Top Cut", value: cut.name },
-    { label: "Cook Method", value: summary.bestCookingMatch },
-    { label: "Doneness", value: donenessValue },
-    { label: "Complexity", value: getDifficultyScaleLabel(cutScale.difficulty) },
-    { label: "Cuisine Fit", value: cuisineFit },
-    { label: "Best For", value: mealContext },
-    { label: "Backups", value: backups },
-  ];
-
-  quickReadList.innerHTML = "";
-  quickItems.forEach((item) => {
-    const listItem = document.createElement("li");
-    listItem.innerHTML = `
-      <span class="quick-read-key">${escapeHtml(item.label)}</span>
-      <span class="quick-read-value">${escapeHtml(item.value)}</span>
-    `;
-    quickReadList.appendChild(listItem);
-  });
+  quickReadNarrative.textContent = `${cut.name} is your top match for ${cuisineFit} with a ${donenessValue} finish. Cook it with ${summary.bestCookingMatch} and expect ${complexity.toLowerCase()} execution for ${mealContext.toLowerCase()}. If needed, use ${backups} as clean alternatives.`;
 }
 
 function buildTierRecommendations(rankedCuts, signals = {}) {
@@ -3037,7 +3020,7 @@ function getCuisineScaleBias(cuisineStyle) {
 
 function buildScaleTierTitle(level, targetScale) {
   if (level === 1) {
-    return "Level 1: Best Immediate Fit";
+    return "Level 1: Primary Recommendation";
   }
   if (level === 2) {
     return "Level 2: Strong Alternatives";
@@ -3341,7 +3324,7 @@ function getEquipmentScaleLabel(value) {
 
 function renderTierTitles(titles) {
   if (tier1Title) {
-    tier1Title.textContent = titles?.tier1 || "Level 1: Best Immediate Fit";
+    tier1Title.textContent = titles?.tier1 || "Level 1: Primary Recommendation";
   }
   if (tier2Title) {
     tier2Title.textContent = titles?.tier2 || "Level 2: Strong Alternatives";
@@ -3360,7 +3343,6 @@ function renderTierList(target, tierResults, signals, tierKey) {
     const contextMeta = getTierContextMeta(result.cut, signals, tierKey);
     const techniqueTag = getTechniqueTierTag(result.cut, signals);
     const detailParts = [
-      getCutFamily(result.cut),
       getCostTier(result.cut),
       result.variantMeta || null,
       techniqueTag,
@@ -3460,7 +3442,7 @@ function getPlanBTierTag(cut, substitution) {
   if (fit <= -2) {
     return "Primary-first";
   }
-  return "Situational backup";
+  return "Limited backup";
 }
 
 function getExplorationTierTag(cut) {
@@ -4077,12 +4059,12 @@ function getMethodColumnFitScore(cut, methodKey) {
 
 function getMethodFitLabel(score) {
   if (score >= 2) {
-    return "Best fit";
+    return "Primary";
   }
   if (score === 1) {
-    return "Strong alternative";
+    return "Alternate";
   }
-  return "Situational";
+  return "Optional";
 }
 
 function getMethodColumnTips(cut, methodKey, fitScore) {

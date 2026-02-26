@@ -335,6 +335,7 @@ h4 {
   line-height: 1.12;
   letter-spacing: 0;
   color: #2f231f;
+  margin-top: 0.16rem;
 }
 
 .question-detail {
@@ -344,7 +345,12 @@ h4 {
 
 .options-wrap {
   display: grid;
-  gap: 0.76rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.86rem;
+  margin-top: 1.24rem;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .option-card {
@@ -352,8 +358,8 @@ h4 {
   text-align: left;
   border: 1px solid rgba(95, 64, 54, 0.26);
   border-radius: 12px;
-  background: var(--card-soft);
-  padding: 0.9rem 1rem;
+  background: linear-gradient(165deg, #fffaf2, #f4e8da);
+  padding: 0.98rem 1.04rem;
   color: var(--ink-900);
   cursor: pointer;
   transition:
@@ -367,7 +373,7 @@ h4 {
 .option-card:hover {
   transform: translateY(-1px);
   border-color: rgba(140, 31, 45, 0.58);
-  box-shadow: 0 10px 20px rgba(7, 18, 40, 0.16);
+  box-shadow: 0 11px 24px rgba(7, 18, 40, 0.15);
 }
 
 .option-card.selected {
@@ -379,9 +385,10 @@ h4 {
 .option-label {
   display: block;
   font-weight: 700;
-  font-size: 1.03rem;
+  font-size: 1rem;
   letter-spacing: 0;
   color: #31231f;
+  line-height: 1.35;
 }
 
 .option-impact {
@@ -465,37 +472,12 @@ button {
   color: #3f2d27;
 }
 
-.quick-read-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 0.42rem;
-}
-
-.quick-read-list li {
+.quick-read-text {
   margin: 0;
-  padding: 0.52rem 0.56rem;
-  border-radius: 9px;
-  border: 1px solid rgba(95, 64, 54, 0.22);
-  background: #fff9f1;
-  border-left: 1px solid rgba(95, 64, 54, 0.22);
-}
-
-.quick-read-key {
-  display: block;
-  font-size: 0.73rem;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: #7a5e4f;
-}
-
-.quick-read-value {
-  display: block;
-  margin-top: 0.12rem;
-  font-size: 0.89rem;
+  color: #4a392f;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: #3f2e27;
-  line-height: 1.3;
+  line-height: 1.5;
 }
 
 .primary-cut-row {
@@ -1038,6 +1020,13 @@ button {
 
   .controls {
     flex-direction: column;
+  }
+
+  .options-wrap {
+    grid-template-columns: 1fr;
+    gap: 0.66rem;
+    margin-top: 0.9rem;
+    max-width: none;
   }
 
   .btn-primary,
