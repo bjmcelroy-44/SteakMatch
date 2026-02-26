@@ -751,30 +751,30 @@ const BASE_QUESTIONS = [
     ],
   },
   {
-    type: "Core Preference",
-    prompt: "Which steak lane sounds most like you?",
+    type: "Food Choice",
+    prompt: "Which food option sounds best today?",
     detail: "Pick one.",
     options: [
       {
-        label: "Very tender",
+        label: "Steakhouse plate (single steak)",
         impact: "Tender-first",
         effects: { tenderness: 2, richness: 1, value: -1, precision: 1 },
         signal: { coreLane: "Tender-first", mealFormat: "Plated steak" },
       },
       {
-        label: "Rich and juicy",
+        label: "Rich steak dinner (ribeye/strip style)",
         impact: "Rich-first",
         effects: { richness: 2, boldness: 1, value: -1 },
         signal: { coreLane: "Rich-first", mealFormat: "Plated steak" },
       },
       {
-        label: "Balanced tender + flavor",
+        label: "Sliced steak board (shareable)",
         impact: "Balanced",
         effects: { tenderness: 1, boldness: 1, richness: 1, precision: 1 },
         signal: { coreLane: "Balanced", mealFormat: "Sliced board" },
       },
       {
-        label: "Beefy flavor + value",
+        label: "Fajitas / tacos / bowls",
         impact: "Beefy-value",
         effects: { boldness: 2, value: 2, tenderness: -1 },
         signal: { coreLane: "Beefy-value", mealFormat: "Tacos / bowls" },
@@ -1075,8 +1075,8 @@ const ALT_QUESTION_COPY = {
     detail: "Pick one.",
   },
   meal_format: {
-    type: "Core Preference",
-    prompt: "Which steak lane sounds most like you?",
+    type: "Food Choice",
+    prompt: "Which food option sounds best today?",
     detail: "Pick one.",
   },
   leftovers: {
@@ -1213,8 +1213,8 @@ const ALT_QUESTION_COPY_2 = {
     detail: "Pick one.",
   },
   meal_format: {
-    type: "Steak Lane",
-    prompt: "Which steak lane sounds most like you?",
+    type: "Food Option",
+    prompt: "Which food option sounds best today?",
     detail: "Pick one.",
   },
   leftovers: {
@@ -1273,7 +1273,7 @@ const QUESTION_POOL = BASE_QUESTIONS.flatMap((question, index) => {
 const QUESTION_HISTORY_KEY = "beef_cut_fit_question_history_v2";
 const QUESTION_LAST_SET_KEY = "beef_cut_fit_last_set_v2";
 const ASSESSMENT_QUESTION_COUNT = 15;
-const INTAKE_GROUPS = ["comfort", "cuisine"];
+const INTAKE_GROUPS = ["doneness", "richness", "texture", "comfort", "cuisine"];
 const COMMON_DYNAMIC_GROUPS = [
   "flavor",
   "richness",
@@ -2245,7 +2245,9 @@ function buildDynamicQuestionGroups(signals) {
   const dynamicGroups = [...COMMON_DYNAMIC_GROUPS, ...expertiseGroups];
   const cuisinePriority = CUISINE_PRIORITY_GROUPS[signals.cuisineStyle] || [];
 
-  return prioritizeGroups(dynamicGroups, cuisinePriority);
+  return prioritizeGroups(dynamicGroups, cuisinePriority).filter(
+    (group) => !INTAKE_GROUPS.includes(group)
+  );
 }
 
 function prioritizeGroups(groups, priorityGroups) {
