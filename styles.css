@@ -911,6 +911,84 @@ button {
 }
 
 @media (max-width: 760px) {
+  .hero {
+    margin-top: 0.9rem;
+    margin-bottom: 0.62rem;
+    padding: 1rem 0.95rem;
+  }
+
+  h1 {
+    font-size: clamp(1.58rem, 8.2vw, 2.15rem);
+    line-height: 0.99;
+    letter-spacing: 0.02em;
+    margin-top: 0.2rem;
+  }
+
+  .kicker {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+  }
+
+  .layout {
+    padding-bottom: 1rem;
+  }
+
+  .panel {
+    padding: 0.84rem 0.82rem;
+  }
+
+  .intro-eyebrow {
+    font-size: 0.72rem;
+  }
+
+  .intro h2 {
+    font-size: clamp(1.22rem, 5.2vw, 1.5rem);
+  }
+
+  .intro-lede {
+    margin-top: 0.36rem;
+    font-size: 0.92rem;
+    line-height: 1.4;
+  }
+
+  .intro-columns {
+    margin-top: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .intro-card {
+    padding: 0.58rem 0.6rem;
+  }
+
+  .intro-card h3 {
+    font-size: 0.9rem;
+  }
+
+  .intro-steps,
+  .intro-list {
+    margin-top: 0.3rem;
+    padding-left: 0.9rem;
+  }
+
+  .intro-steps li,
+  .intro-list li {
+    margin-bottom: 0.15rem;
+    font-size: 0.84rem;
+    line-height: 1.28;
+  }
+
+  .btn-intro {
+    margin-top: 0.56rem;
+    padding: 0.7rem 0.96rem;
+    font-size: 0.9rem;
+  }
+
+  .intro-footnote {
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+    line-height: 1.3;
+  }
+
   .controls {
     flex-direction: column;
   }
@@ -927,5 +1005,25 @@ button {
 
   .result-card h3 {
     font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero {
+    margin-top: 0.62rem;
+    padding: 0.85rem 0.82rem;
+  }
+
+  h1 {
+    font-size: clamp(1.38rem, 7.4vw, 1.86rem);
+    letter-spacing: 0.015em;
+  }
+
+  .intro-columns {
+    display: none;
+  }
+
+  .btn-intro {
+    margin-top: 0.48rem;
   }
 }

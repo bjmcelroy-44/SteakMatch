@@ -34,29 +34,29 @@ const TRAITS = [
 const BASE_QUESTIONS = [
   {
     type: "Flavor",
-    prompt: "What flavor do you want?",
+    prompt: "How strong do you want the beef flavor?",
     detail: "Pick one.",
     options: [
       {
-        label: "Clean",
+        label: "Mild, clean beef flavor",
         impact: "Mild",
         effects: { boldness: -2, tenderness: 1, richness: -1, precision: 1 },
         signal: { flavorTarget: "Clean / mild" },
       },
       {
-        label: "Balanced",
+        label: "Balanced beef flavor",
         impact: "Balanced",
         effects: { boldness: 1, tenderness: 1 },
         signal: { flavorTarget: "Balanced" },
       },
       {
-        label: "Bold",
+        label: "Bold steakhouse flavor",
         impact: "Bold",
         effects: { boldness: 2, richness: 1 },
         signal: { flavorTarget: "Bold / savory" },
       },
       {
-        label: "Intense",
+        label: "Very bold char-forward flavor",
         impact: "Intense",
         effects: { boldness: 3, adventure: 1, precision: -1 },
         signal: { flavorTarget: "Intense / char-forward" },
@@ -64,30 +64,30 @@ const BASE_QUESTIONS = [
     ],
   },
   {
-    type: "Richness",
-    prompt: "How rich should it be?",
+    type: "Marbling",
+    prompt: "How much marbling do you want?",
     detail: "Pick one.",
     options: [
       {
-        label: "Lean",
+        label: "Lean (lower marbling)",
         impact: "Lean",
         effects: { richness: -2, value: 1, precision: 1 },
         signal: { richnessTarget: "Lean" },
       },
       {
-        label: "Moderate",
+        label: "Moderate marbling",
         impact: "Balanced",
         effects: { richness: 1, tenderness: 1 },
         signal: { richnessTarget: "Moderate" },
       },
       {
-        label: "Rich",
+        label: "Rich marbling",
         impact: "Rich",
         effects: { richness: 2, boldness: 1, value: -1 },
         signal: { richnessTarget: "Rich" },
       },
       {
-        label: "Very rich",
+        label: "Very rich marbling",
         impact: "Very rich",
         effects: { richness: 3, boldness: 1, value: -2 },
         signal: { richnessTarget: "Very rich" },
@@ -207,14 +207,20 @@ const BASE_QUESTIONS = [
   },
   {
     type: "Cuisine",
-    prompt: "What cuisine are you cooking most?",
+    prompt: "What style are you cooking today?",
     detail: "Pick one.",
     options: [
       {
-        label: "Steakhouse / American grill",
+        label: "Steakhouse",
         impact: "Steakhouse",
-        effects: { richness: 1, tenderness: 1, precision: 1 },
-        signal: { cuisineStyle: "Steakhouse / American grill" },
+        effects: { richness: 1, tenderness: 2, precision: 1, value: -1 },
+        signal: { cuisineStyle: "Steakhouse" },
+      },
+      {
+        label: "American grill / cookout",
+        impact: "Grill",
+        effects: { boldness: 1, value: 2, precision: -1 },
+        signal: { cuisineStyle: "American grill" },
       },
       {
         label: "Mexican / fajitas",
@@ -409,7 +415,7 @@ const BASE_QUESTIONS = [
     detail: "Pick one.",
     options: [
       {
-        label: "Salt + pepper (keep it simple)",
+        label: "Salt + pepper",
         impact: "Simple",
         effects: { precision: 1, tenderness: 1, adventure: -1 },
         signal: {
@@ -418,19 +424,13 @@ const BASE_QUESTIONS = [
         },
       },
       {
-        label: "Salt + pepper (quality-first beef)",
-        impact: "Quality showcase",
-        effects: { precision: 2, tenderness: 1, richness: 1 },
-        signal: {
-          seasoningStyle: "Salt + pepper",
-          seasoningIntent: "Quality showcase",
-        },
-      },
-      {
         label: "Butter + herbs",
         impact: "Baste",
         effects: { richness: 1, precision: 1 },
-        signal: { seasoningStyle: "Butter + herbs" },
+        signal: {
+          seasoningStyle: "Butter + herbs",
+          seasoningIntent: "Quality showcase",
+        },
       },
       {
         label: "Dry rub or marinade",
@@ -552,39 +552,58 @@ const BASE_QUESTIONS = [
     ],
   },
   {
-    type: "Backup Plan",
-    prompt: "If your cut is sold out, what do you do?",
+    type: "Buying Style",
+    prompt: "At the meat case, what usually guides your choice?",
     detail: "Pick one.",
     options: [
       {
-        label: "Pick closest match",
-        impact: "Performance",
-        effects: { precision: 1, adventure: 1 },
-        signal: { substitution: "Moderate (performance-based)" },
+        label: "Stick with familiar cuts",
+        impact: "Familiar-first",
+        effects: { adventure: -2, precision: 1, value: 1 },
+        signal: {
+          comfort: "Need guidance / recipes",
+          expertiseBand: "Beginner",
+          budget: "Moderate",
+          substitution: "Low (exact cuts only)",
+        },
       },
       {
-        label: "Pick best value swap",
-        impact: "Value",
-        effects: { value: 2, adventure: 1 },
-        signal: { substitution: "High (cost-based)" },
+        label: "Best quality within budget",
+        impact: "Balanced quality",
+        effects: { tenderness: 1, richness: 1, value: 1, precision: 1 },
+        signal: {
+          comfort: "Comfortable with common cuts",
+          expertiseBand: "Intermediate",
+          budget: "Mid-premium",
+          substitution: "Moderate (performance-based)",
+        },
       },
       {
-        label: "Use my backup list",
-        impact: "Limited",
-        effects: { precision: 1, adventure: -1 },
-        signal: { substitution: "Limited" },
+        label: "Best value for the meal",
+        impact: "Value-first",
+        effects: { value: 2, boldness: 1, adventure: 1 },
+        signal: {
+          comfort: "Comfortable with common cuts",
+          budget: "Value-focused",
+          substitution: "High (cost-based)",
+        },
       },
       {
-        label: "Wait for exact cut",
-        impact: "Exact",
-        effects: { precision: 1, adventure: -2 },
-        signal: { substitution: "Low (exact cuts only)" },
+        label: "Open to premium standouts",
+        impact: "Premium-open",
+        effects: { value: -1, richness: 1, tenderness: 1, adventure: 1, precision: 1 },
+        signal: {
+          comfort: "Expert cut fluency",
+          expertiseBand: "Intermediate",
+          budget: "Premium / no strict limit",
+          substitution: "Limited",
+        },
       },
     ],
   },
   {
     type: "Bone",
-    prompt: "Bone-in, boneless, or either?",
+    prompt: "For premium presentation, bone-in or boneless?",
     detail: "Pick one.",
     options: [
       {
@@ -596,7 +615,7 @@ const BASE_QUESTIONS = [
       {
         label: "Bone-in",
         impact: "Bone-in",
-        effects: { boldness: 1, richness: 1, adventure: 1 },
+        effects: { boldness: 1, richness: 1, adventure: 2, precision: 1 },
         signal: { bonePreference: "Bone-in" },
       },
       {
@@ -608,33 +627,33 @@ const BASE_QUESTIONS = [
     ],
   },
   {
-    type: "Time",
-    prompt: "How much time do you have to cook?",
+    type: "Prep Effort",
+    prompt: "How much prep effort are you willing to do?",
     detail: "Pick one.",
     options: [
       {
-        label: "10-15 min",
-        impact: "Fast",
+        label: "Minimal prep only",
+        impact: "Low effort",
         effects: { value: 1, precision: -1, adventure: -1, tenderness: 1 },
-        signal: { cookWindow: "10-15 minutes" },
+        signal: { prepEffort: "Low", cookWindow: "10-15 minutes" },
       },
       {
-        label: "20-30 min",
-        impact: "Standard",
+        label: "Quick prep is fine",
+        impact: "Moderate effort",
         effects: { precision: 1 },
-        signal: { cookWindow: "20-30 minutes" },
+        signal: { prepEffort: "Medium", cookWindow: "20-30 minutes" },
       },
       {
-        label: "30-45 min",
-        impact: "Extended",
-        effects: { precision: 1, boldness: 1 },
-        signal: { cookWindow: "30-45 minutes" },
+        label: "Marinade/trim prep is fine",
+        impact: "Higher effort",
+        effects: { precision: 1, boldness: 1, adventure: 1, value: 1 },
+        signal: { prepEffort: "High", cookWindow: "30-45 minutes" },
       },
       {
-        label: "45+ min project",
-        impact: "Project",
-        effects: { precision: 2, adventure: 1, boldness: 1, value: -1 },
-        signal: { cookWindow: "45+ minute project" },
+        label: "I enjoy full project cooks",
+        impact: "Project cook",
+        effects: { precision: 2, adventure: 2, boldness: 1, value: -1 },
+        signal: { prepEffort: "Very high", cookWindow: "45+ minute project" },
       },
     ],
   },
@@ -732,33 +751,33 @@ const BASE_QUESTIONS = [
     ],
   },
   {
-    type: "Format",
-    prompt: "How will you eat it?",
+    type: "Core Preference",
+    prompt: "Which steak lane sounds most like you?",
     detail: "Pick one.",
     options: [
       {
-        label: "Knife-and-fork steak",
-        impact: "Plated",
-        effects: { tenderness: 1, precision: 1 },
-        signal: { mealFormat: "Plated steak" },
+        label: "Very tender (filet style)",
+        impact: "Tender-first",
+        effects: { tenderness: 2, richness: 1, value: -1, precision: 1 },
+        signal: { coreLane: "Tender-first", mealFormat: "Plated steak" },
       },
       {
-        label: "Sliced board style",
-        impact: "Sliced",
-        effects: { boldness: 1, adventure: 1, value: 1 },
-        signal: { mealFormat: "Sliced board" },
+        label: "Rich and juicy (ribeye style)",
+        impact: "Rich-first",
+        effects: { richness: 2, boldness: 1, value: -1 },
+        signal: { coreLane: "Rich-first", mealFormat: "Plated steak" },
       },
       {
-        label: "Tacos / bowls",
-        impact: "Prep format",
-        effects: { value: 2, adventure: 1, richness: -1 },
-        signal: { mealFormat: "Tacos / bowls" },
+        label: "Balanced tender + flavor (strip style)",
+        impact: "Balanced",
+        effects: { tenderness: 1, boldness: 1, richness: 1, precision: 1 },
+        signal: { coreLane: "Balanced", mealFormat: "Sliced board" },
       },
       {
-        label: "Sandwich / bun",
-        impact: "Handheld",
-        effects: { value: 2, tenderness: 1, adventure: -1 },
-        signal: { mealFormat: "Sandwich / bun" },
+        label: "Beefy flavor + value (sirloin style)",
+        impact: "Beefy-value",
+        effects: { boldness: 2, value: 2, tenderness: -1 },
+        signal: { coreLane: "Beefy-value", mealFormat: "Tacos / bowls" },
       },
     ],
   },
@@ -952,12 +971,12 @@ const QUESTION_GROUPS = [
 const ALT_QUESTION_COPY = {
   flavor: {
     type: "Flavor",
-    prompt: "What flavor do you want?",
+    prompt: "How strong do you want the beef flavor?",
     detail: "Pick one.",
   },
   richness: {
-    type: "Richness",
-    prompt: "How rich should it be?",
+    type: "Marbling",
+    prompt: "How much marbling do you want?",
     detail: "Pick one.",
   },
   texture: {
@@ -977,7 +996,7 @@ const ALT_QUESTION_COPY = {
   },
   cuisine: {
     type: "Cuisine",
-    prompt: "What cuisine are you cooking most?",
+    prompt: "What style are you cooking today?",
     detail: "Pick one.",
   },
   specialty_cuts: {
@@ -1026,8 +1045,8 @@ const ALT_QUESTION_COPY = {
     detail: "Pick one.",
   },
   flexibility: {
-    type: "Backup Plan",
-    prompt: "If your cut is sold out, what do you do?",
+    type: "Buying Style",
+    prompt: "At the meat case, what usually guides your choice?",
     detail: "Pick one.",
   },
   bone: {
@@ -1036,8 +1055,8 @@ const ALT_QUESTION_COPY = {
     detail: "Pick one.",
   },
   cook_window: {
-    type: "Cook Time",
-    prompt: "How much time do you have to cook?",
+    type: "Prep Effort",
+    prompt: "How much prep effort are you willing to do?",
     detail: "Pick one.",
   },
   smoke: {
@@ -1056,8 +1075,8 @@ const ALT_QUESTION_COPY = {
     detail: "Pick one.",
   },
   meal_format: {
-    type: "Format",
-    prompt: "How will you eat it?",
+    type: "Core Preference",
+    prompt: "Which steak lane sounds most like you?",
     detail: "Pick one.",
   },
   leftovers: {
@@ -1090,12 +1109,12 @@ const ALT_QUESTION_COPY = {
 const ALT_QUESTION_COPY_2 = {
   flavor: {
     type: "Flavor Preference",
-    prompt: "What beef flavor do you want?",
+    prompt: "How strong should the beef flavor be?",
     detail: "Pick one.",
   },
   richness: {
-    type: "Richness Level",
-    prompt: "How rich do you want the beef?",
+    type: "Marbling Level",
+    prompt: "How much marbling do you want?",
     detail: "Pick one.",
   },
   texture: {
@@ -1115,7 +1134,7 @@ const ALT_QUESTION_COPY_2 = {
   },
   cuisine: {
     type: "Cuisine Style",
-    prompt: "Which cuisine best fits this meal?",
+    prompt: "Which cooking style best fits this meal?",
     detail: "Pick one.",
   },
   specialty_cuts: {
@@ -1164,8 +1183,8 @@ const ALT_QUESTION_COPY_2 = {
     detail: "Pick one.",
   },
   flexibility: {
-    type: "Plan B",
-    prompt: "If your cut is sold out, what do you do?",
+    type: "Case Style",
+    prompt: "At the meat case, what usually guides your choice?",
     detail: "Pick one.",
   },
   bone: {
@@ -1174,8 +1193,8 @@ const ALT_QUESTION_COPY_2 = {
     detail: "Pick one.",
   },
   cook_window: {
-    type: "Time",
-    prompt: "How much time do you have to cook?",
+    type: "Prep",
+    prompt: "How much prep effort are you willing to do?",
     detail: "Pick one.",
   },
   smoke: {
@@ -1194,8 +1213,8 @@ const ALT_QUESTION_COPY_2 = {
     detail: "Pick one.",
   },
   meal_format: {
-    type: "Format",
-    prompt: "How will you eat it?",
+    type: "Steak Lane",
+    prompt: "Which steak lane sounds most like you?",
     detail: "Pick one.",
   },
   leftovers: {
@@ -1253,27 +1272,21 @@ const QUESTION_POOL = BASE_QUESTIONS.flatMap((question, index) => {
 
 const QUESTION_HISTORY_KEY = "beef_cut_fit_question_history_v2";
 const QUESTION_LAST_SET_KEY = "beef_cut_fit_last_set_v2";
-const ASSESSMENT_QUESTION_COUNT = 22;
+const ASSESSMENT_QUESTION_COUNT = 15;
 const INTAKE_GROUPS = ["comfort", "cuisine"];
 const COMMON_DYNAMIC_GROUPS = [
   "flavor",
   "richness",
   "texture",
-  "method",
   "doneness",
   "seasoning",
-  "portion",
-  "budget",
   "priority",
   "flexibility",
-  "bone",
   "cook_window",
   "meal_format",
 ];
 const EXPERT_DYNAMIC_GROUPS = [
   "specialty_cuts",
-  "advanced_technique",
-  "butcher_precision",
   "smoke",
   "fat_cap",
   "crust",
@@ -1283,50 +1296,51 @@ const INTERMEDIATE_DYNAMIC_GROUPS = [
   "smoke",
   "fat_cap",
   "crust",
-  "pairing",
-  "occasion",
 ];
 const BEGINNER_DYNAMIC_GROUPS = [
   "guidance_level",
-  "occasion",
-  "leftovers",
   "routine",
-  "pairing",
   "chew",
 ];
 const CUISINE_PRIORITY_GROUPS = {
-  "Steakhouse / American grill": [
-    "bone",
+  Steakhouse: [
     "doneness",
     "richness",
-    "advanced_technique",
-    "butcher_precision",
+    "meal_format",
     "crust",
     "priority",
+    "seasoning",
+  ],
+  "American grill": [
+    "meal_format",
+    "cook_window",
+    "seasoning",
+    "flexibility",
+    "priority",
+    "smoke",
   ],
   "Mexican / fajitas": [
     "meal_format",
     "seasoning",
     "specialty_cuts",
-    "portion",
-    "method",
     "crust",
+    "cook_window",
+    "priority",
   ],
   "Italian / comfort dishes": [
     "seasoning",
-    "leftovers",
-    "pairing",
     "guidance_level",
-    "budget",
-    "occasion",
+    "cook_window",
+    "meal_format",
+    "priority",
   ],
   "BBQ / smokehouse": [
     "smoke",
     "cook_window",
-    "advanced_technique",
-    "method",
+    "meal_format",
     "fat_cap",
     "crust",
+    "seasoning",
   ],
   "Asian / quick-cook": [
     "cook_window",
@@ -1334,64 +1348,65 @@ const CUISINE_PRIORITY_GROUPS = {
     "seasoning",
     "specialty_cuts",
     "texture",
-    "portion",
+    "priority",
+    "smoke",
   ],
 };
 const QUESTION_RELEVANCE_NOTES = {
   flavor:
-    "Flavor preference sets whether we prioritize clean, balanced, or bold beef-forward cuts.",
+    "This sets flavor intensity. Lighter answers favor cleaner, easier cuts; bolder answers prioritize deeper beef flavor and char-friendly cuts.",
   richness:
-    "Richness level sets marbling tolerance, narrowing cuts from lean to highly marbled.",
+    "This sets marbling (intermuscular fat) preference. More marbling typically improves flavor intensity, juiciness, and perceived tenderness.",
   texture:
-    "Texture preference separates soft-bite cuts from firmer, more beef-forward cuts.",
+    "This sets bite preference. Tender answers lift soft-bite cuts; firmer answers lift meaty, beef-forward muscles.",
   method:
-    "Cooking method filters to cuts that perform best with your heat style.",
+    "This sets heat compatibility. We boost cuts that perform reliably with your cooking method.",
   comfort:
-    "Your cut comfort level sets how far to push into specialty vs familiar options.",
+    "This sets complexity range. Higher comfort allows specialty cuts; lower comfort keeps recommendations familiar and easier to execute.",
   cuisine:
-    "Cuisine style prioritizes cuts that naturally fit those dishes and formats.",
+    "This sets dish context. Steakhouse favors premium plated cuts; American grill favors cookout/value-friendly cuts and handheld formats.",
   specialty_cuts:
-    "This confirms whether lesser-known cuts should be featured or minimized.",
+    "This confirms how far to go beyond common cuts. High comfort widens the recommendation pool; low comfort narrows it.",
   advanced_technique:
-    "Technique depth helps match cuts to your current cooking skill and control level.",
+    "This sets technical fit. We match cuts to the cooking control and prep depth you actually want to use.",
   butcher_precision:
-    "Purchase precision tells us if you want exact specs or flexible substitutions.",
+    "This sets purchasing precision. Exact preferences favor spec-sensitive cuts; flexible preferences favor easier substitutions.",
   guidance_level:
-    "Guidance style sets whether recommendations should be simple, optional, or exploratory.",
+    "This sets recommendation format. We tune for simple direction vs exploratory options based on your preference.",
   doneness:
-    "Doneness preference screens out cuts that lose quality at your target finish.",
+    "This sets finish target. Cuts that hold quality at your preferred doneness are ranked higher.",
   seasoning:
-    "Seasoning style determines if we optimize for simple prep, quality showcase, rub-friendly, or sauce-forward cuts.",
+    "This sets seasoning lane. Simple prep favors cleaner high-quality cuts; rub/sauce lanes favor cuts that carry stronger seasoning.",
   portion:
-    "Serving format shifts recommendations between plated steaks, sliced cuts, and handhelds.",
+    "This sets service format. We shift between plated steaks, sliced board cuts, tacos/bowls, or handheld options.",
   budget:
-    "Budget keeps the recommendation realistic for what you want to spend now.",
+    "This sets spend range. Premium answers keep higher-end cuts active; value answers prioritize price-performance options.",
   priority:
-    "Your top priority weights quality, value, consistency, or method fit.",
+    "This sets scoring emphasis. Your priority drives the final tie-break between otherwise similar cuts.",
   flexibility:
-    "Substitution behavior determines how broad the backup cut options should be.",
+    "This captures buying behavior at the meat case. We infer how wide backup options should be across Levels 1-4.",
   bone:
-    "Bone preference narrows the list to bone-in, boneless, or both.",
+    "This sets bone profile. Bone-in preference elevates bone-in cuts; boneless preference filters toward boneless options.",
   cook_window:
-    "Available cook time filters quick-sear cuts vs longer cooking projects.",
+    "This captures prep tolerance. We convert this into a practical cook window to sort fast-turn versus project cuts.",
   smoke:
-    "Smoke preference ranks cuts that absorb smoke and hold flavor under fire.",
+    "This sets smoke intensity fit. Higher smoke preference boosts cuts that hold up under fire and longer cook paths.",
   fat_cap:
-    "Fat-cap preference tunes recommendations toward lean-trimmed or fat-forward cuts.",
+    "This sets fat-edge tolerance. Lean preferences reduce fat-forward cuts; higher tolerance increases them.",
   chew:
-    "Chew tolerance separates very tender cuts from firmer, flavorful muscle cuts.",
+    "This sets chew profile. Lower chew favors tender cuts; higher chew allows firmer cuts with stronger beef character.",
   meal_format:
-    "Meal format aligns the cut to plated steak, sliced board, tacos, or sandwiches.",
+    "This sets your core steak lane. We infer service style (plated, sliced board, tacos/bowls, sandwich/bun) for level placement.",
   leftovers:
-    "Leftover plans favor cuts that reheat and repurpose cleanly.",
+    "This sets next-day usability. Leftover-friendly answers boost cuts that reheat and repurpose cleanly.",
   occasion:
-    "Meal context shifts scoring between weeknight practicality, premium presentation, and crowd-friendly formats.",
+    "This sets occasion weighting. Weeknight answers favor practicality; special-event answers favor presentation.",
   crust:
-    "Crust preference selects cuts that handle aggressive searing without drying out.",
+    "This sets sear intensity. High-crust answers elevate cuts that can take aggressive surface heat.",
   routine:
-    "Purchase cadence balances everyday consistency with occasional premium picks.",
+    "This sets purchase cadence. Frequent buyers get consistency/value emphasis; occasional buyers can lean premium.",
   pairing:
-    "Side plan balances plate richness so the cut matches your full meal, not just the protein.",
+    "This sets plate balance. Side choices help us avoid over- or under-rich combinations for the full meal.",
 };
 
 const CUTS = [
@@ -1926,30 +1941,6 @@ const CUTS = [
     },
   },
   {
-    id: "london_broil_top_round",
-    name: "London Broil",
-    tagline: "Lean, shareable cut with broad utility.",
-    rationale:
-      "Top round works for moderate-to-value users who want larger format service and flexible preparation.",
-    profile: {
-      richness: 3,
-      tenderness: 4,
-      boldness: 7,
-      adventure: 6,
-      value: 8,
-      precision: 7,
-    },
-    imps: [
-      "IMPS Series 100 - Beef Round, Top Round (London broil style reference)",
-    ],
-    cooking: {
-      method: "Marinate and broil/grill",
-      doneness: "Medium-rare",
-      temp: "130-136F final internal temperature",
-      note: "Rest and slice thin against grain.",
-    },
-  },
-  {
     id: "plate_short_rib_boneless",
     name: "Boneless Short Rib",
     tagline: "Rich cut suited to grill or braise programs.",
@@ -2096,10 +2087,6 @@ const COOKING_TIPS_DB = {
     outside_skirt: [
       "Outside skirt needs very little time; prioritize color over prolonged cook.",
       "Cut into manageable lengths before cooking for better pan contact.",
-    ],
-    london_broil_top_round: [
-      "Use a marinade with salt and acid for at least 2 hours.",
-      "Broil or grill hard, then rest and slice paper-thin.",
     ],
     all_beef_uncured_hot_dog: [
       "Warm gently first, then blister over direct heat for snap without splitting.",
@@ -2449,7 +2436,8 @@ function getQuestionRelevanceNote(question) {
 
 function showResults() {
   const profile = buildProfileVector();
-  const signals = buildAssessmentSignals();
+  const rawSignals = buildAssessmentSignals();
+  const signals = resolveAssessmentSignals(rawSignals, profile);
   const rankedCuts = rankCuts(profile, signals);
   const primary = rankedCuts[0];
   const second = rankedCuts[1];
@@ -2495,10 +2483,10 @@ function showResults() {
   addKeyValueItem(cookingList, "Tip", primary.cut.cooking.note);
 
   renderTierTitles(tiers.titles);
-  renderTierList(tier1List, tiers.tier1);
-  renderTierList(tier2List, tiers.tier2);
-  renderTierList(tier3List, tiers.tier3);
-  renderTierList(tier4List, tiers.tier4);
+  renderTierList(tier1List, tiers.tier1, signals, "tier1");
+  renderTierList(tier2List, tiers.tier2, signals, "tier2");
+  renderTierList(tier3List, tiers.tier3, signals, "tier3");
+  renderTierList(tier4List, tiers.tier4, signals, "tier4");
   renderCookingTips(primary.cut);
 
   quizPanel.classList.add("hidden");
@@ -2524,6 +2512,48 @@ function buildAssessmentSignalsForRange(startIndex, endExclusive) {
     Object.entries(option.signal).forEach(([key, value]) => {
       signals[key] = value;
     });
+  }
+
+  return signals;
+}
+
+function resolveAssessmentSignals(rawSignals, profile) {
+  const signals = { ...rawSignals };
+
+  if (!signals.budget) {
+    signals.budget = deriveBudgetSignal(signals, profile);
+  }
+
+  if (!signals.substitution) {
+    signals.substitution = deriveSubstitutionSignal(signals, profile);
+  }
+
+  if (!signals.cookWindow) {
+    signals.cookWindow = deriveCookWindowFromSignals(signals, profile);
+  }
+
+  if (!signals.mealFormat) {
+    signals.mealFormat = deriveMealFormatFromSignals(signals, profile);
+  }
+
+  if (!signals.method) {
+    signals.method = deriveMethodSignal(signals, profile);
+  }
+
+  if (!signals.advancedTechnique) {
+    signals.advancedTechnique = deriveTechniqueSignal(signals, profile);
+  }
+
+  if (!signals.buyPrecision) {
+    signals.buyPrecision = deriveBuyPrecisionSignal(signals, profile);
+  }
+
+  if (!signals.occasionType) {
+    signals.occasionType = deriveOccasionSignal(signals, profile);
+  }
+
+  if (!signals.pairingStyle) {
+    signals.pairingStyle = derivePairingStyleSignal(signals, profile);
   }
 
   return signals;
@@ -2597,43 +2627,339 @@ function buildTierRecommendations(rankedCuts, signals = {}) {
     used,
     scaleModel.targets[0],
     3,
-    signals
+    signals,
+    "tier1"
   );
   const tier2 = selectTierCutsByScale(
     rankedCuts,
     used,
     scaleModel.targets[1],
     4,
-    signals
+    signals,
+    "tier2"
   );
   const tier3 = selectTierCutsByScale(
     rankedCuts,
     used,
     scaleModel.targets[2],
     4,
-    signals
+    signals,
+    "tier3"
   );
   const tier4 = selectTierCutsByScale(
     rankedCuts,
     used,
     scaleModel.targets[3],
     4,
-    signals
+    signals,
+    "tier4"
+  );
+
+  const upgradedTiers = applyTierUpgradeVariants(
+    { tier1, tier2, tier3, tier4 },
+    rankedCuts
   );
 
   return {
-    tier1,
-    tier2,
-    tier3,
-    tier4,
+    tier1: upgradedTiers.tier1,
+    tier2: upgradedTiers.tier2,
+    tier3: upgradedTiers.tier3,
+    tier4: upgradedTiers.tier4,
     titles: scaleModel.titles,
   };
+}
+
+function applyTierUpgradeVariants(tiers, rankedCuts) {
+  const primary = rankedCuts[0]?.cut;
+  if (!primary) {
+    return tiers;
+  }
+
+  const promotions = getTierUpgradePromotions(primary, rankedCuts);
+  const tier3 = mergeTierPromotions(tiers.tier3, promotions.tier3, 4);
+  const tier4 = mergeTierPromotions(tiers.tier4, promotions.tier4, 4);
+
+  return {
+    tier1: tiers.tier1,
+    tier2: tiers.tier2,
+    tier3,
+    tier4,
+  };
+}
+
+function getTierUpgradePromotions(primaryCut, rankedCuts) {
+  const family = getCutFamily(primaryCut);
+  const planByFamily = {
+    Rib: {
+      tier3: [
+        {
+          cutId: "ribeye",
+          variantName: "Bone-In Ribeye",
+          variantMeta: "Bone-upgrade path",
+        },
+        {
+          cutId: "bone_in_strip",
+          variantName: "Bone-In New York Strip",
+          variantMeta: "Bone-upgrade path",
+        },
+        {
+          cutId: "t_bone",
+          variantName: "T-Bone",
+          variantMeta: "Bone-upgrade path",
+        },
+      ],
+      tier4: [
+        {
+          cutId: "tomahawk_ribeye",
+          variantName: "Tomahawk Ribeye",
+          variantMeta: "Showpiece long-bone upgrade",
+        },
+        {
+          cutId: "porterhouse",
+          variantName: "Porterhouse",
+          variantMeta: "Showpiece bone-upgrade path",
+        },
+        {
+          cutId: "t_bone",
+          variantName: "T-Bone",
+          variantMeta: "Showpiece bone-upgrade path",
+        },
+      ],
+    },
+    Loin: {
+      tier3: [
+        {
+          cutId: "bone_in_strip",
+          variantName: "Bone-In New York Strip",
+          variantMeta: "Bone-upgrade path",
+        },
+        {
+          cutId: "t_bone",
+          variantName: "T-Bone",
+          variantMeta: "Bone-upgrade path",
+        },
+      ],
+      tier4: [
+        {
+          cutId: "porterhouse",
+          variantName: "Porterhouse",
+          variantMeta: "Signature split-loin upgrade",
+        },
+        {
+          cutId: "tomahawk_ribeye",
+          variantName: "Tomahawk Ribeye",
+          variantMeta: "Showpiece long-bone upgrade",
+        },
+        {
+          cutId: "t_bone",
+          variantName: "T-Bone",
+          variantMeta: "Bone-upgrade path",
+        },
+      ],
+    },
+    Sirloin: {
+      tier3: [
+        {
+          cutId: "bone_in_strip",
+          variantName: "Bone-In New York Strip",
+          variantMeta: "Steakhouse bone-upgrade step",
+        },
+        {
+          cutId: "t_bone",
+          variantName: "T-Bone",
+          variantMeta: "Steakhouse bone-upgrade step",
+        },
+      ],
+      tier4: [
+        {
+          cutId: "porterhouse",
+          variantName: "Porterhouse",
+          variantMeta: "Premium bone-upgrade path",
+        },
+        {
+          cutId: "tomahawk_ribeye",
+          variantName: "Tomahawk Ribeye",
+          variantMeta: "Showpiece long-bone upgrade",
+        },
+      ],
+    },
+    Chuck: {
+      tier3: [
+        {
+          cutId: "t_bone",
+          variantName: "T-Bone",
+          variantMeta: "Bone-upgrade path",
+        },
+        {
+          cutId: "bone_in_strip",
+          variantName: "Bone-In New York Strip",
+          variantMeta: "Bone-upgrade path",
+        },
+      ],
+      tier4: [
+        {
+          cutId: "tomahawk_ribeye",
+          variantName: "Tomahawk Ribeye",
+          variantMeta: "Showpiece long-bone upgrade",
+        },
+        {
+          cutId: "porterhouse",
+          variantName: "Porterhouse",
+          variantMeta: "Showpiece bone-upgrade path",
+        },
+      ],
+    },
+    Plate: {
+      tier3: [
+        {
+          cutId: "t_bone",
+          variantName: "T-Bone",
+          variantMeta: "Bone-upgrade path",
+        },
+        {
+          cutId: "bone_in_strip",
+          variantName: "Bone-In New York Strip",
+          variantMeta: "Bone-upgrade path",
+        },
+      ],
+      tier4: [
+        {
+          cutId: "tomahawk_ribeye",
+          variantName: "Tomahawk Ribeye",
+          variantMeta: "Showpiece long-bone upgrade",
+        },
+        {
+          cutId: "porterhouse",
+          variantName: "Porterhouse",
+          variantMeta: "Showpiece bone-upgrade path",
+        },
+      ],
+    },
+    Flank: {
+      tier3: [
+        {
+          cutId: "t_bone",
+          variantName: "T-Bone",
+          variantMeta: "Bone-upgrade path",
+        },
+        {
+          cutId: "bone_in_strip",
+          variantName: "Bone-In New York Strip",
+          variantMeta: "Bone-upgrade path",
+        },
+      ],
+      tier4: [
+        {
+          cutId: "tomahawk_ribeye",
+          variantName: "Tomahawk Ribeye",
+          variantMeta: "Showpiece long-bone upgrade",
+        },
+        {
+          cutId: "porterhouse",
+          variantName: "Porterhouse",
+          variantMeta: "Showpiece bone-upgrade path",
+        },
+      ],
+    },
+  };
+
+  const fallbackPlan = {
+    tier3: [
+      {
+        cutId: "bone_in_strip",
+        variantName: "Bone-In New York Strip",
+        variantMeta: "Bone-upgrade path",
+      },
+      {
+        cutId: "t_bone",
+        variantName: "T-Bone",
+        variantMeta: "Bone-upgrade path",
+      },
+    ],
+    tier4: [
+      {
+        cutId: "tomahawk_ribeye",
+        variantName: "Tomahawk Ribeye",
+        variantMeta: "Showpiece long-bone upgrade",
+      },
+      {
+        cutId: "porterhouse",
+        variantName: "Porterhouse",
+        variantMeta: "Showpiece bone-upgrade path",
+      },
+    ],
+  };
+
+  const familyPlan = planByFamily[family] || fallbackPlan;
+  return {
+    tier3: selectTierVariantPromotion(primaryCut, rankedCuts, familyPlan.tier3),
+    tier4: selectTierVariantPromotion(primaryCut, rankedCuts, familyPlan.tier4),
+  };
+}
+
+function selectTierVariantPromotion(primaryCut, rankedCuts, candidates = []) {
+  for (const candidate of candidates) {
+    if (!candidate?.cutId) {
+      continue;
+    }
+    if (candidate.cutId === primaryCut.id) {
+      continue;
+    }
+
+    const promotion = createTierVariantResult(
+      rankedCuts,
+      candidate.cutId,
+      candidate.variantName,
+      candidate.variantMeta
+    );
+    if (promotion) {
+      return promotion;
+    }
+  }
+
+  return null;
+}
+
+function createTierVariantResult(rankedCuts, cutId, variantName, variantMeta) {
+  const ranked = rankedCuts.find((entry) => entry.cut.id === cutId);
+  if (ranked) {
+    return {
+      ...ranked,
+      variantName,
+      variantMeta,
+      isVariant: true,
+    };
+  }
+
+  const cut = CUTS.find((entry) => entry.id === cutId);
+  if (!cut) {
+    return null;
+  }
+
+  return {
+    cut,
+    score: 0,
+    variantName,
+    variantMeta,
+    isVariant: true,
+  };
+}
+
+function mergeTierPromotions(baseTier, promotion, limit) {
+  const merged = [...baseTier];
+  if (!promotion) {
+    return merged.slice(0, limit);
+  }
+
+  const deduped = merged.filter((entry) => entry.cut.id !== promotion.cut.id);
+  deduped.unshift(promotion);
+  return deduped.slice(0, limit);
 }
 
 function buildTierScaleModel(signals) {
   const expertiseAnchor = getExpertiseScaleAnchor(signals);
   const cuisineBias = getCuisineScaleBias(signals.cuisineStyle);
-  const levelOffsets = [-1.1, -0.3, 0.55, 1.35];
+  const levelOffsets = [-1.15, -0.25, 0.85, 1.9];
 
   const targets = levelOffsets.map((offset) => ({
     difficulty: clamp(expertiseAnchor + cuisineBias.difficulty + offset, 1, 4),
@@ -2667,8 +2993,11 @@ function getCuisineScaleBias(cuisineStyle) {
   if (cuisineStyle === "BBQ / smokehouse") {
     return { difficulty: 0.65, familiarity: 0.25, equipment: 1.05 };
   }
-  if (cuisineStyle === "Steakhouse / American grill") {
+  if (cuisineStyle === "Steakhouse") {
     return { difficulty: 0.45, familiarity: 0.2, equipment: 0.65 };
+  }
+  if (cuisineStyle === "American grill") {
+    return { difficulty: -0.1, familiarity: -0.25, equipment: 0.25 };
   }
   if (cuisineStyle === "Mexican / fajitas") {
     return { difficulty: 0.2, familiarity: 0.45, equipment: 0.25 };
@@ -2683,18 +3012,27 @@ function getCuisineScaleBias(cuisineStyle) {
 }
 
 function buildScaleTierTitle(level, targetScale) {
-  const difficulty = getDifficultyScaleLabel(targetScale.difficulty);
-  const familiarity = getFamiliarityScaleLabel(targetScale.familiarity);
-  const equipment = getEquipmentScaleLabel(targetScale.equipment);
-  return `Level ${level}: ${difficulty} • ${familiarity} • ${equipment}`;
+  if (level === 1) {
+    return "Level 1: Best Immediate Fit";
+  }
+  if (level === 2) {
+    return "Level 2: Strong Alternatives";
+  }
+  if (level === 3) {
+    return "Level 3: Specialty Upgrades";
+  }
+  if (level === 4) {
+    return "Level 4: Explorer / Exotic Cuts";
+  }
+  return `Level ${level}`;
 }
 
-function selectTierCutsByScale(rankedCuts, used, targetScale, count, signals) {
+function selectTierCutsByScale(rankedCuts, used, targetScale, count, signals, tierKey) {
   const ordered = rankedCuts
     .filter((result) => !used.has(result.cut.id))
     .map((result) => ({
       result,
-      tierFitScore: getTierScaleFitScore(result, targetScale, signals),
+      tierFitScore: getTierScaleFitScore(result, targetScale, signals, tierKey),
     }))
     .sort((a, b) => {
       if (b.tierFitScore !== a.tierFitScore) {
@@ -2721,14 +3059,123 @@ function selectTierCutsByScale(rankedCuts, used, targetScale, count, signals) {
   return picks;
 }
 
-function getTierScaleFitScore(result, targetScale, signals) {
+function getTierScaleFitScore(result, targetScale, signals, tierKey) {
   const cutScale = deriveCutExecutionScale(result.cut);
   const targetDistance = getTierTargetDistance(cutScale, targetScale);
   const distanceScore = clamp(16 - targetDistance * 4.25, -10, 16);
   const cuisineBonus =
-    getCuisineFitAdjustment(result.cut, signals.cuisineStyle, signals.mealFormat, null) * 0.45;
+    getCuisineFitAdjustment(result.cut, signals.cuisineStyle, signals.mealFormat, null) * 0.55;
+  const operationalBonus = getTierOperationalBonus(result.cut, signals, tierKey);
+  const intentBoost = getTierIntentBoost(result.cut, signals, tierKey);
+  const baseWeight =
+    tierKey === "tier1" ? 0.62 : tierKey === "tier2" ? 0.54 : tierKey === "tier3" ? 0.46 : 0.38;
 
-  return result.score * 0.55 + distanceScore + cuisineBonus;
+  return result.score * baseWeight + distanceScore + cuisineBonus + operationalBonus + intentBoost;
+}
+
+function getTierOperationalBonus(cut, signals, tierKey) {
+  const substitutionFit = getSubstitutionFitAdjustment(cut, signals.substitution);
+  const cookWindowFit = getCookWindowFitAdjustment(cut, signals.cookWindow);
+  const formatFit = getMealFormatFitAdjustment(cut, signals.mealFormat);
+  const budgetFit = getBudgetFitAdjustment(cut, signals.budget);
+
+  if (tierKey === "tier1") {
+    return (
+      cookWindowFit * 0.9 +
+      formatFit * 1.05 +
+      substitutionFit * 0.45 +
+      budgetFit * 0.95
+    );
+  }
+  if (tierKey === "tier2") {
+    return substitutionFit + cookWindowFit * 0.55 + formatFit * 0.65 + budgetFit * 0.7;
+  }
+  if (tierKey === "tier3") {
+    return (
+      substitutionFit * 0.45 +
+      cookWindowFit * 0.35 +
+      formatFit * 0.55 +
+      budgetFit * 0.4
+    );
+  }
+  return (
+    substitutionFit * 0.35 +
+    cookWindowFit * 0.25 +
+    formatFit * 0.45 +
+    budgetFit * 0.25
+  );
+}
+
+function getTierIntentBoost(cut, signals, tierKey) {
+  const isCore = CORE_HEAVYWEIGHT_IDS.has(cut.id);
+  const isSpecialty = SPECIALTY_CUT_IDS.has(cut.id) || cut.profile.adventure >= 7;
+  const isExotic = cut.profile.adventure >= 8 || isSpecialty;
+
+  if (tierKey === "tier1") {
+    let boost = 0;
+    if (CLASSIC_CUT_IDS.has(cut.id)) {
+      boost += 2.2;
+    }
+    if (cut.profile.adventure >= 8) {
+      boost -= 2.4;
+    }
+    if (signals.mealFormat === "Sandwich / bun" && cut.id === "all_beef_uncured_hot_dog") {
+      boost += 5;
+    }
+    return boost;
+  }
+
+  if (tierKey === "tier2") {
+    let boost = 0;
+    if (cut.profile.value >= 6) {
+      boost += 1.6;
+    }
+    if (cut.profile.adventure >= 5 && cut.profile.adventure <= 8) {
+      boost += 1.3;
+    }
+    if (isCore) {
+      boost -= 0.5;
+    }
+    return boost;
+  }
+
+  if (tierKey === "tier3") {
+    let boost = 0;
+    if (isSpecialty) {
+      boost += 4.2;
+    }
+    if (isCore) {
+      boost -= 2.6;
+    }
+    if (signals.cuisineStyle === "Mexican / fajitas" && MEXICAN_FOCUS_IDS.has(cut.id)) {
+      boost += 1.2;
+    }
+    if (signals.cuisineStyle === "BBQ / smokehouse" && BBQ_FOCUS_IDS.has(cut.id)) {
+      boost += 1.2;
+    }
+    if (signals.cuisineStyle === "Asian / quick-cook" && ASIAN_QUICK_COOK_IDS.has(cut.id)) {
+      boost += 1.2;
+    }
+    return boost;
+  }
+
+  let boost = 0;
+  if (isSpecialty) {
+    boost += 5;
+  }
+  if (isExotic) {
+    boost += 2.2;
+  }
+  if (isCore) {
+    boost -= 4.4;
+  }
+  if (cut.profile.adventure <= 5) {
+    boost -= 2;
+  }
+  if (signals.comfort === "Expert cut fluency" || signals.specialtyComfort === "High") {
+    boost += 1.5;
+  }
+  return boost;
 }
 
 function getTierTargetDistance(cutScale, targetScale) {
@@ -2857,50 +3304,220 @@ function getFamiliarityScaleLabel(value) {
 function getEquipmentScaleLabel(value) {
   const band = toScaleBand(value);
   if (band === 1) {
-    return "Low Equipment";
+    return "Basic setup";
   }
   if (band === 2) {
-    return "Standard Equipment";
+    return "Standard setup";
   }
   if (band === 3) {
-    return "More Equipment";
+    return "Extended setup";
   }
-  return "Full Equipment";
+  return "Advanced setup";
 }
 
 function renderTierTitles(titles) {
   if (tier1Title) {
-    tier1Title.textContent = titles?.tier1 || "Level 1: Easy • Familiar • Low Equipment";
+    tier1Title.textContent = titles?.tier1 || "Level 1: Best Immediate Fit";
   }
   if (tier2Title) {
-    tier2Title.textContent =
-      titles?.tier2 || "Level 2: Moderate • Familiar-Plus • Standard Equipment";
+    tier2Title.textContent = titles?.tier2 || "Level 2: Strong Alternatives";
   }
   if (tier3Title) {
-    tier3Title.textContent = titles?.tier3 || "Level 3: Skilled • Specialty • More Equipment";
+    tier3Title.textContent = titles?.tier3 || "Level 3: Specialty Upgrades";
   }
   if (tier4Title) {
-    tier4Title.textContent = titles?.tier4 || "Level 4: Advanced • Specialty • Full Equipment";
+    tier4Title.textContent = titles?.tier4 || "Level 4: Explorer / Exotic Cuts";
   }
 }
 
-function renderTierList(target, tierResults) {
+function renderTierList(target, tierResults, signals, tierKey) {
   target.innerHTML = "";
   tierResults.forEach((result) => {
-    const cutScale = deriveCutExecutionScale(result.cut);
+    const contextMeta = getTierContextMeta(result.cut, signals, tierKey);
+    const techniqueTag = getTechniqueTierTag(result.cut, signals);
+    const detailParts = [
+      getCutFamily(result.cut),
+      getCostTier(result.cut),
+      result.variantMeta || null,
+      techniqueTag,
+      contextMeta,
+    ].filter(Boolean);
+    const metaLine = detailParts.join(" • ");
+    const displayName = result.variantName || result.cut.name;
+
     const listItem = document.createElement("li");
     listItem.innerHTML = `
-      <span class="tier-cut-name">${escapeHtml(result.cut.name)}</span>
+      <span class="tier-cut-name">${escapeHtml(displayName)}</span>
       <span class="tier-cut-meta">
-        ${escapeHtml(getCutFamily(result.cut))} • ${escapeHtml(getCostTier(result.cut))} • ${escapeHtml(
-      getDifficultyScaleLabel(cutScale.difficulty)
-    )} • ${escapeHtml(getFamiliarityScaleLabel(cutScale.familiarity))} • ${escapeHtml(
-      getEquipmentScaleLabel(cutScale.equipment)
-    )}
+        ${escapeHtml(metaLine)}
       </span>
     `;
     target.appendChild(listItem);
   });
+}
+
+function getTierContextMeta(cut, signals, tierKey) {
+  const cuisineTag = getCuisineTierTag(cut, signals.cuisineStyle);
+  const formatTag = getFormatTierTag(cut, signals.mealFormat);
+  const timeTag = getCookWindowTierTag(cut, signals.cookWindow);
+  const planBTag = getPlanBTierTag(cut, signals.substitution);
+  const methodTag = getMethodTierTag(cut, signals.method);
+  const explorationTag = getExplorationTierTag(cut);
+
+  if (tierKey === "tier1") {
+    return [cuisineTag, timeTag, formatTag].filter(Boolean).join(" • ");
+  }
+  if (tierKey === "tier2") {
+    return [planBTag, methodTag, timeTag].filter(Boolean).join(" • ");
+  }
+  if (tierKey === "tier3") {
+    return [explorationTag, methodTag, cuisineTag].filter(Boolean).join(" • ");
+  }
+  return [explorationTag, methodTag, planBTag].filter(Boolean).join(" • ");
+}
+
+function getCuisineTierTag(cut, cuisineStyle) {
+  if (!cuisineStyle || cuisineStyle === "No specific cuisine") {
+    return "Cross-cuisine";
+  }
+
+  const fit = getCuisineFitAdjustment(cut, cuisineStyle, null, null);
+  if (fit >= 4) {
+    return `${cuisineStyle} ready`;
+  }
+  if (fit >= 1) {
+    return `${cuisineStyle} workable`;
+  }
+  return "Alt-cuisine lane";
+}
+
+function getFormatTierTag(cut, mealFormat) {
+  if (!mealFormat) {
+    return null;
+  }
+
+  const fit = getMealFormatFitAdjustment(cut, mealFormat);
+  if (fit >= 4) {
+    return `${mealFormat} ready`;
+  }
+  if (fit >= 1) {
+    return `${mealFormat} fit`;
+  }
+  return "Alternate service";
+}
+
+function getCookWindowTierTag(cut, cookWindow) {
+  if (!cookWindow) {
+    return null;
+  }
+
+  const fit = getCookWindowFitAdjustment(cut, cookWindow);
+  if (fit >= 4) {
+    return `${cookWindow} fit`;
+  }
+  if (fit >= 1) {
+    return "Flexible time fit";
+  }
+  return "Longer cook path";
+}
+
+function getPlanBTierTag(cut, substitution) {
+  if (!substitution) {
+    return null;
+  }
+
+  const fit = getSubstitutionFitAdjustment(cut, substitution);
+  if (fit >= 3) {
+    return "Strong plan B";
+  }
+  if (fit >= 1) {
+    return "Backup-ready";
+  }
+  if (fit <= -2) {
+    return "Primary-first";
+  }
+  return "Situational backup";
+}
+
+function getExplorationTierTag(cut) {
+  if (cut.profile.adventure <= 4) {
+    return "Familiar lane";
+  }
+  if (cut.profile.adventure <= 6) {
+    return "Step-up lane";
+  }
+  if (cut.profile.adventure <= 8) {
+    return "Specialty lane";
+  }
+  return "Exotic lane";
+}
+
+function getMethodTierTag(cut, methodSignal) {
+  const methodText = cut.cooking.method.toLowerCase();
+  if (!methodSignal) {
+    if (methodText.includes("smoke") || methodText.includes("low")) {
+      return "Low-and-slow lane";
+    }
+    if (methodText.includes("sous vide") || methodText.includes("reverse")) {
+      return "Precision lane";
+    }
+    return "High-heat lane";
+  }
+
+  if (methodSignal === "Low-and-slow") {
+    return methodText.includes("smoke") || methodText.includes("low")
+      ? "Low-and-slow ready"
+      : "Alt low-and-slow";
+  }
+  if (methodSignal === "Pan sear") {
+    return methodText.includes("pan") || methodText.includes("cast-iron")
+      ? "Pan-sear ready"
+      : "Alt pan-sear";
+  }
+  if (methodSignal === "Oven roast + sear") {
+    return methodText.includes("oven") || methodText.includes("reverse")
+      ? "Oven + sear ready"
+      : "Alt oven + sear";
+  }
+  if (methodSignal === "Sous vide / precision") {
+    return methodText.includes("sous vide") || cut.profile.precision >= 7
+      ? "Precision ready"
+      : "Precision-compatible";
+  }
+  return methodText.includes("grill") ? "Grill ready" : "High-heat ready";
+}
+
+function getTechniqueTierTag(cut, signals) {
+  const methodText = cut.cooking.method.toLowerCase();
+  const technique = signals.advancedTechnique;
+
+  if (technique === "Temp-driven reverse sear") {
+    if (methodText.includes("reverse") || methodText.includes("oven") || cut.profile.precision >= 7) {
+      return "Reverse-sear ready";
+    }
+    return "Temp-control lane";
+  }
+  if (technique === "Two-zone heat control") {
+    return methodText.includes("grill") || methodText.includes("sear")
+      ? "Two-zone ready"
+      : "Two-zone compatible";
+  }
+  if (technique === "Marinade and high heat") {
+    return methodText.includes("marinate") || methodText.includes("grill")
+      ? "Marinade + sear"
+      : "Marinade-compatible";
+  }
+  if (technique === "Simple single-step") {
+    return cut.profile.precision <= 5 ? "One-step friendly" : "Simple-with-guidance";
+  }
+
+  if (methodText.includes("sous vide") || methodText.includes("reverse")) {
+    return "Precision technique";
+  }
+  if (methodText.includes("smoke") || methodText.includes("low")) {
+    return "Project technique";
+  }
+  return "Direct-heat technique";
 }
 
 const CUT_ICON_BY_ID = {
@@ -2926,7 +3543,6 @@ const CUT_ICON_BY_ID = {
   hanger: "hanger",
   flank: "flank",
   outside_skirt: "outside_skirt",
-  london_broil_top_round: "london_broil",
   plate_short_rib_boneless: "short_rib",
   all_beef_uncured_hot_dog: "hotdog",
 };
@@ -3309,7 +3925,8 @@ function renderExecutiveBrief(cut, summary, signals, profile, topCluster) {
     signals.cuisineStyle && signals.cuisineStyle !== "No specific cuisine"
       ? `Cuisine Fit: ${signals.cuisineStyle}.`
       : "Cuisine Fit: Cross-cuisine flexibility.",
-    skillFitText,
+    skillFitText.technique,
+    skillFitText.purchase,
     `Service Style: ${mealFormat}.`,
     `Bench Strength: ${alternativeText}.`,
   ];
@@ -3319,23 +3936,18 @@ function renderExecutiveBrief(cut, summary, signals, profile, topCluster) {
 }
 
 function getSkillFitText(signals) {
-  if (signals.advancedTechnique) {
-    return `Technique Fit: ${signals.advancedTechnique}.`;
-  }
+  const techniqueText = signals.advancedTechnique
+    ? `Technique Fit: ${signals.advancedTechnique}.`
+    : "Technique Fit: Straightforward high-heat execution.";
 
-  if (signals.buyPrecision) {
-    return `Purchase Style: ${signals.buyPrecision}.`;
-  }
+  const purchaseText = signals.buyPrecision
+    ? `Case Strategy: ${signals.buyPrecision}.`
+    : "Case Strategy: Flexible cut-family substitution.";
 
-  if (signals.specialtyComfort) {
-    return `Specialty Comfort: ${signals.specialtyComfort}.`;
-  }
-
-  if (signals.guidanceLevel) {
-    return `Guidance Fit: ${signals.guidanceLevel}.`;
-  }
-
-  return "Skill Fit: Balanced to your comfort level.";
+  return {
+    technique: techniqueText,
+    purchase: purchaseText,
+  };
 }
 
 function renderCookingTips(cut) {
@@ -3429,17 +4041,330 @@ function deriveBudgetOrientation(profile) {
   return "Selective premium";
 }
 
+function deriveBudgetSignal(signals, profile) {
+  let premiumScore = 0;
+  let valueScore = 0;
+
+  if (signals.coreLane === "Tender-first") {
+    premiumScore += 3;
+  } else if (signals.coreLane === "Rich-first") {
+    premiumScore += 3;
+  } else if (signals.coreLane === "Balanced") {
+    premiumScore += 1;
+    valueScore += 1;
+  } else if (signals.coreLane === "Beefy-value") {
+    valueScore += 4;
+  }
+
+  if (signals.richnessTarget === "Very rich") {
+    premiumScore += 3;
+  } else if (signals.richnessTarget === "Rich") {
+    premiumScore += 2;
+  } else if (signals.richnessTarget === "Lean") {
+    valueScore += 2;
+  }
+
+  if (signals.textureTarget === "Very tender") {
+    premiumScore += 1;
+  } else if (signals.textureTarget === "Firmer chew") {
+    valueScore += 1;
+  }
+
+  if (signals.doneness === "Rare / Medium-rare") {
+    premiumScore += 1;
+  } else if (signals.doneness === "Medium-well / Well done") {
+    valueScore += 2;
+  }
+
+  if (signals.seasoningStyle === "Butter + herbs") {
+    premiumScore += 2;
+  } else if (signals.seasoningStyle === "Sauce-forward") {
+    valueScore += 2;
+  } else if (signals.seasoningStyle === "Rub / marinade") {
+    valueScore += 1;
+  } else if (signals.seasoningStyle === "Salt + pepper") {
+    premiumScore += 1;
+  }
+
+  if (signals.guidanceLevel === "Familiar only") {
+    valueScore += 2;
+  } else if (signals.guidanceLevel === "Single cut + simple steps") {
+    valueScore += 1;
+  } else if (signals.guidanceLevel === "Learn progressively") {
+    premiumScore += 1;
+  }
+
+  if (signals.comfort === "Expert cut fluency" || signals.specialtyComfort === "High") {
+    premiumScore += 1;
+  } else if (signals.comfort === "Need guidance / recipes") {
+    valueScore += 1;
+  }
+
+  if (signals.cuisineStyle === "Steakhouse") {
+    premiumScore += 3;
+  } else if (signals.cuisineStyle === "American grill") {
+    valueScore += 2;
+  } else if (signals.cuisineStyle === "Mexican / fajitas") {
+    valueScore += 2;
+  } else if (signals.cuisineStyle === "BBQ / smokehouse") {
+    valueScore += 2;
+  } else if (signals.cuisineStyle === "Asian / quick-cook") {
+    valueScore += 1;
+  } else if (signals.cuisineStyle === "Italian / comfort dishes") {
+    premiumScore += 1;
+  }
+
+  if (signals.mealFormat === "Plated steak") {
+    premiumScore += 2;
+  } else if (signals.mealFormat === "Sliced board") {
+    valueScore += 1;
+  } else if (signals.mealFormat === "Tacos / bowls") {
+    valueScore += 2;
+  } else if (signals.mealFormat === "Sandwich / bun") {
+    valueScore += 4;
+  }
+
+  if (signals.cookWindow === "10-15 minutes") {
+    valueScore += 2;
+  } else if (signals.cookWindow === "45+ minute project") {
+    premiumScore += 1;
+  }
+
+  if (profile.value >= 9) {
+    valueScore += 4;
+  } else if (profile.value >= 8) {
+    valueScore += 3;
+  } else if (profile.value >= 7) {
+    valueScore += 2;
+  } else if (profile.value <= 3) {
+    premiumScore += 3;
+  }
+
+  if (profile.richness >= 8) {
+    premiumScore += 2;
+  } else if (profile.richness <= 4) {
+    valueScore += 1;
+  }
+
+  if (profile.tenderness >= 8) {
+    premiumScore += 1;
+  }
+
+  if (valueScore >= premiumScore + 4) {
+    return valueScore >= 10 ? "Lowest-cost options first" : "Value-focused";
+  }
+
+  if (premiumScore >= valueScore + 4) {
+    return premiumScore >= 9 ? "Premium / no strict limit" : "Mid-premium";
+  }
+
+  if (premiumScore >= valueScore + 2) {
+    return "Mid-premium";
+  }
+
+  if (valueScore >= premiumScore + 2) {
+    return "Value-focused";
+  }
+
+  return "Moderate";
+}
+
 function deriveSubstitutionFlexibility(profile) {
-  if (profile.adventure >= 8) {
-    return "High";
+  if (profile.value >= 8) {
+    return "High (cost-based)";
+  }
+  if (profile.adventure >= 7) {
+    return "Moderate (performance-based)";
   }
   if (profile.adventure >= 5) {
-    return "Moderate";
-  }
-  if (profile.adventure >= 3) {
     return "Limited";
   }
-  return "Low (exact cuts preferred)";
+  return "Low (exact cuts only)";
+}
+
+function deriveSubstitutionSignal(signals, profile) {
+  if (signals.buyPrecision === "Exact spec") {
+    return "Low (exact cuts only)";
+  }
+  if (signals.buyPrecision === "Family-level flexibility") {
+    return "High (cost-based)";
+  }
+  if (signals.guidanceLevel === "Top 3 + swaps") {
+    return "Moderate (performance-based)";
+  }
+  if (signals.guidanceLevel === "Familiar only") {
+    return "Low (exact cuts only)";
+  }
+  if (signals.budget === "Value-focused" || signals.budget === "Lowest-cost options first") {
+    return "High (cost-based)";
+  }
+  if (signals.comfort === "Need guidance / recipes") {
+    return "Low (exact cuts only)";
+  }
+  if (signals.specialtyComfort === "High" || profile.adventure >= 7) {
+    return "Moderate (performance-based)";
+  }
+  return deriveSubstitutionFlexibility(profile);
+}
+
+function deriveOccasionSignal(signals, profile) {
+  if (signals.cuisineStyle === "Steakhouse") {
+    return "Date night";
+  }
+  if (signals.cuisineStyle === "BBQ / smokehouse") {
+    return "Game day / BBQ";
+  }
+  if (signals.budget === "Premium / no strict limit" || profile.richness >= 8) {
+    return "Hosting guests";
+  }
+  return deriveOccasionType(profile);
+}
+
+function derivePairingStyleSignal(signals, profile) {
+  if (signals.cuisineStyle === "Italian / comfort dishes") {
+    return "Sauce-heavy sides";
+  }
+  if (signals.cuisineStyle === "Mexican / fajitas") {
+    return "Light sides";
+  }
+  if (signals.richnessTarget === "Very rich" || profile.richness >= 8) {
+    return "Light sides";
+  }
+  if (signals.richnessTarget === "Lean" || profile.richness <= 4) {
+    return "Rich sides";
+  }
+  if (signals.cuisineStyle === "American grill" || signals.cuisineStyle === "BBQ / smokehouse") {
+    return "Minimal sides";
+  }
+  return "Sauce-heavy sides";
+}
+
+function deriveMethodSignal(signals, profile) {
+  if (signals.cuisineStyle === "BBQ / smokehouse") {
+    return "Low-and-slow";
+  }
+  if (signals.cuisineStyle === "Steakhouse") {
+    return "Pan sear";
+  }
+  if (
+    signals.cuisineStyle === "Mexican / fajitas" ||
+    signals.cuisineStyle === "American grill"
+  ) {
+    return "High-heat grill";
+  }
+  if (signals.cuisineStyle === "Asian / quick-cook") {
+    return "Pan sear";
+  }
+  if (profile.precision >= 8) {
+    return "Sous vide / precision";
+  }
+  if (profile.boldness >= 8) {
+    return "High-heat grill";
+  }
+  if (signals.cookWindow === "45+ minute project") {
+    return "Oven roast + sear";
+  }
+  return "Pan sear";
+}
+
+function deriveTechniqueSignal(signals, profile) {
+  if (signals.prepEffort === "Very high" || profile.precision >= 8) {
+    return "Temp-driven reverse sear";
+  }
+  if (signals.prepEffort === "High" || signals.method === "Oven roast + sear") {
+    return "Two-zone heat control";
+  }
+  if (
+    signals.cuisineStyle === "Mexican / fajitas" ||
+    signals.cuisineStyle === "Asian / quick-cook" ||
+    signals.seasoningStyle === "Rub / marinade"
+  ) {
+    return "Marinade and high heat";
+  }
+  return "Simple single-step";
+}
+
+function deriveBuyPrecisionSignal(signals, profile) {
+  if (signals.substitution === "Low (exact cuts only)") {
+    return "Exact spec";
+  }
+  if (signals.substitution === "Moderate (performance-based)") {
+    return "Exact cut flexible thickness";
+  }
+  if (signals.substitution === "High (cost-based)") {
+    return "Family-level flexibility";
+  }
+  if (profile.precision >= 7) {
+    return "Exact cut flexible thickness";
+  }
+  return "Open with guidance";
+}
+
+function deriveCookWindowFromSignals(signals, profile) {
+  if (signals.prepEffort === "Low") {
+    return "10-15 minutes";
+  }
+  if (signals.prepEffort === "Medium") {
+    return "20-30 minutes";
+  }
+  if (signals.prepEffort === "High") {
+    return "30-45 minutes";
+  }
+  if (signals.prepEffort === "Very high") {
+    return "45+ minute project";
+  }
+
+  if (signals.method === "Low-and-slow" || signals.smokeLevel === "Heavy") {
+    return "45+ minute project";
+  }
+  if (signals.method === "Sous vide / precision") {
+    return "30-45 minutes";
+  }
+  if (signals.method === "High-heat grill") {
+    return "20-30 minutes";
+  }
+
+  return deriveCookWindow(profile);
+}
+
+function deriveMealFormatFromSignals(signals, profile) {
+  if (signals.portionStyle === "6-8 oz single steak" || signals.portionStyle === "8-12 oz steakhouse cut") {
+    return "Plated steak";
+  }
+  if (signals.portionStyle === "Large shareable sliced cut") {
+    return "Sliced board";
+  }
+  if (signals.portionStyle === "Thin-sliced applications") {
+    return "Tacos / bowls";
+  }
+  if (signals.portionStyle === "Handheld cookout style") {
+    return "Sandwich / bun";
+  }
+
+  if (signals.cuisineStyle === "Mexican / fajitas" || signals.cuisineStyle === "Asian / quick-cook") {
+    return "Tacos / bowls";
+  }
+  if (signals.cuisineStyle === "BBQ / smokehouse") {
+    return "Sliced board";
+  }
+  if (signals.cuisineStyle === "American grill") {
+    if (signals.coreLane === "Beefy-value" || signals.budget === "Value-focused") {
+      return "Sandwich / bun";
+    }
+    return "Sliced board";
+  }
+
+  if (signals.coreLane === "Tender-first" || signals.coreLane === "Rich-first") {
+    return "Plated steak";
+  }
+  if (signals.coreLane === "Balanced") {
+    return "Sliced board";
+  }
+  if (signals.coreLane === "Beefy-value") {
+    return profile.value >= 8 ? "Sandwich / bun" : "Tacos / bowls";
+  }
+
+  return deriveMealFormat(profile);
 }
 
 function deriveFlavorTarget(profile) {
@@ -3666,7 +4591,8 @@ function rankCuts(profile, signals = {}) {
           signals.mealFormat,
           signals.seasoningStyle
         ) +
-        getOccasionFitAdjustment(cut, signals.occasionType),
+        getOccasionFitAdjustment(cut, signals.occasionType) +
+        getMainstreamWeightAdjustment(cut, signals, profile),
       0,
       100
     );
@@ -3678,6 +4604,96 @@ function rankCuts(profile, signals = {}) {
     }
     return getTieBreakerScore(b.cut) - getTieBreakerScore(a.cut);
   });
+}
+
+function getDivergenceIntensity(signals, profile) {
+  let intensity = 0;
+  const cuisineStyle = signals.cuisineStyle;
+
+  if (
+    cuisineStyle === "Mexican / fajitas" ||
+    cuisineStyle === "BBQ / smokehouse" ||
+    cuisineStyle === "Asian / quick-cook"
+  ) {
+    intensity += 2;
+  } else if (cuisineStyle === "American grill") {
+    intensity += 1;
+  }
+
+  if (signals.mealFormat && signals.mealFormat !== "Plated steak") {
+    intensity += 1;
+  }
+  if (signals.mealFormat === "Sandwich / bun" || signals.mealFormat === "Tacos / bowls") {
+    intensity += 1;
+  }
+
+  if (signals.specialtyComfort === "High" || signals.comfort === "Expert cut fluency") {
+    intensity += 2;
+  } else if (
+    signals.specialtyComfort === "Medium" ||
+    signals.comfort === "Comfortable with common cuts"
+  ) {
+    intensity += 1;
+  }
+
+  if (signals.advancedTechnique && signals.advancedTechnique !== "Simple single-step") {
+    intensity += 1;
+  }
+  if (signals.smokeLevel === "Medium" || signals.smokeLevel === "Heavy") {
+    intensity += 1;
+  }
+  if (signals.method === "Low-and-slow") {
+    intensity += 1;
+  }
+
+  if (signals.budget === "Value-focused" || signals.budget === "Lowest-cost options first") {
+    intensity += 1;
+  }
+  if (signals.priority === "Best value" || signals.priority === "Best fit for the cooking method") {
+    intensity += 1;
+  }
+
+  if (profile.adventure >= 7) {
+    intensity += 1;
+  }
+  if (profile.boldness >= 8) {
+    intensity += 1;
+  }
+
+  return clamp(intensity, 0, 6);
+}
+
+function getMainstreamWeightAdjustment(cut, signals, profile) {
+  const isCore = CORE_HEAVYWEIGHT_IDS.has(cut.id);
+  const divergence = getDivergenceIntensity(signals, profile);
+
+  // Default behavior favors mainstream "heavyweight" steak choices.
+  let adjustment = isCore ? 8 : -5;
+
+  // Strongly divergent answers should move users away from mainstream picks.
+  if (isCore) {
+    adjustment -= Math.min(10, divergence * 2);
+  } else {
+    adjustment += Math.min(8, divergence * 2);
+  }
+
+  if (
+    signals.guidanceLevel === "Single cut + simple steps" ||
+    signals.comfort === "Need guidance / recipes"
+  ) {
+    adjustment += isCore ? 2 : -2;
+  }
+
+  if (signals.budget === "Value-focused" || signals.budget === "Lowest-cost options first") {
+    if (cut.id === "top_sirloin" || cut.id === "baseball_cut") {
+      adjustment += 2;
+    }
+    if (cut.id === "filet_mignon" || cut.id === "filet_medallions" || cut.id === "tomahawk_ribeye") {
+      adjustment -= 2;
+    }
+  }
+
+  return adjustment;
 }
 
 function getTieBreakerScore(cut) {
@@ -3756,52 +4772,52 @@ function getBudgetFitAdjustment(cut, budgetOrientation) {
 
   if (budgetOrientation === "Premium / no strict limit") {
     if (costTier === "Premium") {
-      return 5;
+      return 7;
     }
     if (costTier === "Mid-Premium") {
+      return 2;
+    }
+    return -5;
+  }
+
+  if (budgetOrientation === "Mid-premium") {
+    if (costTier === "Mid-Premium") {
+      return 5;
+    }
+    if (costTier === "Premium") {
       return 2;
     }
     return -2;
   }
 
-  if (budgetOrientation === "Mid-premium") {
+  if (budgetOrientation === "Moderate") {
     if (costTier === "Mid-Premium") {
       return 4;
     }
-    if (costTier === "Premium") {
-      return 1;
-    }
-    return 0;
-  }
-
-  if (budgetOrientation === "Moderate") {
-    if (costTier === "Mid-Premium") {
+    if (costTier === "Value") {
       return 3;
     }
-    if (costTier === "Value") {
-      return 2;
-    }
-    return -1;
+    return -2;
   }
 
   if (budgetOrientation === "Value-focused") {
     if (costTier === "Value") {
-      return 5;
+      return 6;
     }
     if (costTier === "Mid-Premium") {
-      return 1;
+      return 0;
     }
-    return -4;
+    return -6;
   }
 
   if (budgetOrientation === "Lowest-cost options first") {
     if (costTier === "Value") {
-      return 6;
+      return 8;
     }
     if (costTier === "Mid-Premium") {
-      return -1;
+      return -2;
     }
-    return -6;
+    return -8;
   }
 
   return 0;
@@ -4149,8 +5165,7 @@ function getPortionFitAdjustment(cut, portionStyle) {
       methodText.includes("slice") ||
       cut.id === "tri_tip" ||
       cut.id === "coulotte" ||
-      cut.id === "sirloin_flap" ||
-      cut.id === "london_broil_top_round"
+      cut.id === "sirloin_flap"
     ) {
       return 4;
     }
@@ -4191,6 +5206,16 @@ const SPECIALTY_CUT_IDS = new Set([
   "denver",
   "ball_tip",
   "flank",
+]);
+const CORE_HEAVYWEIGHT_IDS = new Set([
+  "filet_mignon",
+  "filet_medallions",
+  "ribeye",
+  "tomahawk_ribeye",
+  "strip",
+  "bone_in_strip",
+  "top_sirloin",
+  "baseball_cut",
 ]);
 const CLASSIC_CUT_IDS = new Set([
   "ribeye",
@@ -4242,7 +5267,6 @@ const SLICED_BOARD_CUT_IDS = new Set([
   "coulotte",
   "sirloin_flap",
   "flank",
-  "london_broil_top_round",
   "plate_short_rib_boneless",
 ]);
 const PREMIUM_OCCASION_IDS = new Set([
@@ -4273,7 +5297,6 @@ const ITALIAN_FOCUS_IDS = new Set([
   "filet_mignon",
   "top_sirloin",
   "strip",
-  "london_broil_top_round",
   "plate_short_rib_boneless",
 ]);
 const STEAKHOUSE_FOCUS_IDS = new Set([
@@ -4286,6 +5309,16 @@ const STEAKHOUSE_FOCUS_IDS = new Set([
   "t_bone",
   "filet_mignon",
   "filet_medallions",
+]);
+const AMERICAN_GRILL_FOCUS_IDS = new Set([
+  "all_beef_uncured_hot_dog",
+  "top_sirloin",
+  "baseball_cut",
+  "tri_tip",
+  "flat_iron",
+  "denver",
+  "ball_tip",
+  "outside_skirt",
 ]);
 const BBQ_FOCUS_IDS = new Set([
   "plate_short_rib_boneless",
@@ -4300,7 +5333,6 @@ const ASIAN_QUICK_COOK_IDS = new Set([
   "sirloin_flap",
   "flank",
   "flat_iron",
-  "london_broil_top_round",
 ]);
 
 function getBoneFitAdjustment(cut, bonePreference) {
@@ -4576,17 +5608,39 @@ function getCuisineFitAdjustment(cut, cuisineStyle, mealFormat, seasoningStyle) 
     }
   }
 
-  if (cuisineStyle === "Steakhouse / American grill") {
+  if (cuisineStyle === "Steakhouse") {
     if (STEAKHOUSE_FOCUS_IDS.has(cut.id)) {
-      score += 5;
+      score += 6;
     } else if (cut.profile.tenderness >= 7) {
       score += 1;
     } else {
-      score -= 1;
+      score -= 2;
     }
 
     if (mealFormat === "Plated steak") {
       score += 2;
+    }
+    if (seasoningStyle === "Salt + pepper") {
+      score += 1;
+    }
+  }
+
+  if (cuisineStyle === "American grill") {
+    if (AMERICAN_GRILL_FOCUS_IDS.has(cut.id)) {
+      score += 6;
+    } else if (cut.profile.value >= 7) {
+      score += 2;
+    } else if (cut.profile.value <= 3 && cut.profile.tenderness >= 8) {
+      score -= 3;
+    }
+
+    if (mealFormat === "Sandwich / bun") {
+      score += 3;
+    } else if (mealFormat === "Tacos / bowls") {
+      score += 1;
+    }
+    if (seasoningStyle === "Rub / marinade" || seasoningStyle === "Sauce-forward") {
+      score += 1;
     }
   }
 

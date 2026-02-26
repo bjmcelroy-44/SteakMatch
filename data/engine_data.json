@@ -34,11 +34,11 @@
   "questionPool": [
     {
       "type": "Flavor",
-      "prompt": "What flavor do you want?",
+      "prompt": "How strong do you want the beef flavor?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Clean",
+          "label": "Mild, clean beef flavor",
           "impact": "Mild",
           "effects": {
             "boldness": -2,
@@ -51,7 +51,7 @@
           }
         },
         {
-          "label": "Balanced",
+          "label": "Balanced beef flavor",
           "impact": "Balanced",
           "effects": {
             "boldness": 1,
@@ -62,7 +62,7 @@
           }
         },
         {
-          "label": "Bold",
+          "label": "Bold steakhouse flavor",
           "impact": "Bold",
           "effects": {
             "boldness": 2,
@@ -73,7 +73,7 @@
           }
         },
         {
-          "label": "Intense",
+          "label": "Very bold char-forward flavor",
           "impact": "Intense",
           "effects": {
             "boldness": 3,
@@ -90,11 +90,11 @@
     },
     {
       "type": "Flavor",
-      "prompt": "What flavor do you want?",
+      "prompt": "How strong do you want the beef flavor?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Clean",
+          "label": "Mild, clean beef flavor",
           "impact": "Mild",
           "effects": {
             "boldness": -2,
@@ -107,7 +107,7 @@
           }
         },
         {
-          "label": "Balanced",
+          "label": "Balanced beef flavor",
           "impact": "Balanced",
           "effects": {
             "boldness": 1,
@@ -118,7 +118,7 @@
           }
         },
         {
-          "label": "Bold",
+          "label": "Bold steakhouse flavor",
           "impact": "Bold",
           "effects": {
             "boldness": 2,
@@ -129,7 +129,7 @@
           }
         },
         {
-          "label": "Intense",
+          "label": "Very bold char-forward flavor",
           "impact": "Intense",
           "effects": {
             "boldness": 3,
@@ -146,11 +146,11 @@
     },
     {
       "type": "Flavor Preference",
-      "prompt": "What beef flavor do you want?",
+      "prompt": "How strong should the beef flavor be?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Clean",
+          "label": "Mild, clean beef flavor",
           "impact": "Mild",
           "effects": {
             "boldness": -2,
@@ -163,7 +163,7 @@
           }
         },
         {
-          "label": "Balanced",
+          "label": "Balanced beef flavor",
           "impact": "Balanced",
           "effects": {
             "boldness": 1,
@@ -174,7 +174,7 @@
           }
         },
         {
-          "label": "Bold",
+          "label": "Bold steakhouse flavor",
           "impact": "Bold",
           "effects": {
             "boldness": 2,
@@ -185,7 +185,7 @@
           }
         },
         {
-          "label": "Intense",
+          "label": "Very bold char-forward flavor",
           "impact": "Intense",
           "effects": {
             "boldness": 3,
@@ -201,12 +201,12 @@
       "group": "flavor"
     },
     {
-      "type": "Richness",
-      "prompt": "How rich should it be?",
+      "type": "Marbling",
+      "prompt": "How much marbling do you want?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Lean",
+          "label": "Lean (lower marbling)",
           "impact": "Lean",
           "effects": {
             "richness": -2,
@@ -218,7 +218,7 @@
           }
         },
         {
-          "label": "Moderate",
+          "label": "Moderate marbling",
           "impact": "Balanced",
           "effects": {
             "richness": 1,
@@ -229,7 +229,7 @@
           }
         },
         {
-          "label": "Rich",
+          "label": "Rich marbling",
           "impact": "Rich",
           "effects": {
             "richness": 2,
@@ -241,7 +241,7 @@
           }
         },
         {
-          "label": "Very rich",
+          "label": "Very rich marbling",
           "impact": "Very rich",
           "effects": {
             "richness": 3,
@@ -257,12 +257,12 @@
       "group": "richness"
     },
     {
-      "type": "Richness",
-      "prompt": "How rich should it be?",
+      "type": "Marbling",
+      "prompt": "How much marbling do you want?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Lean",
+          "label": "Lean (lower marbling)",
           "impact": "Lean",
           "effects": {
             "richness": -2,
@@ -274,7 +274,7 @@
           }
         },
         {
-          "label": "Moderate",
+          "label": "Moderate marbling",
           "impact": "Balanced",
           "effects": {
             "richness": 1,
@@ -285,7 +285,7 @@
           }
         },
         {
-          "label": "Rich",
+          "label": "Rich marbling",
           "impact": "Rich",
           "effects": {
             "richness": 2,
@@ -297,7 +297,7 @@
           }
         },
         {
-          "label": "Very rich",
+          "label": "Very rich marbling",
           "impact": "Very rich",
           "effects": {
             "richness": 3,
@@ -313,12 +313,12 @@
       "group": "richness"
     },
     {
-      "type": "Richness Level",
-      "prompt": "How rich do you want the beef?",
+      "type": "Marbling Level",
+      "prompt": "How much marbling do you want?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Lean",
+          "label": "Lean (lower marbling)",
           "impact": "Lean",
           "effects": {
             "richness": -2,
@@ -330,7 +330,7 @@
           }
         },
         {
-          "label": "Moderate",
+          "label": "Moderate marbling",
           "impact": "Balanced",
           "effects": {
             "richness": 1,
@@ -341,7 +341,7 @@
           }
         },
         {
-          "label": "Rich",
+          "label": "Rich marbling",
           "impact": "Rich",
           "effects": {
             "richness": 2,
@@ -353,7 +353,7 @@
           }
         },
         {
-          "label": "Very rich",
+          "label": "Very rich marbling",
           "impact": "Very rich",
           "effects": {
             "richness": 3,
@@ -922,19 +922,32 @@
     },
     {
       "type": "Cuisine",
-      "prompt": "What cuisine are you cooking most?",
+      "prompt": "What style are you cooking today?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Steakhouse / American grill",
+          "label": "Steakhouse",
           "impact": "Steakhouse",
           "effects": {
             "richness": 1,
-            "tenderness": 1,
-            "precision": 1
+            "tenderness": 2,
+            "precision": 1,
+            "value": -1
           },
           "signal": {
-            "cuisineStyle": "Steakhouse / American grill"
+            "cuisineStyle": "Steakhouse"
+          }
+        },
+        {
+          "label": "American grill / cookout",
+          "impact": "Grill",
+          "effects": {
+            "boldness": 1,
+            "value": 2,
+            "precision": -1
+          },
+          "signal": {
+            "cuisineStyle": "American grill"
           }
         },
         {
@@ -999,19 +1012,32 @@
     },
     {
       "type": "Cuisine",
-      "prompt": "What cuisine are you cooking most?",
+      "prompt": "What style are you cooking today?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Steakhouse / American grill",
+          "label": "Steakhouse",
           "impact": "Steakhouse",
           "effects": {
             "richness": 1,
-            "tenderness": 1,
-            "precision": 1
+            "tenderness": 2,
+            "precision": 1,
+            "value": -1
           },
           "signal": {
-            "cuisineStyle": "Steakhouse / American grill"
+            "cuisineStyle": "Steakhouse"
+          }
+        },
+        {
+          "label": "American grill / cookout",
+          "impact": "Grill",
+          "effects": {
+            "boldness": 1,
+            "value": 2,
+            "precision": -1
+          },
+          "signal": {
+            "cuisineStyle": "American grill"
           }
         },
         {
@@ -1076,19 +1102,32 @@
     },
     {
       "type": "Cuisine Style",
-      "prompt": "Which cuisine best fits this meal?",
+      "prompt": "Which cooking style best fits this meal?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Steakhouse / American grill",
+          "label": "Steakhouse",
           "impact": "Steakhouse",
           "effects": {
             "richness": 1,
-            "tenderness": 1,
-            "precision": 1
+            "tenderness": 2,
+            "precision": 1,
+            "value": -1
           },
           "signal": {
-            "cuisineStyle": "Steakhouse / American grill"
+            "cuisineStyle": "Steakhouse"
+          }
+        },
+        {
+          "label": "American grill / cookout",
+          "impact": "Grill",
+          "effects": {
+            "boldness": 1,
+            "value": 2,
+            "precision": -1
+          },
+          "signal": {
+            "cuisineStyle": "American grill"
           }
         },
         {
@@ -1979,7 +2018,7 @@
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Salt + pepper (keep it simple)",
+          "label": "Salt + pepper",
           "impact": "Simple",
           "effects": {
             "precision": 1,
@@ -1992,19 +2031,6 @@
           }
         },
         {
-          "label": "Salt + pepper (quality-first beef)",
-          "impact": "Quality showcase",
-          "effects": {
-            "precision": 2,
-            "tenderness": 1,
-            "richness": 1
-          },
-          "signal": {
-            "seasoningStyle": "Salt + pepper",
-            "seasoningIntent": "Quality showcase"
-          }
-        },
-        {
           "label": "Butter + herbs",
           "impact": "Baste",
           "effects": {
@@ -2012,7 +2038,8 @@
             "precision": 1
           },
           "signal": {
-            "seasoningStyle": "Butter + herbs"
+            "seasoningStyle": "Butter + herbs",
+            "seasoningIntent": "Quality showcase"
           }
         },
         {
@@ -2049,7 +2076,7 @@
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Salt + pepper (keep it simple)",
+          "label": "Salt + pepper",
           "impact": "Simple",
           "effects": {
             "precision": 1,
@@ -2062,19 +2089,6 @@
           }
         },
         {
-          "label": "Salt + pepper (quality-first beef)",
-          "impact": "Quality showcase",
-          "effects": {
-            "precision": 2,
-            "tenderness": 1,
-            "richness": 1
-          },
-          "signal": {
-            "seasoningStyle": "Salt + pepper",
-            "seasoningIntent": "Quality showcase"
-          }
-        },
-        {
           "label": "Butter + herbs",
           "impact": "Baste",
           "effects": {
@@ -2082,7 +2096,8 @@
             "precision": 1
           },
           "signal": {
-            "seasoningStyle": "Butter + herbs"
+            "seasoningStyle": "Butter + herbs",
+            "seasoningIntent": "Quality showcase"
           }
         },
         {
@@ -2119,7 +2134,7 @@
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Salt + pepper (keep it simple)",
+          "label": "Salt + pepper",
           "impact": "Simple",
           "effects": {
             "precision": 1,
@@ -2132,19 +2147,6 @@
           }
         },
         {
-          "label": "Salt + pepper (quality-first beef)",
-          "impact": "Quality showcase",
-          "effects": {
-            "precision": 2,
-            "tenderness": 1,
-            "richness": 1
-          },
-          "signal": {
-            "seasoningStyle": "Salt + pepper",
-            "seasoningIntent": "Quality showcase"
-          }
-        },
-        {
           "label": "Butter + herbs",
           "impact": "Baste",
           "effects": {
@@ -2152,7 +2154,8 @@
             "precision": 1
           },
           "signal": {
-            "seasoningStyle": "Butter + herbs"
+            "seasoningStyle": "Butter + herbs",
+            "seasoningIntent": "Quality showcase"
           }
         },
         {
@@ -2763,52 +2766,70 @@
       "group": "priority"
     },
     {
-      "type": "Backup Plan",
-      "prompt": "If your cut is sold out, what do you do?",
+      "type": "Buying Style",
+      "prompt": "At the meat case, what usually guides your choice?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Pick closest match",
-          "impact": "Performance",
+          "label": "Stick with familiar cuts",
+          "impact": "Familiar-first",
           "effects": {
+            "adventure": -2,
             "precision": 1,
-            "adventure": 1
+            "value": 1
           },
           "signal": {
+            "comfort": "Need guidance / recipes",
+            "expertiseBand": "Beginner",
+            "budget": "Moderate",
+            "substitution": "Low (exact cuts only)"
+          }
+        },
+        {
+          "label": "Best quality within budget",
+          "impact": "Balanced quality",
+          "effects": {
+            "tenderness": 1,
+            "richness": 1,
+            "value": 1,
+            "precision": 1
+          },
+          "signal": {
+            "comfort": "Comfortable with common cuts",
+            "expertiseBand": "Intermediate",
+            "budget": "Mid-premium",
             "substitution": "Moderate (performance-based)"
           }
         },
         {
-          "label": "Pick best value swap",
-          "impact": "Value",
+          "label": "Best value for the meal",
+          "impact": "Value-first",
           "effects": {
             "value": 2,
+            "boldness": 1,
             "adventure": 1
           },
           "signal": {
+            "comfort": "Comfortable with common cuts",
+            "budget": "Value-focused",
             "substitution": "High (cost-based)"
           }
         },
         {
-          "label": "Use my backup list",
-          "impact": "Limited",
+          "label": "Open to premium standouts",
+          "impact": "Premium-open",
           "effects": {
-            "precision": 1,
-            "adventure": -1
+            "value": -1,
+            "richness": 1,
+            "tenderness": 1,
+            "adventure": 1,
+            "precision": 1
           },
           "signal": {
+            "comfort": "Expert cut fluency",
+            "expertiseBand": "Intermediate",
+            "budget": "Premium / no strict limit",
             "substitution": "Limited"
-          }
-        },
-        {
-          "label": "Wait for exact cut",
-          "impact": "Exact",
-          "effects": {
-            "precision": 1,
-            "adventure": -2
-          },
-          "signal": {
-            "substitution": "Low (exact cuts only)"
           }
         }
       ],
@@ -2816,52 +2837,70 @@
       "group": "flexibility"
     },
     {
-      "type": "Backup Plan",
-      "prompt": "If your cut is sold out, what do you do?",
+      "type": "Buying Style",
+      "prompt": "At the meat case, what usually guides your choice?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Pick closest match",
-          "impact": "Performance",
+          "label": "Stick with familiar cuts",
+          "impact": "Familiar-first",
           "effects": {
+            "adventure": -2,
             "precision": 1,
-            "adventure": 1
+            "value": 1
           },
           "signal": {
+            "comfort": "Need guidance / recipes",
+            "expertiseBand": "Beginner",
+            "budget": "Moderate",
+            "substitution": "Low (exact cuts only)"
+          }
+        },
+        {
+          "label": "Best quality within budget",
+          "impact": "Balanced quality",
+          "effects": {
+            "tenderness": 1,
+            "richness": 1,
+            "value": 1,
+            "precision": 1
+          },
+          "signal": {
+            "comfort": "Comfortable with common cuts",
+            "expertiseBand": "Intermediate",
+            "budget": "Mid-premium",
             "substitution": "Moderate (performance-based)"
           }
         },
         {
-          "label": "Pick best value swap",
-          "impact": "Value",
+          "label": "Best value for the meal",
+          "impact": "Value-first",
           "effects": {
             "value": 2,
+            "boldness": 1,
             "adventure": 1
           },
           "signal": {
+            "comfort": "Comfortable with common cuts",
+            "budget": "Value-focused",
             "substitution": "High (cost-based)"
           }
         },
         {
-          "label": "Use my backup list",
-          "impact": "Limited",
+          "label": "Open to premium standouts",
+          "impact": "Premium-open",
           "effects": {
-            "precision": 1,
-            "adventure": -1
+            "value": -1,
+            "richness": 1,
+            "tenderness": 1,
+            "adventure": 1,
+            "precision": 1
           },
           "signal": {
+            "comfort": "Expert cut fluency",
+            "expertiseBand": "Intermediate",
+            "budget": "Premium / no strict limit",
             "substitution": "Limited"
-          }
-        },
-        {
-          "label": "Wait for exact cut",
-          "impact": "Exact",
-          "effects": {
-            "precision": 1,
-            "adventure": -2
-          },
-          "signal": {
-            "substitution": "Low (exact cuts only)"
           }
         }
       ],
@@ -2869,52 +2908,70 @@
       "group": "flexibility"
     },
     {
-      "type": "Plan B",
-      "prompt": "If your cut is sold out, what do you do?",
+      "type": "Case Style",
+      "prompt": "At the meat case, what usually guides your choice?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Pick closest match",
-          "impact": "Performance",
+          "label": "Stick with familiar cuts",
+          "impact": "Familiar-first",
           "effects": {
+            "adventure": -2,
             "precision": 1,
-            "adventure": 1
+            "value": 1
           },
           "signal": {
+            "comfort": "Need guidance / recipes",
+            "expertiseBand": "Beginner",
+            "budget": "Moderate",
+            "substitution": "Low (exact cuts only)"
+          }
+        },
+        {
+          "label": "Best quality within budget",
+          "impact": "Balanced quality",
+          "effects": {
+            "tenderness": 1,
+            "richness": 1,
+            "value": 1,
+            "precision": 1
+          },
+          "signal": {
+            "comfort": "Comfortable with common cuts",
+            "expertiseBand": "Intermediate",
+            "budget": "Mid-premium",
             "substitution": "Moderate (performance-based)"
           }
         },
         {
-          "label": "Pick best value swap",
-          "impact": "Value",
+          "label": "Best value for the meal",
+          "impact": "Value-first",
           "effects": {
             "value": 2,
+            "boldness": 1,
             "adventure": 1
           },
           "signal": {
+            "comfort": "Comfortable with common cuts",
+            "budget": "Value-focused",
             "substitution": "High (cost-based)"
           }
         },
         {
-          "label": "Use my backup list",
-          "impact": "Limited",
+          "label": "Open to premium standouts",
+          "impact": "Premium-open",
           "effects": {
-            "precision": 1,
-            "adventure": -1
+            "value": -1,
+            "richness": 1,
+            "tenderness": 1,
+            "adventure": 1,
+            "precision": 1
           },
           "signal": {
+            "comfort": "Expert cut fluency",
+            "expertiseBand": "Intermediate",
+            "budget": "Premium / no strict limit",
             "substitution": "Limited"
-          }
-        },
-        {
-          "label": "Wait for exact cut",
-          "impact": "Exact",
-          "effects": {
-            "precision": 1,
-            "adventure": -2
-          },
-          "signal": {
-            "substitution": "Low (exact cuts only)"
           }
         }
       ],
@@ -2923,7 +2980,7 @@
     },
     {
       "type": "Bone",
-      "prompt": "Bone-in, boneless, or either?",
+      "prompt": "For premium presentation, bone-in or boneless?",
       "detail": "Pick one.",
       "options": [
         {
@@ -2944,7 +3001,8 @@
           "effects": {
             "boldness": 1,
             "richness": 1,
-            "adventure": 1
+            "adventure": 2,
+            "precision": 1
           },
           "signal": {
             "bonePreference": "Bone-in"
@@ -2985,7 +3043,8 @@
           "effects": {
             "boldness": 1,
             "richness": 1,
-            "adventure": 1
+            "adventure": 2,
+            "precision": 1
           },
           "signal": {
             "bonePreference": "Bone-in"
@@ -3026,7 +3085,8 @@
           "effects": {
             "boldness": 1,
             "richness": 1,
-            "adventure": 1
+            "adventure": 2,
+            "precision": 1
           },
           "signal": {
             "bonePreference": "Bone-in"
@@ -3045,13 +3105,13 @@
       "group": "bone"
     },
     {
-      "type": "Time",
-      "prompt": "How much time do you have to cook?",
+      "type": "Prep Effort",
+      "prompt": "How much prep effort are you willing to do?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "10-15 min",
-          "impact": "Fast",
+          "label": "Minimal prep only",
+          "impact": "Low effort",
           "effects": {
             "value": 1,
             "precision": -1,
@@ -3059,40 +3119,46 @@
             "tenderness": 1
           },
           "signal": {
+            "prepEffort": "Low",
             "cookWindow": "10-15 minutes"
           }
         },
         {
-          "label": "20-30 min",
-          "impact": "Standard",
+          "label": "Quick prep is fine",
+          "impact": "Moderate effort",
           "effects": {
             "precision": 1
           },
           "signal": {
+            "prepEffort": "Medium",
             "cookWindow": "20-30 minutes"
           }
         },
         {
-          "label": "30-45 min",
-          "impact": "Extended",
+          "label": "Marinade/trim prep is fine",
+          "impact": "Higher effort",
           "effects": {
             "precision": 1,
-            "boldness": 1
+            "boldness": 1,
+            "adventure": 1,
+            "value": 1
           },
           "signal": {
+            "prepEffort": "High",
             "cookWindow": "30-45 minutes"
           }
         },
         {
-          "label": "45+ min project",
-          "impact": "Project",
+          "label": "I enjoy full project cooks",
+          "impact": "Project cook",
           "effects": {
             "precision": 2,
-            "adventure": 1,
+            "adventure": 2,
             "boldness": 1,
             "value": -1
           },
           "signal": {
+            "prepEffort": "Very high",
             "cookWindow": "45+ minute project"
           }
         }
@@ -3101,13 +3167,13 @@
       "group": "cook_window"
     },
     {
-      "type": "Cook Time",
-      "prompt": "How much time do you have to cook?",
+      "type": "Prep Effort",
+      "prompt": "How much prep effort are you willing to do?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "10-15 min",
-          "impact": "Fast",
+          "label": "Minimal prep only",
+          "impact": "Low effort",
           "effects": {
             "value": 1,
             "precision": -1,
@@ -3115,40 +3181,46 @@
             "tenderness": 1
           },
           "signal": {
+            "prepEffort": "Low",
             "cookWindow": "10-15 minutes"
           }
         },
         {
-          "label": "20-30 min",
-          "impact": "Standard",
+          "label": "Quick prep is fine",
+          "impact": "Moderate effort",
           "effects": {
             "precision": 1
           },
           "signal": {
+            "prepEffort": "Medium",
             "cookWindow": "20-30 minutes"
           }
         },
         {
-          "label": "30-45 min",
-          "impact": "Extended",
+          "label": "Marinade/trim prep is fine",
+          "impact": "Higher effort",
           "effects": {
             "precision": 1,
-            "boldness": 1
+            "boldness": 1,
+            "adventure": 1,
+            "value": 1
           },
           "signal": {
+            "prepEffort": "High",
             "cookWindow": "30-45 minutes"
           }
         },
         {
-          "label": "45+ min project",
-          "impact": "Project",
+          "label": "I enjoy full project cooks",
+          "impact": "Project cook",
           "effects": {
             "precision": 2,
-            "adventure": 1,
+            "adventure": 2,
             "boldness": 1,
             "value": -1
           },
           "signal": {
+            "prepEffort": "Very high",
             "cookWindow": "45+ minute project"
           }
         }
@@ -3157,13 +3229,13 @@
       "group": "cook_window"
     },
     {
-      "type": "Time",
-      "prompt": "How much time do you have to cook?",
+      "type": "Prep",
+      "prompt": "How much prep effort are you willing to do?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "10-15 min",
-          "impact": "Fast",
+          "label": "Minimal prep only",
+          "impact": "Low effort",
           "effects": {
             "value": 1,
             "precision": -1,
@@ -3171,40 +3243,46 @@
             "tenderness": 1
           },
           "signal": {
+            "prepEffort": "Low",
             "cookWindow": "10-15 minutes"
           }
         },
         {
-          "label": "20-30 min",
-          "impact": "Standard",
+          "label": "Quick prep is fine",
+          "impact": "Moderate effort",
           "effects": {
             "precision": 1
           },
           "signal": {
+            "prepEffort": "Medium",
             "cookWindow": "20-30 minutes"
           }
         },
         {
-          "label": "30-45 min",
-          "impact": "Extended",
+          "label": "Marinade/trim prep is fine",
+          "impact": "Higher effort",
           "effects": {
             "precision": 1,
-            "boldness": 1
+            "boldness": 1,
+            "adventure": 1,
+            "value": 1
           },
           "signal": {
+            "prepEffort": "High",
             "cookWindow": "30-45 minutes"
           }
         },
         {
-          "label": "45+ min project",
-          "impact": "Project",
+          "label": "I enjoy full project cooks",
+          "impact": "Project cook",
           "effects": {
             "precision": 2,
-            "adventure": 1,
+            "adventure": 2,
             "boldness": 1,
             "value": -1
           },
           "signal": {
+            "prepEffort": "Very high",
             "cookWindow": "45+ minute project"
           }
         }
@@ -3696,55 +3774,62 @@
       "group": "chew"
     },
     {
-      "type": "Format",
-      "prompt": "How will you eat it?",
+      "type": "Core Preference",
+      "prompt": "Which steak lane sounds most like you?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Knife-and-fork steak",
-          "impact": "Plated",
+          "label": "Very tender (filet style)",
+          "impact": "Tender-first",
           "effects": {
-            "tenderness": 1,
+            "tenderness": 2,
+            "richness": 1,
+            "value": -1,
             "precision": 1
           },
           "signal": {
+            "coreLane": "Tender-first",
             "mealFormat": "Plated steak"
           }
         },
         {
-          "label": "Sliced board style",
-          "impact": "Sliced",
+          "label": "Rich and juicy (ribeye style)",
+          "impact": "Rich-first",
           "effects": {
+            "richness": 2,
             "boldness": 1,
-            "adventure": 1,
-            "value": 1
+            "value": -1
           },
           "signal": {
+            "coreLane": "Rich-first",
+            "mealFormat": "Plated steak"
+          }
+        },
+        {
+          "label": "Balanced tender + flavor (strip style)",
+          "impact": "Balanced",
+          "effects": {
+            "tenderness": 1,
+            "boldness": 1,
+            "richness": 1,
+            "precision": 1
+          },
+          "signal": {
+            "coreLane": "Balanced",
             "mealFormat": "Sliced board"
           }
         },
         {
-          "label": "Tacos / bowls",
-          "impact": "Prep format",
+          "label": "Beefy flavor + value (sirloin style)",
+          "impact": "Beefy-value",
           "effects": {
+            "boldness": 2,
             "value": 2,
-            "adventure": 1,
-            "richness": -1
+            "tenderness": -1
           },
           "signal": {
+            "coreLane": "Beefy-value",
             "mealFormat": "Tacos / bowls"
-          }
-        },
-        {
-          "label": "Sandwich / bun",
-          "impact": "Handheld",
-          "effects": {
-            "value": 2,
-            "tenderness": 1,
-            "adventure": -1
-          },
-          "signal": {
-            "mealFormat": "Sandwich / bun"
           }
         }
       ],
@@ -3752,55 +3837,62 @@
       "group": "meal_format"
     },
     {
-      "type": "Format",
-      "prompt": "How will you eat it?",
+      "type": "Core Preference",
+      "prompt": "Which steak lane sounds most like you?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Knife-and-fork steak",
-          "impact": "Plated",
+          "label": "Very tender (filet style)",
+          "impact": "Tender-first",
           "effects": {
-            "tenderness": 1,
+            "tenderness": 2,
+            "richness": 1,
+            "value": -1,
             "precision": 1
           },
           "signal": {
+            "coreLane": "Tender-first",
             "mealFormat": "Plated steak"
           }
         },
         {
-          "label": "Sliced board style",
-          "impact": "Sliced",
+          "label": "Rich and juicy (ribeye style)",
+          "impact": "Rich-first",
           "effects": {
+            "richness": 2,
             "boldness": 1,
-            "adventure": 1,
-            "value": 1
+            "value": -1
           },
           "signal": {
+            "coreLane": "Rich-first",
+            "mealFormat": "Plated steak"
+          }
+        },
+        {
+          "label": "Balanced tender + flavor (strip style)",
+          "impact": "Balanced",
+          "effects": {
+            "tenderness": 1,
+            "boldness": 1,
+            "richness": 1,
+            "precision": 1
+          },
+          "signal": {
+            "coreLane": "Balanced",
             "mealFormat": "Sliced board"
           }
         },
         {
-          "label": "Tacos / bowls",
-          "impact": "Prep format",
+          "label": "Beefy flavor + value (sirloin style)",
+          "impact": "Beefy-value",
           "effects": {
+            "boldness": 2,
             "value": 2,
-            "adventure": 1,
-            "richness": -1
+            "tenderness": -1
           },
           "signal": {
+            "coreLane": "Beefy-value",
             "mealFormat": "Tacos / bowls"
-          }
-        },
-        {
-          "label": "Sandwich / bun",
-          "impact": "Handheld",
-          "effects": {
-            "value": 2,
-            "tenderness": 1,
-            "adventure": -1
-          },
-          "signal": {
-            "mealFormat": "Sandwich / bun"
           }
         }
       ],
@@ -3808,55 +3900,62 @@
       "group": "meal_format"
     },
     {
-      "type": "Format",
-      "prompt": "How will you eat it?",
+      "type": "Steak Lane",
+      "prompt": "Which steak lane sounds most like you?",
       "detail": "Pick one.",
       "options": [
         {
-          "label": "Knife-and-fork steak",
-          "impact": "Plated",
+          "label": "Very tender (filet style)",
+          "impact": "Tender-first",
           "effects": {
-            "tenderness": 1,
+            "tenderness": 2,
+            "richness": 1,
+            "value": -1,
             "precision": 1
           },
           "signal": {
+            "coreLane": "Tender-first",
             "mealFormat": "Plated steak"
           }
         },
         {
-          "label": "Sliced board style",
-          "impact": "Sliced",
+          "label": "Rich and juicy (ribeye style)",
+          "impact": "Rich-first",
           "effects": {
+            "richness": 2,
             "boldness": 1,
-            "adventure": 1,
-            "value": 1
+            "value": -1
           },
           "signal": {
+            "coreLane": "Rich-first",
+            "mealFormat": "Plated steak"
+          }
+        },
+        {
+          "label": "Balanced tender + flavor (strip style)",
+          "impact": "Balanced",
+          "effects": {
+            "tenderness": 1,
+            "boldness": 1,
+            "richness": 1,
+            "precision": 1
+          },
+          "signal": {
+            "coreLane": "Balanced",
             "mealFormat": "Sliced board"
           }
         },
         {
-          "label": "Tacos / bowls",
-          "impact": "Prep format",
+          "label": "Beefy flavor + value (sirloin style)",
+          "impact": "Beefy-value",
           "effects": {
+            "boldness": 2,
             "value": 2,
-            "adventure": 1,
-            "richness": -1
+            "tenderness": -1
           },
           "signal": {
+            "coreLane": "Beefy-value",
             "mealFormat": "Tacos / bowls"
-          }
-        },
-        {
-          "label": "Sandwich / bun",
-          "impact": "Handheld",
-          "effects": {
-            "value": 2,
-            "tenderness": 1,
-            "adventure": -1
-          },
-          "signal": {
-            "mealFormat": "Sandwich / bun"
           }
         }
       ],
@@ -4714,21 +4813,15 @@
     "flavor",
     "richness",
     "texture",
-    "method",
     "doneness",
     "seasoning",
-    "portion",
-    "budget",
     "priority",
     "flexibility",
-    "bone",
     "cook_window",
     "meal_format"
   ],
   "expertDynamicGroups": [
     "specialty_cuts",
-    "advanced_technique",
-    "butcher_precision",
     "smoke",
     "fat_cap",
     "crust"
@@ -4737,51 +4830,52 @@
     "specialty_cuts",
     "smoke",
     "fat_cap",
-    "crust",
-    "pairing",
-    "occasion"
+    "crust"
   ],
   "beginnerDynamicGroups": [
     "guidance_level",
-    "occasion",
-    "leftovers",
     "routine",
-    "pairing",
     "chew"
   ],
   "cuisinePriorityGroups": {
-    "Steakhouse / American grill": [
-      "bone",
+    "Steakhouse": [
       "doneness",
       "richness",
-      "advanced_technique",
-      "butcher_precision",
+      "meal_format",
       "crust",
-      "priority"
+      "priority",
+      "seasoning"
+    ],
+    "American grill": [
+      "meal_format",
+      "cook_window",
+      "seasoning",
+      "flexibility",
+      "priority",
+      "smoke"
     ],
     "Mexican / fajitas": [
       "meal_format",
       "seasoning",
       "specialty_cuts",
-      "portion",
-      "method",
-      "crust"
+      "crust",
+      "cook_window",
+      "priority"
     ],
     "Italian / comfort dishes": [
       "seasoning",
-      "leftovers",
-      "pairing",
       "guidance_level",
-      "budget",
-      "occasion"
+      "cook_window",
+      "meal_format",
+      "priority"
     ],
     "BBQ / smokehouse": [
       "smoke",
       "cook_window",
-      "advanced_technique",
-      "method",
+      "meal_format",
       "fat_cap",
-      "crust"
+      "crust",
+      "seasoning"
     ],
     "Asian / quick-cook": [
       "cook_window",
@@ -4789,37 +4883,38 @@
       "seasoning",
       "specialty_cuts",
       "texture",
-      "portion"
+      "priority",
+      "smoke"
     ]
   },
   "questionRelevanceNotes": {
-    "flavor": "Flavor preference sets whether we prioritize clean, balanced, or bold beef-forward cuts.",
-    "richness": "Richness level sets marbling tolerance, narrowing cuts from lean to highly marbled.",
-    "texture": "Texture preference separates soft-bite cuts from firmer, more beef-forward cuts.",
-    "method": "Cooking method filters to cuts that perform best with your heat style.",
-    "comfort": "Your cut comfort level sets how far to push into specialty vs familiar options.",
-    "cuisine": "Cuisine style prioritizes cuts that naturally fit those dishes and formats.",
-    "specialty_cuts": "This confirms whether lesser-known cuts should be featured or minimized.",
-    "advanced_technique": "Technique depth helps match cuts to your current cooking skill and control level.",
-    "butcher_precision": "Purchase precision tells us if you want exact specs or flexible substitutions.",
-    "guidance_level": "Guidance style sets whether recommendations should be simple, optional, or exploratory.",
-    "doneness": "Doneness preference screens out cuts that lose quality at your target finish.",
-    "seasoning": "Seasoning style determines if we optimize for simple prep, quality showcase, rub-friendly, or sauce-forward cuts.",
-    "portion": "Serving format shifts recommendations between plated steaks, sliced cuts, and handhelds.",
-    "budget": "Budget keeps the recommendation realistic for what you want to spend now.",
-    "priority": "Your top priority weights quality, value, consistency, or method fit.",
-    "flexibility": "Substitution behavior determines how broad the backup cut options should be.",
-    "bone": "Bone preference narrows the list to bone-in, boneless, or both.",
-    "cook_window": "Available cook time filters quick-sear cuts vs longer cooking projects.",
-    "smoke": "Smoke preference ranks cuts that absorb smoke and hold flavor under fire.",
-    "fat_cap": "Fat-cap preference tunes recommendations toward lean-trimmed or fat-forward cuts.",
-    "chew": "Chew tolerance separates very tender cuts from firmer, flavorful muscle cuts.",
-    "meal_format": "Meal format aligns the cut to plated steak, sliced board, tacos, or sandwiches.",
-    "leftovers": "Leftover plans favor cuts that reheat and repurpose cleanly.",
-    "occasion": "Meal context shifts scoring between weeknight practicality, premium presentation, and crowd-friendly formats.",
-    "crust": "Crust preference selects cuts that handle aggressive searing without drying out.",
-    "routine": "Purchase cadence balances everyday consistency with occasional premium picks.",
-    "pairing": "Side plan balances plate richness so the cut matches your full meal, not just the protein."
+    "flavor": "This sets flavor intensity. Lighter answers favor cleaner, easier cuts; bolder answers prioritize deeper beef flavor and char-friendly cuts.",
+    "richness": "This sets marbling (intermuscular fat) preference. More marbling typically improves flavor intensity, juiciness, and perceived tenderness.",
+    "texture": "This sets bite preference. Tender answers lift soft-bite cuts; firmer answers lift meaty, beef-forward muscles.",
+    "method": "This sets heat compatibility. We boost cuts that perform reliably with your cooking method.",
+    "comfort": "This sets complexity range. Higher comfort allows specialty cuts; lower comfort keeps recommendations familiar and easier to execute.",
+    "cuisine": "This sets dish context. Steakhouse favors premium plated cuts; American grill favors cookout/value-friendly cuts and handheld formats.",
+    "specialty_cuts": "This confirms how far to go beyond common cuts. High comfort widens the recommendation pool; low comfort narrows it.",
+    "advanced_technique": "This sets technical fit. We match cuts to the cooking control and prep depth you actually want to use.",
+    "butcher_precision": "This sets purchasing precision. Exact preferences favor spec-sensitive cuts; flexible preferences favor easier substitutions.",
+    "guidance_level": "This sets recommendation format. We tune for simple direction vs exploratory options based on your preference.",
+    "doneness": "This sets finish target. Cuts that hold quality at your preferred doneness are ranked higher.",
+    "seasoning": "This sets seasoning lane. Simple prep favors cleaner high-quality cuts; rub/sauce lanes favor cuts that carry stronger seasoning.",
+    "portion": "This sets service format. We shift between plated steaks, sliced board cuts, tacos/bowls, or handheld options.",
+    "budget": "This sets spend range. Premium answers keep higher-end cuts active; value answers prioritize price-performance options.",
+    "priority": "This sets scoring emphasis. Your priority drives the final tie-break between otherwise similar cuts.",
+    "flexibility": "This captures buying behavior at the meat case. We infer how wide backup options should be across Levels 1-4.",
+    "bone": "This sets bone profile. Bone-in preference elevates bone-in cuts; boneless preference filters toward boneless options.",
+    "cook_window": "This captures prep tolerance. We convert this into a practical cook window to sort fast-turn versus project cuts.",
+    "smoke": "This sets smoke intensity fit. Higher smoke preference boosts cuts that hold up under fire and longer cook paths.",
+    "fat_cap": "This sets fat-edge tolerance. Lean preferences reduce fat-forward cuts; higher tolerance increases them.",
+    "chew": "This sets chew profile. Lower chew favors tender cuts; higher chew allows firmer cuts with stronger beef character.",
+    "meal_format": "This sets your core steak lane. We infer service style (plated, sliced board, tacos/bowls, sandwich/bun) for level placement.",
+    "leftovers": "This sets next-day usability. Leftover-friendly answers boost cuts that reheat and repurpose cleanly.",
+    "occasion": "This sets occasion weighting. Weeknight answers favor practicality; special-event answers favor presentation.",
+    "crust": "This sets sear intensity. High-crust answers elevate cuts that can take aggressive surface heat.",
+    "routine": "This sets purchase cadence. Frequent buyers get consistency/value emphasis; occasional buyers can lean premium.",
+    "pairing": "This sets plate balance. Side choices help us avoid over- or under-rich combinations for the full meal."
   },
   "cuts": [
     {
@@ -5343,29 +5438,6 @@
       }
     },
     {
-      "id": "london_broil_top_round",
-      "name": "London Broil",
-      "tagline": "Lean, shareable cut with broad utility.",
-      "rationale": "Top round works for moderate-to-value users who want larger format service and flexible preparation.",
-      "profile": {
-        "richness": 3,
-        "tenderness": 4,
-        "boldness": 7,
-        "adventure": 6,
-        "value": 8,
-        "precision": 7
-      },
-      "imps": [
-        "IMPS Series 100 - Beef Round, Top Round (London broil style reference)"
-      ],
-      "cooking": {
-        "method": "Marinate and broil/grill",
-        "doneness": "Medium-rare",
-        "temp": "130-136F final internal temperature",
-        "note": "Rest and slice thin against grain."
-      }
-    },
-    {
       "id": "plate_short_rib_boneless",
       "name": "Boneless Short Rib",
       "tagline": "Rich cut suited to grill or braise programs.",
@@ -5512,10 +5584,6 @@
         "Outside skirt needs very little time; prioritize color over prolonged cook.",
         "Cut into manageable lengths before cooking for better pan contact."
       ],
-      "london_broil_top_round": [
-        "Use a marinade with salt and acid for at least 2 hours.",
-        "Broil or grill hard, then rest and slice paper-thin."
-      ],
       "all_beef_uncured_hot_dog": [
         "Warm gently first, then blister over direct heat for snap without splitting.",
         "Roll frequently to brown evenly on all sides.",
@@ -5584,7 +5652,6 @@
       "coulotte",
       "sirloin_flap",
       "flank",
-      "london_broil_top_round",
       "plate_short_rib_boneless"
     ],
     "premiumOccasionIds": [
@@ -5615,7 +5682,6 @@
       "filet_mignon",
       "top_sirloin",
       "strip",
-      "london_broil_top_round",
       "plate_short_rib_boneless"
     ],
     "steakhouseFocusIds": [
@@ -5641,8 +5707,7 @@
       "outside_skirt",
       "sirloin_flap",
       "flank",
-      "flat_iron",
-      "london_broil_top_round"
+      "flat_iron"
     ]
   }
 }
